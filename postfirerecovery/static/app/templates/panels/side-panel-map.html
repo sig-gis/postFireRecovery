@@ -1,0 +1,62 @@
+<div class="nav-side-menu">
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h4>
+                <a class="accordion-toggle js-tooltip display-block"
+                   title="Allows to filter date and set the fire parameters"
+                   data-placement="bottom"
+                   data-toggle="collapse"
+                   data-parent="#accordion"
+                   href="#filter-parameters">Set Parameters</a>
+            </h4>
+        </div>
+        <div id="filter-parameters" class="panel-collapse collapse out text-center">
+            <div class="panel-body">
+                <table class="sidebar-table">
+                    <tbody>
+                        <!-- Date filter -->
+                        <tr class="border-bottom">
+                            <td>
+                                <div class="form-group">
+                                    <label for="date-filter" class="js-tooltip"
+                                           title="Allows to select the desired area for generating the drought related information">
+                                        Filter Date
+                                    </label>
+                                    <div class="input-group input-daterange datepicker-year-class">
+                                        <input type="text" data-provide="datepicker" class="form-control" id="datepicker-year-start" placeholder="yyyy-mm-dd">
+                                        <div class="input-group-addon">to</div>
+                                        <input type="text" data-provide="datepicker" class="form-control" id="datepicker-year-end" placeholder="yyyy-mm-dd">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Parameters -->
+                        <tr>
+                            <td>
+                                <div class="form-group">
+                                    <label for="fire-parameter-filter" class="js-tooltip"
+                                           title="Allows to select the fire category">
+                                        Filter Parameters
+                                    </label>
+                                    <select name="fire-parameter-filter" class="form-control"></select>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>                    
+            </div>
+            <!-- End Panel Body -->
+            <div class="panel-footer">
+                <div class="row text-center">
+                    <button type="button" class="btn btn-primary" ng-click="updateMap()">
+                        <i class="fas fa-map-marked-alt"></i> Update Map
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

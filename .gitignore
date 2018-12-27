@@ -1,0 +1,40 @@
+# python compile files
+# ===========
+*.pyc
+
+# private
+# ===========
+credentials/
+media/*
+# Exception to the rule
+!media/README.md
+static/*
+# Exception to the rule
+!static/README.md
+postfirerecovery/settings.py
+db.sqlite3
+
+# Eclipse project files
+# ======================
+.project
+.pydevproject
+*.pyproj
+
+# Visual Studio project files
+# ======================
+.settings/
+.vs/
+*.sln
+postfirerecovery/.vscode/*
+
+# Vendor files
+# ======================
+postfirerecovery/static/vendor/*
+postfirerecovery/static/dist/*
+# Exception to the rule
+!postfirerecovery/static/dist/README.md
+
+# Node and related environment
+# ======================
+.npmignore
+node_modules/

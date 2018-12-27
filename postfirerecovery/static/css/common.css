@@ -1,0 +1,50 @@
+.-center {
+    text-align: center;
+    padding: 1px 0;
+}
+
+.text-align-center {
+    text-align: center;
+}
+
+.img-center {
+    margin: 0 auto;
+    display: block;
+    /*--Since IMG is an inline element--*/
+}
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+.clear-both {
+    clear: both;
+}
+
+.inline-block-display {
+    display: inline-block;
+}
+
+.display-block {
+    display: block;
+}
+
+.display-none {
+    display: none;
+}
+
+.display-none-imp {
+    display: none !important;
+}
+
+.ul-no-bullets {
+    list-style-type: none;
+}
+
+.anchor-no-decoration {
+    text-decoration: none;
+}

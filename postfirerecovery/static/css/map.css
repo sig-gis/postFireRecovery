@@ -1,0 +1,159 @@
+/* Map */
+
+.map {
+    display: block;
+    height: calc(100vh - 120px);
+}
+
+.lcp-class-color {
+  	width: 25px;
+  	height: 25px;
+  	margin: 10px 5px 5px 15px;
+  	border: 1px solid rgba(0, 0, 0, .2);
+  	border-radius: 5px;
+}
+
+.lcp-class-container {
+	/* box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); */
+    color: black;
+    /* padding: 3px; */
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+.slider-year-container {
+    position: absolute;
+    width: 60%;
+    /* background-color: white; */
+    /* top: 120px; */
+    /* left: auto; */
+    right: 10%;
+    /*top: 120px;*/
+    /* display: inline-block; */
+    /* z-index: 2; */
+    bottom: 5px;
+}
+
+#landcover-opacity-slider .slider-selection, #composite-opacity-slider .slider-selection {
+    background: rgb(198, 40, 40);
+}
+
+#landcover-opacity-slider .slider-handle, #composite-opacity-slider .slider-handle {
+    background: rgb(198, 40, 40);
+    width: 15px;
+    height: 15px;
+}
+
+#landcover-opacity-slider .slider-track, #composite-opacity-slider .slider-track {
+    height: 5px;
+    border-radius: 0;
+}
+
+#landcover-opacity-slider .slider-track-high, #composite-opacity-slider .slider-track-high {
+    background: #BABABA;
+}
+
+.container-primitive {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.container-primitive input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #d5d4d4;
+    border-radius: 50%;
+    margin-left: 4px;
+    margin-top: -3px;
+}
+
+/* On mouse-over, add a grey background color */
+.container-primitive:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.container-primitive input:checked ~ .checkmark {
+    background-color: #2196F3;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.container-primitive input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.container-primitive .checkmark:after {
+    top: 9px;
+    left: 9px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+}
+
+/* Leaflet overwrite */
+.leaflet-sbs-range {
+    left: 0;
+}
+
+/* Tabs */
+.btn-pref .btn {
+    -webkit-border-radius: 0 !important;
+    border: none;
+}
+
+.btn-pref .glyphicon {
+    font-size: 2em;
+}
+
+.tab-tool-content {
+    margin: 0;
+}
+
+.inner-tab {
+    margin-top: 15px;
+}
+
+/* Custom tool */
+.tool-control {
+    background-color: #fff;
+    border: 2px solid #fff;
+    border-radius: 3px;
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    margin: 10px 14px;
+}
+
+.large-icon {
+    line-height: 20px;
+    font-size: 1.4em;
+}

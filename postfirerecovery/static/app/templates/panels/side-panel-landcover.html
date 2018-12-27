@@ -1,0 +1,225 @@
+<div class="nav-side-menu">
+
+    <!-- Tab Container -->
+    <div id="sidebar-tab">
+        <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="true">
+            <div class="btn-group" role="group">
+                <button type="button" id="landcover" class="btn btn-primary js-tooltip" href="#land-cover-classes-tab" data-toggle="tab" title="View Land Cover Classes" data-placement="bottom">
+                    <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>
+                    <div class="hidden-xs">Land Cover Map</div>
+                </button>
+            </div>
+            <div class="btn-group" role="group">
+                <button type="button" id="composite" class="btn btn-default js-tooltip" href="#composite-tab" data-toggle="tab" title="View Composite" data-placement="bottom">
+                    <span class="fa fa-map fa-2x" aria-hidden="true"></span>
+                    <div class="hidden-xs">Composite</div>
+                </button>
+            </div>
+            <!--<div class="btn-group" role="group">
+                <button type="button" id="primitive" class="btn btn-default js-tooltip" href="#primitive-tab" data-toggle="tab" title="View Primitives" data-placement="bottom">
+                    <span class="glyphicon glyphicon-leaf" aria-hidden="true"></span>
+                    <div class="hidden-xs">Primitives</div>
+                </button>
+            </div>-->
+        </div>
+
+        <div class="well tab-tool-content" style="min-height: 25vh;">
+            <div class="tab-content">
+
+                <!-- Start of Land Cover Class Tab -->
+                <div class="tab-pane fade active in" id="land-cover-classes-tab">
+
+                    <!-- Start of Download Container Fieldset -->
+                    <fieldset class="row lcp-class-container">
+
+                        <div class="btn-group btn-block">
+                            <button type="button" class="btn col-md-11 btn-default btn-success">
+                                <i class="fas fa-download"></i> Download Data/Typology
+                            </button>
+                            <button type="button" class="btn col-md-1 btn-default btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu col-md-12">
+                                <li><a href="#" ng-click="getDownloadURL()" style="color: black;">Get Download Link</a></li>
+                                <!--<li><a href="#" ng-click="showGDriveFileName()" style="color: black;">To your Google Drive!</a></li>-->
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#" target="_self" ng-href="[[ typologyCSV ]]" style="color: black;">Download Typology Values (CSV)</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="input-group" ng-show="showLandcoverDownloadURL" style="top: 15px;">
+                            <input type="text" class="form-control" value="[[landcoverDownloadURL]]">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default landcoverCpyBtn js-tooltip"
+                                        data-toggle="tooltip" data-placement="bottom"
+                                        title="Copy to clipboard"
+                                        ng-click="copyToClipBoard('landcover')"
+                                        style="height: 34px;margin-bottom: 14px;">
+                                    <!-- icon from google's material design library -->
+                                    <svg class="clipboard-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M17,9H7V7H17M17,13H7V11H17M14,17H7V15H14M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z" /></svg>
+                                </button>
+                            </span>
+                        </div>
+
+                        <!--<div class="input-group" ng-show="showLandcoverGDriveFileName" style="top: 15px;">
+                            <input type="text" id="landcoverGDriveFileName" placeholder="Enter Filename!" class="form-control">
+                            <span class="input-group-btn">
+                                <button type="button"
+                                        ng-click="saveToDrive()"
+                                        class="btn btn-primary"
+                                        style="height: 34px;margin-bottom: 14px;">
+                                    Start Download
+                                </button>
+                            </span>
+                        </div>-->
+
+                    </fieldset>
+                    <!-- End of Download Container Fieldset -->
+
+                    <!-- Start of Layer Opacity Fieldset -->
+                    <fieldset class="row lcp-class-container" ng-show="showLandcoverOpacitySlider">
+                        <div class="form-group col-md-12">
+                            <label for="landcover-opacity-slider">Change Opacity</label>
+                            <input name="landcover-opacity-slider" id="landcover-opacity-slider" data-slider-id="landcover-opacity-slider" type="text" style="width: 100%;" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
+                        </div>
+                    </fieldset>
+                    <!-- Start of Layer Opacity Fieldset -->
+
+                    <fieldset class="row lcp-class-container">
+                        <p style="color: black;">Change the assemblage by turning on/off the layers and updating the map!</p>
+                        <button type="button" class="btn btn-success btn-default btn-block" ng-click="updateAssemblageProduct()" style="margin-bottom: 10px;">
+                            <i class="fas fa-map-marked-alt"></i> Update Map
+                        </button>
+                    </fieldset>
+                    <div ng-repeat="class in landCoverClasses" class="row lcp-class-container">
+                        <div class="col-md-5 lcp-class-color" style="background: [[ class.color ]]"></div>
+                        <div class="col-md-5">
+                            <h5><b>[[ class.name ]]</b></h5>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" value="[[ class.value ]]" name="assemblage-checkbox" checked>
+                            <span class="switch-slider round"></span>
+                        </label>
+                    </div>
+                </div>
+                <!-- End of Land Cover Class Tab -->
+
+                <!-- Start of Composite Tab -->
+                <div class="tab-pane fade in" id="composite-tab">
+
+                    <fieldset class="row lcp-class-container" ng-show="mapHasCompositeLayer || showCompositeDownloadURL">
+                        
+                        <div class="btn-group btn-block" ng-show="mapHasCompositeLayer">
+                            <button type="button" class="btn col-md-11 btn-default btn-success">
+                                <i class="fas fa-download"></i> Download Composite Data
+                            </button>
+                            <button type="button" class="btn col-md-1 btn-default btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu col-md-12">
+                                <li><a href="#" ng-click="getDownloadURL('composite')" style="color: black;">Get Download Link</a></li>
+                                <!--<li><a href="#" ng-click="showGDriveFileName('composite')" style="color: black;">To your Google Drive!</a></li>-->
+                            </ul>
+                        </div>
+                        <div class="input-group" ng-show="showCompositeDownloadURL" style="top: 15px;">
+                            <input type="text" class="form-control" value="[[compositeDownloadURL]]">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default compositeCpyBtn js-tooltip"
+                                        data-toggle="tooltip" data-placement="bottom"
+                                        title="Copy to clipboard"
+                                        ng-click="copyToClipBoard('composite')"
+                                        style="height: 34px;margin-bottom: 14px;">
+                                    <svg class="clipboard-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M17,9H7V7H17M17,13H7V11H17M14,17H7V15H14M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z" /></svg>
+                                </button>
+                            </span>
+                        </div>
+                        <!--<div class="input-group" ng-show="showCompositeGDriveFileName" style="top: 15px;">
+                            <input type="text" id="compositeGDriveFileName" placeholder="Enter Filename!" class="form-control">
+                            <span class="input-group-btn">
+                                <button type="button"
+                                        ng-click="saveToDrive('composite')"
+                                        class="btn btn-primary"
+                                        style="height: 34px;margin-bottom: 14px;">
+                                        Start Download
+                                </button>
+                            </span>
+                        </div>-->
+                    </fieldset>
+
+                    <fieldset class="row lcp-class-container" ng-show="mapHasCompositeLayer">
+                        <div class="form-group col-md-12">
+                            <label for="composite-opacity-slider">Change Opacity</label>
+                            <input name="composite-opacity-slider" id="composite-opacity-slider" data-slider-id="composite-opacity-slider" type="text" style="width: 100%;" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="row lcp-class-container">
+                        <div class="form-group">
+                            <label for="seasons" class="js-tooltip" title="">
+                                Select Seasons
+                            </label>
+                            <select name="seasons" class="form-control"
+                                    ng-options="item for item in seasons"
+                                    ng-model="compositeParams.season"></select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="band-number-filter" class="js-tooltip">
+                                Number of Bands to visualize
+                            </label>
+                            <select name="band-number-filter" class="form-control"
+                                    ng-options="option.name for option in bandSelector"
+                                    ng-model="compositeParams.bandVisualize"
+                                    ng-change="showBandSelector(compositeParams.bandVisualize)"></select>
+                        </div>
+
+                        <div ng-show="showGrayscaleBandSelector">
+                            <div class="form-group">
+                                <label class="control-label" for="grayscale-band">Select Band (Grayscale)</label>
+                                <select name="grayscale-band" class="form-control" ng-model="compositeParams.grayscaleBand" ng-options="band for band in bands"></select>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="palette">Edit Palette as a comma-separated list of RRGGBB colors</label>
+                                <input type="text" class="form-control" name="palette" ng-model="compositeParams.palette">
+                            </div>
+                        </div>
+
+                        <div ng-show="showRGBBandSelector">
+                            <label class="control-label">Select Bands (R,G,B)</label>
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <select class="form-control" ng-model="compositeParams.redBand" ng-options="band for band in bands"></select>
+                                </div>
+                                <div class="col-md-4">
+                                    <select class="form-control" ng-model="compositeParams.greenBand" ng-options="band for band in bands"></select>
+                                </div>
+                                <div class="col-md-4">
+                                    <select class="form-control" ng-model="compositeParams.blueBand" ng-options="band for band in bands"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--<div class="form-group" style="margin-top: 3em;">
+                            <label for="gamma">Gamma</label>
+                            <input type="number" class="form-control" id="gamma" min="0.10" max="10.00" step="0.01" ng-model="compositeParams.gamma">
+                        </div>-->
+                    </fieldset>
+
+                    <div class="row text-center">
+                        <button type="button" class="btn btn-success btn-block btn-default" ng-click="updateComposite()">
+                            <i class="fas fa-map-marked-alt"></i> Show in Map
+                        </button>
+                    </div>
+
+                </div>
+                <!-- End of Composite Tab -->
+
+            </div>
+            <!-- End of Tab Content -->
+        </div>
+
+    </div>
+    <!-- end of tab -->
+</div>

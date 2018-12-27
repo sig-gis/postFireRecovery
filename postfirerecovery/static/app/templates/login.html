@@ -1,0 +1,112 @@
+<div class="container"> <!--ng-controller="loginController"-->
+
+    <!-- Alert Container -->
+    <div class="alert alert-dismissible text-center display-none custom-alert" role="alert" style="margin-left: 5% !important;">
+        <button type="button" class="close" ng-click="closeAlert()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>[[alertContent]]</strong>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3" style="margin-top: 40px;">
+            <div class="panel panel-login">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="#" class="active anchor-no-decoration" id="login-form-link" ng-click="loginFormLinkClick($event)">Login</a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="#" id="register-form-link" class="anchor-no-decoration" ng-click="registerFormLinkClick($event)">Register</a>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+
+                        <div class="col-lg-12">
+
+                            <div class="login-form" id="login-form-div">
+                                <div class="login-form-panel">
+                                    <h1>Login</h1>
+                                    <p>Please enter your username and password</p>
+                                </div>
+                                <form id="login-form" role="form" name="loginForm" style="display: block;" novalidate>
+                                    <div class="form-group" ng-class="{'has-error': loginForm.username.$touched && loginForm.username.$invalid}">
+                                        <input type="text" class="form-control" name="username" id="input-login-username" placeholder="Username" ng-model="user.username" required>
+                                        <div class="help-block" ng-messages="loginForm.username.$error" ng-if="loginForm.username.$touched && loginForm.username.$invalid">
+                                            <p ng-message="required">Your username is required.</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group show-password" ng-class="{'has-error': loginForm.password.$touched && loginForm.password.$invalid}">
+                                        <input type="password" class="form-control" name="password" id="input-login-password" placeholder="Password" ng-model="user.password" required>
+                                        <span class="password-text" ng-click="showPassword($event)">Show</span>
+                                        <div class="help-block" ng-messages="loginForm.password.$error" ng-if="loginForm.password.$touched && loginForm.password.$invalid">
+                                            <p ng-message="required">Enter your password.</p>
+                                        </div>
+                                    </div>
+                                    <!--<div class="forgot">
+                                        <a href="#">Forgot password?</a>
+                                    </div>-->
+                                    <button type="button" id="login" class="btn btn-primary" ng-click="userLogin(user)"
+                                            ng-disabled="loginForm.username.$invalid || loginForm.password.$invalid">
+                                        Login
+                                    </button>
+                                </form>
+                            </div>
+
+                            <div class="login-form" id="register-form-div" style="display: none;">
+                                <div class="login-form-panel">
+                                    <h1>Register</h1>
+                                    <p>Sign up to get started!</p>
+                                </div>
+
+                                <form id="register-form" role="form" name="registerForm" ng-submit="userRegister(user)" novalidate>
+                                    <div class="form-group" style="margin-top: 20px;" ng-class="{ 'has-error': registerForm.username.$touched && registerForm.username.$invalid }">
+                                        <label for="username" class="float-left">User Name</label>
+                                        <input type="text" class="form-control" id="register-username" name="username" ng-model="user.userName" placeholder="Username" required>
+                                        <div class="help-block" ng-messages="registerForm.username.$error" ng-if="registerForm.username.$touched && registerForm.username.$invalid">
+                                            <p ng-message="required">Enter a username.</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="firstname" class="float-left">First Name</label>
+                                        <input type="text" class="form-control" id="register-firstname" name="firstname" ng-model="user.firstName" placeholder="First Name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lastname" class="float-left">Last Name</label>
+                                        <input type="text" class="form-control" id="register-lastname" name="lastname" ng-model="user.lastName" placeholder="Last Name">
+                                    </div>
+                                    <div class="form-group" ng-class="{ 'has-error': registerForm.email.$invalid && !registerForm.email.$pristine }">
+                                        <label for="email" class="float-left">Email Address</label>
+                                        <input type="email" class="form-control" id="register-email" name="email" ng-model="user.email" placeholder="Email Address">
+                                        <p ng-show="registerForm.email.$invalid && !registerForm.email.$pristine" class="help-block">Enter a valid email.</p>
+                                    </div>
+                                    <div class="form-group show-password" ng-class="{ 'has-error': registerForm.password.$touched && registerForm.password.$invalid }">
+                                        <label for="password" class="float-left">Password</label>
+                                        <input type="password" class="form-control" id="register-password" name="password" ng-model="user.password" placeholder="Password" required>
+                                        <span class="password-text" style="top: 60% !important;" ng-click="showPassword($event)">Show</span>
+                                        <div class="help-block" ng-messages="registerForm.password.$error" ng-if="registerForm.password.$touched && registerForm.password.$invalid">
+                                            <p ng-message="required">Password is required!</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group show-password" ng-class="{ 'has-error': registerForm.confirmPassword.$invalid && !registerForm.confirmPassword.$pristine }">
+                                        <label for="confirmPassword" class="float-left">Confirm Password</label>
+                                        <input type="password" class="form-control" id="register-confirm-password" name="confirmPassword" placeholder="Confirm Password" ng-model="user.confirmPassword" required equal="[[ user.password ]]">
+                                        <span class="password-text" style="top: 60% !important;" ng-click="showPassword($event)">Show</span>
+                                        <span ng-show="registerForm.confirmPassword.$error.equal" class="help-block">Password does not match</span>
+                                    </div>
+                                    <button type="submit" id="register" class="btn btn-primary"
+                                            ng-disabled="registerForm.username.$invalid || registerForm.password.$invalid || registerForm.email.$invalid || registerForm.confirmPassword.$invalid">
+                                        Register
+                                    </button>
+                                </form>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
