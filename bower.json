@@ -24,7 +24,7 @@
     "bootstrap-datepicker": "^1.7.1",
     "components-font-awesome": "^5.4.2",
     "ion.rangeSlider": "ionrangeslider#^2.3.0",
-	"ngstorage": "^0.3.11",
+    "ngstorage": "^0.3.11",
     "normalize.css": "https://github.com/necolas/normalize.css.git#^8.0.1",
     "seiyria-bootstrap-slider": "^10.4.2",
     "togeojson": "https://github.com/mapbox/togeojson.git#^0.16.0",

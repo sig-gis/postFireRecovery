@@ -1,5 +1,9 @@
 #!/bin/sh
 
+source /home/postfirerecovery_env/bin/activate
+cd /home/postfirerecovery
 git reset --hard HEAD
 git pull
-python /home/postfirerecovery/postfirerecovery/manage.py collectstatic
+gulp build
+python manage.py collectstatic
+service nginx restart

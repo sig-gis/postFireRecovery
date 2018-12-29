@@ -210,7 +210,7 @@
                     $scope.overlays.landcovermap.setOpacity(value);
                 }
             });
-        }, 500);
+        }, 1500);
 
         // Composite opacity slider
         $scope.compositeOpacity = 1;
@@ -231,7 +231,7 @@
                     $scope.overlays.composite.setOpacity(value);
                 }
             });
-        }, 500);
+        }, 2500);
 
         /*
         * Select Options for Variables
@@ -557,7 +557,7 @@
                     }
                 }
             });
-        }, 200);
+        }, 500);
 
         /*
          * Download URL
