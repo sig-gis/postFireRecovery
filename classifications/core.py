@@ -15,7 +15,7 @@ class Classification():
 
     ee.Initialize(settings.EE_CREDENTIALS)
 
-    AOI = ee.FeatureCollection('users/biplov/sierra')
+    AOI = ee.FeatureCollection('users/biplov/sierra_plus_plumas')
     GEOMETRY = AOI.geometry()
 
     LANDCOVERMAP = ee.ImageCollection('users/TEST/CAFire/RandomForest/RF_classification')

@@ -10,11 +10,11 @@
         service.init = function (lng, lat, zoom) {
 
             // Global Variables
-            var DEFAULT_ZOOM = zoom || 10,
+            var DEFAULT_ZOOM = zoom || 9.5,
                 MAX_ZOOM = 25,
                 DEFAULT_CENTER = {
-                    lng: lng || -120.400444,
-                    lat: lat || 39.5652363
+                    lng: lng || -120.376589,
+                    lat: lat || 39.9380701
                 },
                 // Map options
                 mapOptions = {
