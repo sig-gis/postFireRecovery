@@ -18,7 +18,7 @@ class Classification():
     AOI = ee.FeatureCollection('users/biplov/sierra_plus_plumas')
     GEOMETRY = AOI.geometry()
 
-    LANDCOVERMAP = ee.ImageCollection('users/TEST/CAFire/RandomForest/RF_classification')
+    LANDCOVERMAP = ee.ImageCollection('users/TEST/CAFire/RandomForest/RF_classification_v2')
     COMPOSITE_FALL = ee.ImageCollection('users/TEST/CAFire/SeasonComposites/Fall_Full')
     COMPOSITE_SUMMER = ee.ImageCollection('users/TEST/CAFire/SeasonComposites/Summer_Full')
 
