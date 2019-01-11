@@ -33,6 +33,7 @@ urlpatterns += [
 
 urlpatterns += [
     url(r'^', include('users.urls', namespace='user')),
+    url(r'^', include('core.urls')),
     url(r'^api/landcover/$', classifications_api.api),
 ]
 

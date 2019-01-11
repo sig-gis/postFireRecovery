@@ -167,6 +167,30 @@
             return promise;
         };
 
+        service.userContactUs = function (data) {
+            var req = {
+                method: 'POST',
+                url: '/api/v1/contact-us/',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: {
+                    name  : data.name,
+                    body  : data.message,
+                    email : data.email
+                }
+            };
+            var promise = $http(req)
+            .then(function (response) {
+                return true;
+            })
+            .catch(function (e) {
+                console.log('Error: ', e);
+                throw e;
+            });
+            return promise;
+        };
+
     });
 
 })();

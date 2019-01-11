@@ -199,13 +199,19 @@
             }
         };
 
+        $scope.showThankYou = false;
         $scope.contactUs = function (contact) {
             if (contact) {
                 if (!(contact.name && contact.email && contact.message)) {
                     $scope.showAlert('danger', 'all field are required!');
                     return false;
                 } else {
-                    console.log(contact);
+                    AuthService.userContactUs (contact)
+                    .then(function (data) {
+                        $scope.showThankYou = true;
+                    }, function (error) {
+                        $scope.showAlert('danger', error.status + ' ' + error.data.detail);
+                    });
                 }
             } else {
                 $scope.showAlert('danger', 'please fill out the form!');
