@@ -92,7 +92,7 @@
                             <i class="fas fa-map-marked-alt"></i> Update Map
                         </button>
                     </fieldset>
-                    <div ng-repeat="class in landCoverClasses" class="row lcp-class-container">
+                    <div ng-repeat="class in landCoverClasses" class="row lcp-class-container js-tooltip" title="[[ class.tooltip ]]" bs-tooltip>
                         <div class="col-md-5 lcp-class-color" style="background: [[ class.color ]]"></div>
                         <div class="col-md-5">
                             <h5><b>[[ class.name ]]</b></h5>

@@ -6,8 +6,13 @@ var settings = {
             'show': true
         },
         {
-            'name': 'Contact Us',
+            'name': 'How to Use',
             'url': '#',
+            'show': true
+        },
+        {
+            'name': 'Contact Us',
+            'url': 'contact_us',
             'show': true
         }
     ],
@@ -44,42 +49,50 @@ var settings = {
         {
             'name': 'Evergreen Forest',
             'value': '0',
-            'color': '#7c9c60'
+            'color': '#7c9c60',
+            'tooltip': 'Evergreen Forest'
         },
         {
             'name': 'Shrub/Scrub',
             'value': '1',
-            'color': '#4d949c'
+            'color': '#4d949c',
+            'tooltip': 'Shrub/Scrub'
         },
         {
             'name': 'Barren Land (Rock/Sand/Clay)',
             'value': '2',
-            'color': '#9c792a'
+            'color': '#9c792a',
+            'tooltip': 'Barren Land (Rock/Sand/Clay)'
         },
         {
             'name': 'Developed',
             'value': '3',
-            'color': '#919c91'
+            'color': '#919c91',
+            'tooltip': 'Developed'
         },
         {
             'name': 'Grassland/Herbaceous',
             'value': '4',
-            'color': '#26d062'
+            'color': '#26d062',
+            'tooltip': 'Grassland/Herbaceous'
         },
         {
             'name': 'Open Water',
             'value': '5',
-            'color': '#11d0c7'
+            'color': '#11d0c7',
+            'tooltip': 'Open Water'
         },
         {
             'name': 'Deciduous Forest',
             'value': '6',
-            'color': '#ffa400'
+            'color': '#ffa400',
+            'tooltip': 'Deciduous Forest'
         },
         {
             'name': 'Woody Wetlands',
             'value': '7',
-            'color': '#b341e2'
+            'color': '#b341e2',
+            'tooltip': 'Woody Wetlands'
         }
     ]
 };

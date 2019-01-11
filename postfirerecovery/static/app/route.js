@@ -30,6 +30,12 @@
             controller: 'authController'
         });
 
+        $stateProvider.state('contact_us', {
+            url: '/contact_us',
+            templateUrl: 'static/app/templates/contact-us.html',
+            controller: 'authController'
+        });
+
         // use the HTML5 History API
         $locationProvider.html5Mode(true);
     });

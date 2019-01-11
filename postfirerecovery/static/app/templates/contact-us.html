@@ -1,0 +1,38 @@
+<div class="container">
+
+    <!-- Alert Container -->
+    <div class="alert alert-dismissible text-center display-none custom-alert" role="alert" style="margin-left: 5% !important;">
+        <button type="button" class="close" ng-click="closeAlert()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>[[alertContent]]</strong>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3" style="margin-top: 40px;">
+            <div class="login-form" id="register-form-div">
+                <div class="login-form-panel">
+                    <h1>Contact Us</h1>
+                </div>
+
+                <form id="contact-us-form" role="form" name="contactUsForm" novalidate>
+                    <div class="form-group" ng-class="{'has-error': contactUsForm.name.$touched && contactUsForm.name.$invalid}">
+                        <label for="name" class="float-left">Your Name <p class="color-red inline-block-display">*</p></label>
+                        <input type="text" class="form-control" id="name" name="name" ng-model="contact.name" placeholder="Your Name">
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error': contactUsForm.email.$invalid && !contactUsForm.email.$pristine }">
+                        <label for="email" class="float-left">Email Address <p class="color-red inline-block-display">*</p></label>
+                        <input type="email" class="form-control" id="email" name="email" ng-model="contact.email" placeholder="Email Address">
+                        <p ng-show="contactUsForm.email.$invalid && !contactUsForm.email.$pristine" class="help-block">Enter a valid email.</p>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error': contactUsForm.message.$invalid && contactUsForm.message.$touched }">
+                        <label for="message" class="float-left">Your Message <p class="color-red inline-block-display">*</p></label>
+                        <textarea style="width: 100%;height: 250px;" class="form-control" id="message" name="message" ng-model="contact.message" placeholder="Your Message"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="margin-top: 20px;" ng-click="contactUs(contact)"
+                            ng-disabled="contactUsForm.name.$invalid || contactUsForm.email.$invalid || contactUsForm.message.$invalid">
+                        Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

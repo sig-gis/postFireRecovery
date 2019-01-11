@@ -199,6 +199,20 @@
             }
         };
 
+        $scope.contactUs = function (contact) {
+            if (contact) {
+                if (!(contact.name && contact.email && contact.message)) {
+                    $scope.showAlert('danger', 'all field are required!');
+                    return false;
+                } else {
+                    console.log(contact);
+                }
+            } else {
+                $scope.showAlert('danger', 'please fill out the form!');
+                return false;
+            }
+        };
+
     });
 
 })();

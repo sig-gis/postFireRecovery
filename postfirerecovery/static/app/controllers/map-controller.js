@@ -181,7 +181,8 @@
                 $('#sidebar-tab .btn-pref .btn').removeClass('btn-primary').addClass('btn-default');
                 // $(".tab").addClass("active"); // instead of this do the below
                 $(this).removeClass('btn-default').addClass('btn-primary');
-            }); 
+            });
+            $('.js-tooltip').tooltip();
         });
 
         // get tooltip activated
