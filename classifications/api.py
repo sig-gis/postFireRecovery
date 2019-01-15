@@ -36,6 +36,7 @@ def api(request):
         radius = post('radius', '')
         center = post('center', '')
         huc_name = post('hucName', '')
+        parameter = post('parameter', '')
         type = post('type', 'landcover')
         report_area = True if get('report-area') == 'true' else False
         primitives = post('primitives', range(0, len(Classification.CLASSES)))
@@ -63,7 +64,7 @@ def api(request):
         grayscale_band = post('grayscaleBand')
         palette = post('palette')
 
-        core = Classification(huc_name, shape, geom, radius, center)
+        core = Classification(huc_name, parameter, shape, geom, radius, center)
 
         if action == 'landcovermap':
             data = core.get_landcover(primitives=primitives, year=year)

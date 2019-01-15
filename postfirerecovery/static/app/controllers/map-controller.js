@@ -4,16 +4,31 @@
     angular.module('postfirerecovery')
     .controller('mapController', function (appSettings, $rootScope, $scope, $sanitize, $timeout, CommonService, LandCoverService, MapService) {
 
+        var DEFAULT_ZOOM = 9.5,
+            DEFAULT_CENTER = {
+                lng: -120.376589,
+                lat: 39.9380701
+            };
+
         // Global Variables
         var map = MapService.init();
+
+        // Download link
+        $scope.typologyCSV = '/static/data/typology_value.csv';
+        $scope.highVegetationBurn = '/static/data/vegetation_burn_severity/high.geo.json';
+        $scope.lowVegetationBurn = '/static/data/vegetation_burn_severity/low.geo.json';
+        $scope.moderateVegetationBurn = '/static/data/vegetation_burn_severity/moderate.geo.json';
+        $scope.unchangedVegetation = '/static/data/vegetation_burn_severity/unchanged.geo.json';
 
         // areas and overlay params
         $scope.overlays = {};
         $scope.shape = {};
-        $scope.hucName = null;
-        $scope.shownGeoJson = null;
+        $scope.selectors = appSettings.selectors;
         $scope.hucUnits = appSettings.hucUnits;
-        $scope.typologyCSV = '/static/data/typology_value.csv';
+        $scope.fireParameters = appSettings.fireParameters;
+        $scope.hucName = null;
+        $scope.parameterName = null;
+        $scope.shownGeoJson = null;
         $scope.seasons = appSettings.seasons;
         $scope.bands = appSettings.bands;
         $scope.bandSelector = appSettings.bandSelector;
@@ -39,6 +54,11 @@
         for (var j = 0; j < $scope.landCoverClasses.length; j++) {
             $scope.assemblageLayers.push(j.toString());
         }
+
+        var setDefaultView = function () {
+            map.setZoom(DEFAULT_ZOOM);
+            map.setCenter(DEFAULT_CENTER);
+        };
 
         /**
          * Alert
@@ -105,6 +125,7 @@
                 year: $scope.sliderYear,
                 shape: $scope.shape,
                 hucName: $scope.hucName,
+                parameter: $scope.parameterName,
                 season: $scope.compositeParams.season.toLowerCase(),
                 //gamma: $scope.compositeParams.gamma
             };
@@ -237,12 +258,50 @@
         /*
         * Select Options for Variables
         **/
+        $scope.showSelectors = false;
+        $scope.populateSelectors = function (option) {
+            $scope.showSelectors = true;
+            if (option.value === 'hucUnit') {
+                $scope.selectorOptions = $scope.hucUnits;
+            } else if (option.value === 'burnSeverity') {
+                $scope.selectorOptions = $scope.fireParameters;
+            }
+        };
+
+        /*
+        * load selectors
+        **/
+        var loadHUC = function (name) {
+            MapService.clearDrawing($scope.overlays.polygon);
+            MapService.removeGeoJson(map);
+            $scope.shape = {};
+            $scope.hucName = name;
+            $scope.parameterName = null;
+            MapService.loadGeoJson(map, name, 'huc');
+        };
+
+        var loadFireParameter = function (name) {
+            //$scope.showLoader = true;
+            MapService.clearDrawing($scope.overlays.polygon);
+            MapService.removeGeoJson(map);
+            $scope.shape = {};
+            $scope.hucName = null;
+            $scope.parameterName = name;
+            //MapService.loadGeoJson(map, name, 'fireParameter');
+        };
+
+       $scope.loadSelectors = function (name) {
+            if ($scope.selectorOptions === $scope.hucUnits) {
+                loadHUC(name);
+            } else if ($scope.selectorOptions === $scope.fireParameters) {
+                loadFireParameter(name);
+            }
+        };
 
         // Default the administrative area selection
         var clearSelectedArea = function () {
-            $scope.areaSelectFrom = '';
-            $scope.areaIndexSelector = '';
-            $scope.hucName = '';
+            $scope.hucName = null;
+            $scope.parameterName = null;
             $scope.$apply();
         };
 
@@ -256,7 +315,8 @@
                 primitives: $scope.assemblageLayers,
                 year: year,
                 shape: $scope.shape,
-                hucName: $scope.hucName
+                hucName: $scope.hucName,
+                parameter: $scope.parameterName
             };
             LandCoverService.getLandCoverMap(parameters)
             .then(function (data) {
@@ -281,7 +341,8 @@
                 primitives: $scope.assemblageLayers,
                 year: $scope.sliderYear,
                 shape: $scope.shape,
-                hucName: $scope.hucName
+                hucName: $scope.hucName,
+                parameter: $scope.parameterName
             };
             LandCoverService.getStats(parameters)
             .then(function (data) {
@@ -301,8 +362,8 @@
                 compositeCheck = true;
 
             var hasPolygon = (['polygon', 'circle', 'rectangle'].indexOf($scope.shape.type) > -1);
-            if (!hasPolygon && !$scope.hucName) {
-                $scope.showAlert('danger', 'Please draw a polygon or select HUC before proceding to download!');
+            if (!hasPolygon && !$scope.hucName && !$scope.parameterName) {
+                $scope.showAlert('danger', 'Please draw a polygon or select HUC or severity index before proceding to download!');
                 polygonCheck = false;
             }
 
@@ -340,17 +401,6 @@
                 // Fallback if browser doesn't support .execCommand('copy')
                 window.prompt("Copy to clipboard: Ctrl+C or Command+C");
             }
-        };
-
-        /*
-        * load administrative area
-        **/
-        $scope.loadHUC = function (name) {
-            MapService.clearDrawing($scope.overlays.polygon);
-            MapService.removeGeoJson(map);
-            $scope.shape = {};
-            $scope.hucName = name;
-            MapService.loadGeoJson(map, name);
         };
 
         /**
@@ -419,11 +469,15 @@
 
         // Geojson listener
         map.data.addListener('addfeature', function (event) {
-            $scope.shownGeoJson = event.feature;
-            var bounds = new google.maps.LatLngBounds();
-            var _geometry = event.feature.getGeometry();
-            MapService.processPoints(_geometry, bounds.extend, bounds);
-            map.fitBounds(bounds);
+            if ('FIRE_YEAR' in event.feature.l) {
+                setDefaultView();
+            } else {
+                $scope.shownGeoJson = event.feature;
+                var bounds = new google.maps.LatLngBounds();
+                var _geometry = event.feature.getGeometry();
+                MapService.processPoints(_geometry, bounds.extend, bounds);
+                map.fitBounds(bounds);
+            }
         });
 
         map.data.addListener('removefeature', function (event) {
@@ -582,6 +636,7 @@
                     year: $scope.sliderYear,
                     shape: $scope.shape,
                     hucName: $scope.hucName,
+                    parameter: $scope.parameterName,
                     type: type,
                     // Land cover params
                     primitives: $scope.assemblageLayers,
@@ -602,7 +657,11 @@
 
                 LandCoverService.getDownloadURL(parameters)
                 .then(function (data) {
-                    $scope.showAlert('success', 'Your Download Link is ready!');
+                    var message = 'Your Download Link is ready!';
+                    if ($scope.parameterName) {
+                        message += '<br/>Please get the exact severity boundary from the Download Button';
+                    }
+                    $scope.showAlert('success', message);
                     $scope[type + 'DownloadURL'] = data.downloadUrl;
                     $scope['show' + CommonService.capitalizeString(type) + 'DownloadURL'] = true;
                 }, function (error) {
@@ -638,8 +697,8 @@
                     primitives: $scope.assemblageLayers,
                     year: $scope.sliderYear,
                     shape: $scope.shape,
-                    areaSelectFrom: $scope.areaSelectFrom,
                     hucName: $scope.hucName,
+                    parameter: $scope.parameterName,
                     v1: v1,
                     type: type,
                     index: $scope.primitiveIndex,

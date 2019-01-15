@@ -26,6 +26,7 @@ earthengine-api==0.1.152
 easy-thumbnails==2.4.2
 google-api-python-client==1.7.7
 html5lib==0.9999999
+jsmin==2.2.2
 Markdown==2.6.11
 numpy==1.15.1
 oauth2client==4.1.2
@@ -33,6 +34,7 @@ olefile==0.45.1
 pandas==0.23.4
 Pillow==4.2.1
 psycopg2==2.7.3.1
+pyshp==2.0.1
 python-dateutil==2.7.3
 pytz==2017.2
 six==1.10.0

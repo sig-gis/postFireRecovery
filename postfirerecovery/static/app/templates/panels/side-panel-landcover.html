@@ -45,6 +45,10 @@
                                 <!--<li><a href="#" ng-click="showGDriveFileName()" style="color: black;">To your Google Drive!</a></li>-->
                                 <li role="separator" class="divider"></li>
                                 <li><a href="#" target="_self" ng-href="[[ typologyCSV ]]" style="color: black;">Download Typology Values (CSV)</a></li>
+                                <li><a href="#" target="_self" ng-href="[[ highVegetationBurn ]]" style="color: black;">High Vegetation Burn (GeoJson)</a></li>
+                                <li><a href="#" target="_self" ng-href="[[ lowVegetationBurn ]]" style="color: black;">Low Vegetation Burn (GeoJson)</a></li>
+                                <li><a href="#" target="_self" ng-href="[[ moderateVegetationBurn ]]" style="color: black;">Moderate Vegetation Burn (GeoJson)</a></li>
+                                <li><a href="#" target="_self" ng-href="[[ unchangedVegetation ]]" style="color: black;">Unchanged Vegetation (GeoJson)</a></li>
                             </ul>
                         </div>
 
@@ -80,7 +84,7 @@
                     <!-- Start of Layer Opacity Fieldset -->
                     <fieldset class="row lcp-class-container" ng-show="showLandcoverOpacitySlider">
                         <div class="form-group col-md-12">
-                            <label for="landcover-opacity-slider">Change Opacity</label>
+                            <label for="landcover-opacity-slider">Change Transparency</label>
                             <input name="landcover-opacity-slider" id="landcover-opacity-slider" data-slider-id="landcover-opacity-slider" type="text" style="width: 100%;" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
                         </div>
                     </fieldset>
@@ -121,6 +125,10 @@
                             <ul class="dropdown-menu col-md-12">
                                 <li><a href="#" ng-click="getDownloadURL('composite')" style="color: black;">Get Download Link</a></li>
                                 <!--<li><a href="#" ng-click="showGDriveFileName('composite')" style="color: black;">To your Google Drive!</a></li>-->
+                                <li><a href="#" target="_self" ng-href="[[ highVegetationBurn ]]" style="color: black;">High Vegetation Burn (GeoJson)</a></li>
+                                <li><a href="#" target="_self" ng-href="[[ lowVegetationBurn ]]" style="color: black;">Low Vegetation Burn (GeoJson)</a></li>
+                                <li><a href="#" target="_self" ng-href="[[ moderateVegetationBurn ]]" style="color: black;">Moderate Vegetation Burn (GeoJson)</a></li>
+                                <li><a href="#" target="_self" ng-href="[[ unchangedVegetation ]]" style="color: black;">Unchanged Vegetation (GeoJson)</a></li>
                             </ul>
                         </div>
                         <div class="input-group" ng-show="showCompositeDownloadURL" style="top: 15px;">
@@ -150,7 +158,7 @@
 
                     <fieldset class="row lcp-class-container" ng-show="mapHasCompositeLayer">
                         <div class="form-group col-md-12">
-                            <label for="composite-opacity-slider">Change Opacity</label>
+                            <label for="composite-opacity-slider">Change Transparency</label>
                             <input name="composite-opacity-slider" id="composite-opacity-slider" data-slider-id="composite-opacity-slider" type="text" style="width: 100%;" data-slider-min="0" data-slider-max="1" data-slider-step="0.1" />
                         </div>
                     </fieldset>

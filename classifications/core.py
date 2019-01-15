@@ -15,8 +15,16 @@ class Classification():
 
     ee.Initialize(settings.EE_CREDENTIALS)
 
-    AOI = ee.FeatureCollection('users/biplov/sierra_plus_plumas')
+    AOI = ee.FeatureCollection('users/biplov/postfirerecovery/sierra_plus_plumas')
     GEOMETRY = AOI.geometry()
+
+    # burn parameters
+    BURN_PARAMETERS = {
+        'high': ee.FeatureCollection('users/biplov/postfirerecovery/high_vegetation_burn'),
+        'low': ee.FeatureCollection('users/biplov/postfirerecovery/low_vegetation_burn'),
+        'moderate': ee.FeatureCollection('users/biplov/postfirerecovery/moderate_vegetation_burn'),
+        'unchanged': ee.FeatureCollection('users/biplov/postfirerecovery/unchanged_vegetation_burn'),
+    }
 
     LANDCOVERMAP = ee.ImageCollection('users/TEST/CAFire/RandomForest/RF_classification_v2')
     COMPOSITE_FALL = ee.ImageCollection('users/TEST/CAFire/SeasonComposites/Fall_Full')
@@ -71,14 +79,15 @@ class Classification():
         INDEX_CLASS[int(_class['value'])] = _class['name']
 
     # -------------------------------------------------------------------------
-    def __init__(self, huc_name, shape, geom, radius, center):
+    def __init__(self, huc_name, parameter, shape, geom, radius, center):
 
         self.geom = geom
         self.radius = radius
         self.center = center
+        self.parameter_type = None
         self.band_names = Classification.COMPOSITE_FALL.first().bandNames().getInfo()
         if shape:
-            self.geometry = self._get_geometry(shape)
+            self.geometry = Classification.get_geometry_from_shape(shape)
         elif huc_name:
             if settings.DEBUG:
                 path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
@@ -97,11 +106,15 @@ class Classification():
                 else:
                     feature = ee.Feature(province_json)
                 self.geometry = feature.geometry()
+        elif parameter:
+            self.parameter_type = Classification.BURN_PARAMETERS[parameter.lower()]
+            self.geometry = self.parameter_type.geometry().bounds()
         else:
             self.geometry = Classification.GEOMETRY
 
     # -------------------------------------------------------------------------
-    def _get_geometry(self, shape):
+    @staticmethod
+    def get_geometry_from_shape(shape):
 
         if shape:
             if shape == 'rectangle':
@@ -141,7 +154,12 @@ class Classification():
 
         palette = ','.join(palette)
 
-        image = image.updateMask(masked_image).clip(self.geometry)
+        image = image.updateMask(masked_image)
+
+        if self.parameter_type:
+            image = image.clipToCollection(self.parameter_type)
+        else:
+            image = image.clip(self.geometry)
 
         if download:
             return image
@@ -203,17 +221,22 @@ class Classification():
             image = ee.Image(Classification.COMPOSITE_SUMMER.filterDate('%s-01-01' % year,
                                                                         '%s-12-31' % year).mean())
 
-        image = image.clip(self.geometry)
+        if self.parameter_type:
+            image = image.clipToCollection(self.parameter_type)
+        else:
+            image = image.clip(self.geometry)
 
         if download:
             #return image.select(red_band).addBands(image.select(green_band)).addBands(image.select(blue_band))
             #return ee.Image.rgb(image.select(red_band), image.select(green_band), image.select(blue_band))
             #return image.select(['{}'.format(red_band),'{}'.format(green_band),'{}'.format(blue_band)])
-            return image.visualize(bands = visualization_parameters['bands'],
-                                   min = visualization_parameters['min'],
-                                   max = visualization_parameters['max'],
-                                   #gamma = visualization_parameters['gamma'],
-                                   palette = visualization_parameters['palette'] if palette else None)
+            return image.clip(self.geometry).visualize(
+                bands = visualization_parameters['bands'],
+                min = visualization_parameters['min'],
+                max = visualization_parameters['max'],
+                #gamma = visualization_parameters['gamma'],
+                palette = visualization_parameters['palette'] if palette else None
+            )
 
         map_id = image.getMapId(visualization_parameters)
 
@@ -253,10 +276,15 @@ class Classification():
                                        palette = palette)
 
         try:
-            url = image.getDownloadURL({
+            download_parameters = {
                 'name': type,
                 'scale': 30
-            })
+            }
+
+            if self.parameter_type:
+                download_parameters['region'] = self.geometry.getInfo()['coordinates']
+
+            url = image.getDownloadURL(download_parameters)
             return {'downloadUrl': url}
         except Exception as e:
             return {'error': '{} Try using download to drive options for larger area!'.format(e.message)}
@@ -327,7 +355,7 @@ class Classification():
     # -------------------------------------------------------------------------
     def get_stats(self, year=2018, primitives=range(0, 8)):
 
-        image = self.get_landcover(primitives = primitives, year=year, download=True)
+        image = self.get_landcover(primitives=primitives, year=year, download=True)
 
         stats = image.reduceRegion(reducer = ee.Reducer.frequencyHistogram(),
                                    geometry = self.geometry,

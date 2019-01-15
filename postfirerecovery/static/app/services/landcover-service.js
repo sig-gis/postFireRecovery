@@ -11,6 +11,7 @@
             var year = options.year;
             var shape = options.shape;
             var hucName = options.hucName;
+            var parameter = options.parameter;
 
             var req = {
                 method: 'POST',
@@ -26,6 +27,8 @@
 
             if (hucName) {
                 req.data.hucName = hucName;
+            } else if (parameter) {
+              req.data.parameter = parameter;  
             } else if (shape) {
                 var shapeType = shape.type;
                 if (shapeType === 'rectangle' || shapeType === 'polygon') {
@@ -55,6 +58,7 @@
             var year = options.year;
             var shape = options.shape;
             var hucName = options.hucName;
+            var parameter = options.parameter;
 
             var req = {
                 method: 'POST',
@@ -70,6 +74,8 @@
 
             if (hucName) {
                 req.data.hucName = hucName;
+            } else if (parameter) {
+              req.data.parameter = parameter;  
             } else if (shape) {
                 var shapeType = shape.type;
                 if (shapeType === 'rectangle' || shapeType === 'polygon') {
@@ -108,6 +114,7 @@
             var year = options.year;
             var shape = options.shape;
             var hucName = options.hucName;
+            var parameter = options.parameter;
 
             var req = {
                 method: 'POST',
@@ -130,6 +137,8 @@
 
             if (hucName) {
                 req.data.hucName = hucName;
+            } else if (parameter) {
+              req.data.parameter = parameter;  
             } else if (shape) {
                 var shapeType = shape.type;
                 if (shapeType === 'rectangle' || shapeType === 'polygon') {
@@ -159,6 +168,7 @@
             var year = options.year;
             var shape = options.shape;
             var hucName = options.hucName;
+            var parameter = options.parameter;
             var type = options.type;
             // Land cover params
             var primitives = options.primitives;
@@ -195,6 +205,8 @@
 
             if (hucName) {
                 req.data.hucName = hucName;
+            } else if (parameter) {
+              req.data.parameter = parameter;  
             } else if (shape) {
                 var shapeType = shape.type;
                 if (shapeType === 'rectangle' || shapeType === 'polygon') {

@@ -49,11 +49,17 @@
          * GeoJson
          **/
 
-        service.loadGeoJson = function (map, name) {
+        service.loadGeoJson = function (map, name, type) {
             if (name) {
-                map.data.loadGeoJson(
-                    '/static/data/watersheds/' + name + '.geo.json'
-                );
+                if (type === 'huc') {
+                    map.data.loadGeoJson(
+                        '/static/data/watersheds/' + name + '.geo.json'
+                    );
+                } else if (type === 'fireParameter') {
+                    map.data.loadGeoJson(
+                        '/static/data/vegetation_burn_severity/' + name + '.geo.json'
+                    );
+                }
     
                 map.data.setStyle({
                     fillColor: 'red',
