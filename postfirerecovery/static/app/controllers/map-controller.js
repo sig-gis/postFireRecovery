@@ -605,9 +605,8 @@
                         $scope.sliderYear = data.from;
                         if ($('#land-cover-classes-tab').hasClass('active')) {
                             $scope.updateAssemblageProduct();
-                        } else if ($('#primitive-tab').hasClass('active')) {
-                            //$scope.updatePrimitive($scope.primitiveIndex);
-                            console.log('primitive layers yet to come');
+                        } else if ($('#composite-tab').hasClass('active')) {
+                            $scope.updateComposite();
                         }
                     }
                 }
