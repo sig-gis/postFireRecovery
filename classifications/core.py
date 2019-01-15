@@ -87,7 +87,7 @@ class Classification():
         self.parameter_type = None
         self.band_names = Classification.COMPOSITE_FALL.first().bandNames().getInfo()
         if shape:
-            self.geometry = Classification.get_geometry_from_shape(shape)
+            self.geometry = self.get_geometry_from_shape(shape)
         elif huc_name:
             if settings.DEBUG:
                 path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
@@ -113,8 +113,7 @@ class Classification():
             self.geometry = Classification.GEOMETRY
 
     # -------------------------------------------------------------------------
-    @staticmethod
-    def get_geometry_from_shape(shape):
+    def get_geometry_from_shape(self, shape):
 
         if shape:
             if shape == 'rectangle':
