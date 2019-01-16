@@ -11,7 +11,13 @@
             templateUrl: 'static/app/templates/map.html',
             controller: 'mapController'
         });
-    
+
+        $stateProvider.state('analysis', {
+            url: '/analysis',
+            templateUrl: 'static/app/templates/analysis.html',
+            controller: 'analysisController'
+        });
+
         $stateProvider.state('login', {
             url: '/login',
             templateUrl: 'static/app/templates/login.html',

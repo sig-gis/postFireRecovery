@@ -1,0 +1,77 @@
+<div style="background: #ebebeb;">
+
+    <!-- Alert Container -->
+    <div class="alert alert-dismissible text-center display-none custom-alert" role="alert">
+        <button type="button" class="close" ng-click="closeAlert()" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong ng-bind-html="alertContent"></strong>
+    </div>
+
+    <!-- Start Change Detection Map Area-->
+    <div class="change-detection-area mg-5-percent pd-5">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-7 col-xs-12">
+                <!-- Loader Container -->
+                <div class="loader" ng-show="showMapLoader">
+                    <!--<div class="loading-img" style="background: url('static/images/spinner.gif') no-repeat;"></div>-->
+                    <i class="loading-img fas fa-spinner fa-spin fa-5x"></i>
+                </div>
+
+                    <div class="change-detection-inner card mg-tb-30">
+                        <div class="card-title">
+                            <h3>Change Detection</h3>
+                        </div>
+                        <div class="card-content" style="height: 65vh;">
+                            <div id="change-detection-map" ng-init="initMap(leftLayerYear, 'left'); initMap(rightLayerYear, 'right');"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+                    <div class="change-detection-inner card mg-tb-30">
+                        <div class="card-title">
+                            <h3>Land Cover Statistics</h3>
+                        </div>
+                        <div class="card-content landcover-table">
+                            <p>Coming Soon...</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Start Change Detection Map Area-->
+
+    <!-- Start Statistics Area-->
+    <div class="statistics-area mg-5-percent">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="change-detection-inner card mg-tb-30">
+                            <div class="card-title">
+                                <h3>Land Cover Statistics</h3>
+                            </div>
+                            <div class="card-content landcover-piechart">
+                                <p>Coming Soon...</p>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="change-detection-inner card mg-tb-30">
+                            <div class="card-title">
+                                <h3>Land Cover Statistics</h3>
+                            </div>
+                            <div class="card-content landcover-linegraph">
+                                <p>Coming Soon...</p>
+                            </div>
+                        </div>
+                    </div>
+    
+                </div>
+            </div>
+        </div>
+    <!-- Start Change Detection Map Area-->
+
+</div>

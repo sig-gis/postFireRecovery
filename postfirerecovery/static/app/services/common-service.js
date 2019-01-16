@@ -13,6 +13,14 @@
             });
         };
 
+        service.range = function (start, end) {
+            var foo = [];
+            for (var i = start; i <= end; i++) {
+                foo.push(i);
+            }
+            return foo;
+        };
+
         service.AnalysisToolControl = function (controlDiv) {
             // Set CSS for the control border.
             var controlUI = document.createElement('div');

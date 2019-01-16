@@ -1,0 +1,50 @@
+.change-detection-inner {
+    padding: 20px;
+    background: #fff;
+}
+
+#change-detection-map {
+    position: absolute;
+    height: 65vh;
+    width: 98%;
+    padding: 0;
+    margin: 0;
+}
+
+/*
+ * Card
+ */
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    border-radius: 2px;
+    color: black;
+    padding-right: 2px;
+    padding-left: 2px;
+    min-height: 400px;
+    position: relative;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.card .card-title {
+    text-transform: uppercase;
+    transition: color 150ms ease;
+}
+
+.card-title {
+    position: relative;
+    padding-left: 10px;
+    top: -10px;
+}
+
+.card .card-content {
+    padding: 9px;
+    border-radius: 0 0 2px 2px;
+    /*background-clip: padding-box;
+    box-sizing: border-box;*/
+    margin-top: -10px;
+}

@@ -52,3 +52,16 @@
 .color-red {
     color: red;
 }
+
+.mg-tb-30 {
+    margin: 30px 0;
+}
+
+.mg-5-percent {
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.pd-5 {
+    padding: 5px;
+}

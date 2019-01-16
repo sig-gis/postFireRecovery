@@ -1,13 +1,13 @@
 var settings = {
     menus: [
         {
-            'name': 'About',
-            'url': '#',
+            'name': 'Map',
+            'url': 'map',
             'show': true
         },
         {
-            'name': 'How to Use',
-            'url': '#',
+            'name': 'Analysis',
+            'url': 'analysis',
             'show': true
         },
         {
