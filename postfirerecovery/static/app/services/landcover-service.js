@@ -3,9 +3,11 @@
     'use strict';
 
     angular.module('postfirerecovery')
-    .service('LandCoverService', function ($http) {
+    .service('LandCoverService', function ($http, $q) {
 
-        this.getLandCoverMap = function (options) {
+        var service = this;
+
+        service.getLandCoverMap = function (options) {
 
             var primitives = options.primitives;
             var year = options.year;
@@ -52,7 +54,7 @@
             return promise;
         };
 
-        this.getStats = function (options) {
+        service.getStats = function (options) {
 
             var primitives = options.primitives;
             var year = options.year;
@@ -99,7 +101,7 @@
             return promise;
         };
 
-        this.getCompositeMap = function (options) {
+        service.getCompositeMap = function (options) {
 
             // Params for visualization
             var season = options.season;
@@ -162,7 +164,7 @@
             return promise;
         };
 
-        this.getDownloadURL = function (options) {
+        service.getDownloadURL = function (options) {
 
             // Common params
             var year = options.year;
@@ -230,7 +232,23 @@
             return promise;
         };
 
-        this.saveToDrive = function (type, shape, areaSelectFrom, areaName, year, primitives, fileName, index, serviceType) {
+        service.getColumnStatData = function (options, years) {
+            var promises = [];
+            years.forEach(function (year) {
+                options.year = year;
+                promises.push(service.getStats(options));
+            });
+            var promise = $q.all(promises)
+            .then(function (results) {
+                return results;
+                /*results.forEach(function(data, status, headers, config) {
+                    return data;
+                });*/
+            });
+            return promise;
+        };
+
+        service.saveToDrive = function (type, shape, areaSelectFrom, areaName, year, primitives, fileName, index, serviceType) {
 
             var url = '/api/landcover/';
             if (serviceType === 'myanmar-fra') {

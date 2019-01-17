@@ -279,6 +279,123 @@
             $scope.pieYear = year;
             $scope.getPieStats();
         };
+
+        // Column Statistics
+        $scope.showColumnLoader = false;
+        // hard-coded; dont want to be computationally expensive
+        $scope.columnStartYear = 2015;
+        $scope.columnEndYear = $scope.yearRange[$scope.yearRange.length - 1];
+
+        $scope.loadColumnStats = function () {
+            if ($scope.columnStartYear >= $scope.columnEndYear) {
+                alert('start year must be less than end year');
+            } else {
+                $scope.showColumnLoader = true;
+                var years = CommonService.range($scope.columnStartYear, $scope.columnEndYear);
+
+                var parameters = {
+                    primitives: $scope.assemblageLayers
+                };
+    
+                LandCoverService.getColumnStatData(parameters, years)
+                .then(function (response) {
+                    var evergreen = {
+                        name: 'Evergreen Forest',
+                        data: [],
+                        color: '#38814e'
+                    };
+                    var scrub = {
+                        name: 'Shrub/Scrub',
+                        data: [],
+                        color: '#dcca8f'
+                    };
+                    var barren = {
+                        name: 'Barren Land (Rock/Sand/Clay)',
+                        data: [],
+                        color: '#9c792a'
+                    };
+                    var developed = {
+                        name: 'Developed',
+                        data: [],
+                        color: '#ff0000'
+                    };
+                    var grassland = {
+                        name: 'Grassland/Herbaceous',
+                        data: [],
+                        color: '#fde9aa'
+                    };
+                    var water = {
+                        name: 'Open Water',
+                        data: [],
+                        color: '#5475a8'
+                    };
+                    var deciduous = {
+                        name: 'Deciduous Forest',
+                        data: [],
+                        color: '#85c77e'
+                    };
+                    var woody = {
+                        name: 'Woody Wetlands',
+                        data: [],
+                        color: '#c8e6f8'
+                    };
+
+                    response.forEach(function(_data) {
+                        // The responses are in order as those are chained in order
+                        for (var key in _data) {
+                            switch (key) {
+                                case 'Barren Land (Rock/Sand/Clay)':
+                                    barren.data.push(_data[key]);
+                                    break;
+                                case 'Deciduous Forest':
+                                    deciduous.data.push(_data[key]);
+                                    break;
+                                case 'Developed':
+                                    developed.data.push(_data[key]);
+                                    break;
+                                case 'Evergreen Forest':
+                                    evergreen.data.push(_data[key]);
+                                    break;
+                                case 'Grassland/Herbaceous':
+                                    grassland.data.push(_data[key]);
+                                    break;
+                                case 'Open Water':
+                                    water.data.push(_data[key]);
+                                    break;
+                                case 'Shrub/Scrub':
+                                    scrub.data.push(_data[key]);
+                                    break;
+                                case 'Woody Wetlands':
+                                    woody.data.push(_data[key]);
+                                    break;
+                            }
+                        }
+                    });
+
+                    var options = {
+                        categories: years,
+                        data: [
+                            evergreen,
+                            scrub,
+                            barren,
+                            developed,
+                            grassland,
+                            water,
+                            deciduous,
+                            woody
+                        ],
+                        container: 'landcover-column',
+                        yAxisTitle: 'Area (Hectare)',
+                        toolTipUnit: 'Hectare',
+                        dataLabels: false
+                    };
+                    CommonService.buildColumnChart(options);
+                    $scope.showColumnLoader = false;
+                }, function (error) {
+                    console.log(error);
+                });
+            }
+        };
     });
 
 })();

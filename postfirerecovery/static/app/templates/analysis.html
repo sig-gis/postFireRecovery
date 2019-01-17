@@ -92,18 +92,24 @@
     </div>
     <!-- Start Change Detection Map Area-->
 
-    <!-- Start Statistics Area-->
-    <div class="statistics-area mg-5-percent">
+    <!-- Start column Statistics Area-->
+    <div class="column-area mg-5-percent">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <!-- Loader Container -->
+                    <div class="loader" ng-show="showColumnLoader">
+                        <i class="loading-img fas fa-spinner fa-spin fa-5x"></i>
+                    </div>
                     <div class="change-detection-inner card mg-tb-30">
                         <div class="card-title">
-                            <h3>Land Cover Statistics</h3>
+                            <h3 class="inline-block-display">Land Cover Statistics</h3>
+                            <button type="button" class="btn btn-success" ng-click="loadColumnStats()" ng-init=loadColumnStats()>GO</button>
+                            <select name="area-index-filter" class="form-control" ng-options="option for option in yearRange" ng-model="columnEndYear"></select>
+                            <p>TO</p>
+                            <select name="area-index-filter" class="form-control" ng-options="option for option in yearRange" ng-model="columnStartYear"></select>
                         </div>
-                        <div class="card-content landcover-linegraph">
-                            <p>Coming Soon...</p>
-                        </div>
+                        <div class="card-content" id="landcover-column" ng-show="!showColumnLoader"></div>
                     </div>
                 </div>
             </div>

@@ -94,7 +94,7 @@
                         symbol: 'menuball'
                       }
                     }
-                  }
+                }
             };
 
             if (showDataLabels) {
@@ -108,6 +108,85 @@
 
             // build the chart
             Highcharts.chart(div, pieChartOptions);
+        };
+
+        service.buildColumnChart = function (options) {
+
+            var categories = options.categories;
+            var title = options.title;
+            var subtitle = options.subtitle;
+            var yAxisTitle = options.yAxisTitle;
+            var data = options.data;
+            var container = options.container;
+            var toolTipUnit = options.toolTipUnit;
+            var exportButtonPosition = options.exportButtonPosition || 'right';
+            var dataLabels = options.dataLabels || false;
+
+            var chartOptions = {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: title
+                },
+                subtitle: {
+                    text: subtitle
+                },
+                xAxis: {
+                    categories: categories,
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: yAxisTitle
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                                 '<td style="padding:0"><b>{point.y:.2f} ' + toolTipUnit + '</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: dataLabels
+                        }
+                    }
+                },
+                series: data,
+                credits: {
+                    enabled: false
+                },
+                exporting: {
+                    buttons: {
+                      contextButton: {
+                        menuItems: [
+                            "printChart",
+                            "separator",
+                            "downloadPNG",
+                            "downloadJPEG",
+                            "downloadPDF",
+                            "downloadSVG",
+                            "separator",
+                            "downloadCSV",
+                            "downloadXLS",
+                            //"viewData",
+                            //"openInCloud"
+                        ],
+                        align: exportButtonPosition,
+                        symbol: 'menuball'
+                      }
+                    }
+                }
+            };
+
+            Highcharts.chart(container, chartOptions);
         };
 
     });
