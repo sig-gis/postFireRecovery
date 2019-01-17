@@ -21,6 +21,10 @@
             return foo;
         };
 
+        service.getPercent = function (part, sum) {
+            return (part / sum * 100).toFixed(2);
+        };
+
         service.AnalysisToolControl = function (controlDiv) {
             // Set CSS for the control border.
             var controlUI = document.createElement('div');

@@ -4,8 +4,15 @@
     angular.module('postfirerecovery')
     .controller('analysisController', function (appSettings, $scope, $timeout, CommonService, LandCoverService) {
 
-        // $scope variables
+
+        // $scope variables - common
         $scope.landCoverClasses = appSettings.landCoverClasses;
+        $scope.landCoverClassName = [];
+        for (var i = 0; i < $scope.landCoverClasses.length; i++) {
+            $scope.landCoverClassName.push($scope.landCoverClasses[i].name);
+        }
+
+        // $scope variables for maps
         $scope.assemblageLayers = [];
         for (var j = 0; j < $scope.landCoverClasses.length; j++) {
             $scope.assemblageLayers.push(j.toString());
@@ -16,6 +23,7 @@
         $scope.leftLayerYear = $scope.yearRange[0];
         $scope.rightLayerYear = $scope.yearRange[$scope.yearRange.length - 1];
         $scope.sideBySideControlInitialized = false;
+        $scope.showMapLoader = false;
 
         // Mapping
         // Base Layers\
@@ -192,6 +200,49 @@
                 $scope.showAlert('danger', error.error);
                 console.log(error);
             });
+        };
+
+        // Table statistics
+        $scope.showtableLoader = false;
+        $scope.tableYear = $scope.yearRange[$scope.yearRange.length - 1];
+        $scope.tableData = [];
+
+        var calculatePercentage = function () {
+            var sum = 0;
+
+            for (var i=0; i<$scope.tableData.length; ++i) {
+                sum += $scope.tableData[i].area;
+            }
+
+            for (var j=0; j<$scope.tableData.length; ++j) {
+                $scope.tableData[j].percentage = CommonService.getPercent($scope.tableData[j].area, sum);
+            }
+            $scope.showtableLoader = false;
+        };
+
+        $scope.getTableStats = function () {
+            $scope.showtableLoader = true;
+            var parameters = {
+                primitives: $scope.assemblageLayers,
+                year: $scope.tableYear
+            };
+
+            LandCoverService.getStats(parameters)
+            .then(function (data) {
+                $scope.tableData = [];
+                for (var key in data) {
+                    var classData = {'name': key, 'area': data[key]};
+                    $scope.tableData.push(classData);
+                }
+                calculatePercentage();
+            }, function (error) {
+                console.log(error);
+            });
+        };
+
+        $scope.changeTableYear = function (year) {
+            $scope.tableYear = year;
+            $scope.getTableStats();
         };
 
     });
