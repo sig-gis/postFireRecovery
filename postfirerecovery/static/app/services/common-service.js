@@ -36,9 +36,11 @@
             return controlUI;
         };
 
-        service.buildChart = function (data, div, title) {
-            // build the chart
-            Highcharts.chart(div, {
+        service.buildPieChart = function (data, div, title, showDataLabels, exportButtonPosition) {
+
+            if (typeof(exportButtonPosition) === 'undefined') exportButtonPosition = 'right';
+
+            var pieChartOptions = {
                 chart: {
                     plotBackgroundColor: null,
                     plotBorderWidth: null,
@@ -55,9 +57,10 @@
                     pie: {
                         allowPointSelect: true,
                         cursor: 'pointer',
-                        dataLabels: {
+                        /*dataLabels: {
                             enabled: false
-                        },
+                        },*/
+                        dataLabels: {},
                         showInLegend: true
                     }
                 },
@@ -86,11 +89,25 @@
                             "downloadXLS",
                             //"viewData",
                             //"openInCloud"
-                        ]
+                        ],
+                        align: exportButtonPosition,
+                        symbol: 'menuball'
                       }
                     }
                   }
-            });
+            };
+
+            if (showDataLabels) {
+                pieChartOptions.plotOptions.pie.dataLabels.enabled = true;
+                pieChartOptions.plotOptions.pie.dataLabels.format = '<b>{point.name}</b>: {point.percentage:.1f} %';
+                pieChartOptions.plotOptions.pie.dataLabels.style = {};
+                pieChartOptions.plotOptions.pie.dataLabels.style.color = (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black';
+            } else {
+                pieChartOptions.plotOptions.pie.dataLabels.enabled = false;
+            }
+
+            // build the chart
+            Highcharts.chart(div, pieChartOptions);
         };
 
     });

@@ -37,8 +37,7 @@
                         <div class="card-title">
                             <h3 class="inline-block-display">Land Cover Statistics</h3>
                             <select name="area-index-filter" class="form-control" ng-options="option for option in yearRange"
-                                    style="float:right; width:10vh; height:34px; margin-top: 15px; margin-right: 10px; box-shadow: 0px 1px 5px rgba(0,0,0,0.4)"
-                                    ng-model="tableYear" ng-change="changeTableYear(tableYear)" ng-init="getTableStats(tableYear)">
+                                    ng-model="tableYear" ng-change="changeTableYear(tableYear)" ng-init="getTableStats()">
                             </select>
                         </div>
                         <div class="card-content landcover-table" ng-show="!showtableLoader">
@@ -70,13 +69,18 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <!-- Loader Container -->
+                    <div class="loader" ng-show="showPieLoader">
+                        <i class="loading-img fas fa-spinner fa-spin fa-5x"></i>
+                    </div>
                         <div class="change-detection-inner card mg-tb-30">
                             <div class="card-title">
-                                <h3>Land Cover Statistics</h3>
+                                <h3 class="inline-block-display">Land Cover Statistics</h3>
+                                <select name="area-index-filter" class="form-control" ng-options="option for option in yearRange"
+                                        ng-model="pieYear" ng-change="changePieYear(pieYear)" ng-init="getPieStats()">
+                                </select>
                             </div>
-                            <div class="card-content landcover-piechart">
-                                <p>Coming Soon...</p>
-                            </div>
+                            <div class="card-content" id="landcover-piechart" ng-show="!showPieLoader"></div>
                         </div>
                     </div>
     

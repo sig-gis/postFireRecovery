@@ -7,9 +7,13 @@
 
         // $scope variables - common
         $scope.landCoverClasses = appSettings.landCoverClasses;
-        $scope.landCoverClassName = [];
+        /*$scope.landCoverClassName = [];
         for (var i = 0; i < $scope.landCoverClasses.length; i++) {
             $scope.landCoverClassName.push($scope.landCoverClasses[i].name);
+        }*/
+        $scope.landCoverClassesColor = {};
+        for (var i = 0; i < $scope.landCoverClasses.length; i++) {
+            $scope.landCoverClassesColor[$scope.landCoverClasses[i].name] = $scope.landCoverClasses[i].color;
         }
 
         // $scope variables for maps
@@ -245,6 +249,36 @@
             $scope.getTableStats();
         };
 
+        // Pie Chart Statistics
+        $scope.showPieLoader = false;
+        $scope.pieYear = $scope.yearRange[$scope.yearRange.length - 1];
+        $scope.pieData = [];
+
+        $scope.getPieStats = function () {
+            $scope.showPieLoader = true;
+            var parameters = {
+                primitives: $scope.assemblageLayers,
+                year: $scope.pieYear
+            };
+
+            LandCoverService.getStats(parameters)
+            .then(function (data) {
+
+                $scope.pieData = [];
+                for (var key in data) {
+                    $scope.pieData.push({ name: key, y: data[key], color: $scope.landCoverClassesColor[key] });
+                }
+                CommonService.buildPieChart($scope.pieData, 'landcover-piechart', '', true, 'left');
+                $scope.showPieLoader = false;
+            }, function (error) {
+                console.log(error);
+            });
+        };
+
+        $scope.changePieYear = function (year) {
+            $scope.pieYear = year;
+            $scope.getPieStats();
+        };
     });
 
 })();

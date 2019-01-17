@@ -48,3 +48,12 @@
     box-sizing: border-box;*/
     margin-top: -10px;
 }
+
+.card-title select {
+    float: right;
+    width: 10vh;
+    height: 34px;
+    margin-top: 15px;
+    margin-right: 10px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+}

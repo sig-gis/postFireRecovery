@@ -351,7 +351,7 @@
                 for (var key in data) {
                     graphData.push({ name: key, y: data[key], color: $scope.landCoverClassesColor[key] });
                 }
-                CommonService.buildChart(graphData, 'report-tab', 'Landcover types for ' + $scope.sliderYear);
+                CommonService.buildPieChart(graphData, 'report-tab', 'Landcover types for ' + $scope.sliderYear, false);
             }, function (error) {
                 console.log(error);
             });
