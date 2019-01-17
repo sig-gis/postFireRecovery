@@ -51,7 +51,7 @@
 
 .card-title select {
     float: right;
-    width: 10vh;
+    width: 12vh;
     height: 34px;
     margin-top: 15px;
     margin-right: 10px;
@@ -68,7 +68,6 @@
 
 .card-title button {
     float: right;
-    width: 5vh;
     height: 34px;
     margin-top: 15px;
     margin-right: 10px;
