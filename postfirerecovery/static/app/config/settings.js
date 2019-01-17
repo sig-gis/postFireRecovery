@@ -60,13 +60,13 @@ var settings = {
         {
             'name': 'Evergreen Forest',
             'value': '0',
-            'color': '#7c9c60',
+            'color': '#38814e',
             'tooltip': 'Evergreen Forest'
         },
         {
             'name': 'Shrub/Scrub',
             'value': '1',
-            'color': '#4d949c',
+            'color': '#dcca8f',
             'tooltip': 'Shrub/Scrub'
         },
         {
@@ -78,31 +78,31 @@ var settings = {
         {
             'name': 'Developed',
             'value': '3',
-            'color': '#919c91',
+            'color': '#ff0000',
             'tooltip': 'Developed'
         },
         {
             'name': 'Grassland/Herbaceous',
             'value': '4',
-            'color': '#26d062',
+            'color': '#fde9aa',
             'tooltip': 'Grassland/Herbaceous'
         },
         {
             'name': 'Open Water',
             'value': '5',
-            'color': '#11d0c7',
+            'color': '#5475a8',
             'tooltip': 'Open Water'
         },
         {
             'name': 'Deciduous Forest',
             'value': '6',
-            'color': '#ffa400',
+            'color': '#85c77e',
             'tooltip': 'Deciduous Forest'
         },
         {
             'name': 'Woody Wetlands',
             'value': '7',
-            'color': '#b341e2',
+            'color': '#c8e6f8',
             'tooltip': 'Woody Wetlands'
         }
     ]

@@ -40,9 +40,10 @@
         $scope.showLoader = false;
 
         // Slider params
-        $scope.sliderYear = 2018;
-        $scope.sliderStartYear = 2001;
-        $scope.sliderEndYear = 2018;
+        $scope.yearRange = CommonService.range(1985, 2018);
+        $scope.sliderYear = $scope.yearRange[$scope.yearRange.length - 1];
+        $scope.sliderStartYear = $scope.yearRange[0];
+        $scope.sliderEndYear = $scope.yearRange[$scope.yearRange.length - 1];
 
         // classes and assemblage params
         $scope.landCoverClasses = appSettings.landCoverClasses;

@@ -35,12 +35,12 @@ class Classification():
         {
             'name': 'Evergreen Forest',
             'value': '0',
-            'color': '7c9c60'
+            'color': '38814e'
         },
         {
             'name': 'Shrub/Scrub',
             'value': '1',
-            'color': '4d949c'
+            'color': 'dcca8f'
         },
         {
             'name': 'Barren Land (Rock/Sand/Clay)',
@@ -50,27 +50,27 @@ class Classification():
         {
             'name': 'Developed',
             'value': '3',
-            'color': '919c91'
+            'color': 'ff0000'
         },
         {
             'name': 'Grassland/Herbaceous',
             'value': '4',
-            'color': '26d062'
+            'color': 'fde9aa'
         },
         {
             'name': 'Open Water',
             'value': '5',
-            'color': '11d0c7'
+            'color': '5475a8'
         },
         {
             'name': 'Deciduous Forest',
             'value': '6',
-            'color': 'ffa400'
+            'color': '85c77e'
         },
         {
             'name': 'Woody Wetlands',
             'value': '7',
-            'color': 'b341e2'
+            'color': 'c8e6f8'
         }
     ]
 
