@@ -349,9 +349,17 @@
             .then(function (data) {
                 var graphData = [];
                 for (var key in data) {
-                    graphData.push({ name: key, y: data[key], color: $scope.landCoverClassesColor[key] });
+                    graphData.push({ name: key, y: (data[key] * 2.471), color: $scope.landCoverClassesColor[key] });
                 }
-                CommonService.buildPieChart(graphData, 'report-tab', 'Landcover types for ' + $scope.sliderYear, false);
+                var options = {
+                    data: graphData,
+                    div: 'report-tab',
+                    title: 'Landcover types for ' + $scope.sliderYear,
+                    showDataLabels: false,
+                    pointFormat: '{series.name}: <b>{point.percentage:.2f}%</b>',
+                    seriesName: 'Area (Acre)'
+                };
+                CommonService.buildPieChart(options);
             }, function (error) {
                 console.log(error);
             });

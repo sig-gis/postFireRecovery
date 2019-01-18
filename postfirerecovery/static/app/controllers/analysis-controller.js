@@ -264,11 +264,22 @@
             LandCoverService.getStats(parameters)
             .then(function (data) {
 
-                $scope.pieData = [];
+                var pieData = [];
                 for (var key in data) {
-                    $scope.pieData.push({ name: key, y: data[key], color: $scope.landCoverClassesColor[key] });
+                    // multiply by 2.471 to convert to Acre
+                    pieData.push({ name: key, y: (data[key] * 2.471), color: $scope.landCoverClassesColor[key] });
                 }
-                CommonService.buildPieChart($scope.pieData, 'landcover-piechart', '', true, 'left');
+                var options = {
+                    data: pieData,
+                    div: 'landcover-piechart',
+                    title: '',
+                    showDataLabels: true,
+                    exportButtonPosition: 'left',
+                    pointFormat: '{series.name}: <b>{point.percentage:.2f}%</b>',
+                    dataLabelFormat: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    seriesName: 'Area (Acre)'
+                };
+                CommonService.buildPieChart(options);
                 $scope.showPieLoader = false;
             }, function (error) {
                 console.log(error);

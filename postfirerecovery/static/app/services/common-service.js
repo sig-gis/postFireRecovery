@@ -36,9 +36,16 @@
             return controlUI;
         };
 
-        service.buildPieChart = function (data, div, title, showDataLabels, exportButtonPosition) {
+        service.buildPieChart = function (options) {
 
-            if (typeof(exportButtonPosition) === 'undefined') exportButtonPosition = 'right';
+            var data = options.data;
+            var div = options.div;
+            var title = options.title;
+            var showDataLabels = options.showDataLabels;
+            var exportButtonPosition = options.exportButtonPosition || 'right';
+            var pointFormat = options.pointFormat;
+            var seriesName = options.seriesName;
+            var dataLabelFormat = options.dataLabelFormat;
 
             var pieChartOptions = {
                 chart: {
@@ -51,7 +58,7 @@
                     text: title
                 },
                 tooltip: {
-                    pointFormat: '{series.name}: <b>{point.percentage:.2f}%</b>'
+                    pointFormat: pointFormat
                 },
                 plotOptions: {
                     pie: {
@@ -66,7 +73,7 @@
                 },
                 series: [
                     {
-                        name: 'Area (hectare)',
+                        name: seriesName,
                         coloyByPoint: true,
                         data: data
                     }
@@ -99,7 +106,7 @@
 
             if (showDataLabels) {
                 pieChartOptions.plotOptions.pie.dataLabels.enabled = true;
-                pieChartOptions.plotOptions.pie.dataLabels.format = '<b>{point.name}</b>: {point.percentage:.1f} %';
+                pieChartOptions.plotOptions.pie.dataLabels.format = dataLabelFormat;
                 pieChartOptions.plotOptions.pie.dataLabels.style = {};
                 pieChartOptions.plotOptions.pie.dataLabels.style.color = (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black';
             } else {

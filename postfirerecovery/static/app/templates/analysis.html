@@ -50,14 +50,16 @@
                                     <table class="table table-striped">
                                         <tr>
                                             <th>Class</th>
-                                            <th>Area(Hectare)</th>
-                                            <th>Percentage(%)</th>
+                                            <th>Area (Acre)</th>
+                                            <th>Area (Hectare)</th>
+                                            <th>Percentage (%)</th>
                                         </tr>
                 
                                         <tr ng-repeat="data in tableData">
                                             <td>[[ data.name ]]</td>
-                                            <td>[[ data.area ]]</td>
-                                            <td>[[ data.percentage ]]</td>
+                                            <td>[[ data.area | number: 2 ]]</td>
+                                            <td>[[ data.area * 2.471 | number: 2 ]]</td>
+                                            <td>[[ data.percentage | number: 2 ]]</td>
                                         </tr>
                                     </table>
                                 </div>
