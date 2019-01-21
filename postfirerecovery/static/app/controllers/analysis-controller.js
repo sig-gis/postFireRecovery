@@ -2,7 +2,7 @@
 
     'use strict';
     angular.module('postfirerecovery')
-    .controller('analysisController', function (appSettings, $scope, $timeout, CommonService, LandCoverService) {
+    .controller('analysisController', function (appSettings, $scope, CommonService, LandCoverService) {
 
 
         // $scope variables - common
@@ -206,6 +206,46 @@
             });
         };
 
+        // Area filter
+        $scope.hucUnits = appSettings.hucUnits;
+        $scope.fireParameters = appSettings.fireParameters;
+        $scope.selectors = appSettings.selectors;
+        $scope.hucName = null;
+        $scope.parameterName = null;
+        /*
+        * Select Options for Variables
+        **/
+        $scope.showSelectors = false;
+        $scope.populateSelectors = function (option) {
+            $scope.showSelectors = true;
+            if (option.value === 'hucUnit') {
+                $scope.selectorOptions = $scope.hucUnits;
+            } else if (option.value === 'burnSeverity') {
+                $scope.selectorOptions = $scope.fireParameters;
+            }
+        };
+
+        /*
+        * load selectors
+        **/
+        var loadHUC = function (name) {
+            $scope.hucName = name;
+            $scope.parameterName = null;
+        };
+
+        var loadFireParameter = function (name) {
+            $scope.hucName = null;
+            $scope.parameterName = name;
+        };
+
+        $scope.loadSelectors = function (name) {
+            if ($scope.selectorOptions === $scope.hucUnits) {
+                loadHUC(name);
+            } else if ($scope.selectorOptions === $scope.fireParameters) {
+                loadFireParameter(name);
+            }
+        };
+
         // Table statistics
         $scope.showtableLoader = false;
         $scope.tableYear = $scope.yearRange[$scope.yearRange.length - 1];
@@ -228,7 +268,9 @@
             $scope.showtableLoader = true;
             var parameters = {
                 primitives: $scope.assemblageLayers,
-                year: $scope.tableYear
+                year: $scope.tableYear,
+                hucName: $scope.hucName,
+                parameter: $scope.parameterName
             };
 
             LandCoverService.getStats(parameters)
@@ -258,7 +300,9 @@
             $scope.showPieLoader = true;
             var parameters = {
                 primitives: $scope.assemblageLayers,
-                year: $scope.pieYear
+                year: $scope.pieYear,
+                hucName: $scope.hucName,
+                parameter: $scope.parameterName
             };
 
             LandCoverService.getStats(parameters)
@@ -276,7 +320,7 @@
                     showDataLabels: true,
                     exportButtonPosition: 'left',
                     pointFormat: '{series.name}: <b>{point.percentage:.2f}%</b>',
-                    dataLabelFormat: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    dataLabelFormat: '<b>{point.name}</b>: {point.percentage:.2f} %',
                     seriesName: 'Area (Acre)'
                 };
                 CommonService.buildPieChart(options);
@@ -305,7 +349,9 @@
                 var years = CommonService.range($scope.columnStartYear, $scope.columnEndYear);
 
                 var parameters = {
-                    primitives: $scope.assemblageLayers
+                    primitives: $scope.assemblageLayers,
+                    hucName: $scope.hucName,
+                    parameter: $scope.parameterName
                 };
     
                 LandCoverService.getColumnStatData(parameters, years)

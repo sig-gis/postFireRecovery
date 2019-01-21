@@ -291,7 +291,7 @@
             //MapService.loadGeoJson(map, name, 'fireParameter');
         };
 
-       $scope.loadSelectors = function (name) {
+        $scope.loadSelectors = function (name) {
             if ($scope.selectorOptions === $scope.hucUnits) {
                 loadHUC(name);
             } else if ($scope.selectorOptions === $scope.fireParameters) {
