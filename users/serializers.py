@@ -6,8 +6,8 @@ from django.contrib.auth.password_validation import validate_password
 
 from rest_framework import serializers
 
+from core.serializers import MembershipSerializer
 from users.models import User as UserModel
-
 
 class UserSerializer(serializers.ModelSerializer):
 
@@ -35,7 +35,16 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserModel
-        fields = ('id', 'email', 'username', 'password', 'first_name', 'last_name',)
+        fields = ('id', 'email', 'username', 'password', 'first_name', 'last_name')
+
+class UserReadSerializer(serializers.ModelSerializer):
+
+    password = serializers.CharField(write_only=True)
+    organization = MembershipSerializer(source='membership_set', many=True)
+
+    class Meta:
+        model = UserModel
+        fields = ('id', 'email', 'username', 'password', 'first_name', 'last_name', 'organization')
 
 class ChangePasswordSerializer(serializers.Serializer):
     '''

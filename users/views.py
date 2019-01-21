@@ -13,8 +13,10 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND, HTTP_200_OK, HTTP_201_CREATED
 
+from core.models import Organization as OrganizationModel, Membership as UserOrgModel
+from core.serializers import OrganizationSerializer
 from users.models import User as UserModel
-from users.serializers import UserSerializer, ChangePasswordSerializer, UserProfileUpdateSerializer
+from users.serializers import UserSerializer, UserReadSerializer, ChangePasswordSerializer, UserProfileUpdateSerializer
 from users.permissions import IsOwner
 
 @csrf_exempt
@@ -43,7 +45,39 @@ class UserCreate(generics.CreateAPIView):
         serializer = self.serializer_class(data=request.data)
 
         if serializer.is_valid():
+            data = request.data
+            # gather organization data
+            org_name = data.get('org_name', None)
+            org_url = data.get('org_url', None)
+            org_year = data.get('org_year', None)
+            try:
+                organization, organization_created = OrganizationModel.objects.get_or_create(name=org_name)
+                organization.url = org_url
+                organization.year = org_year
+                organization.save()
+            except Exception as e:
+                return Response({
+                    'status': 'Bad request',
+                    'message': '{}'.format(e.message)
+                }, status=HTTP_400_BAD_REQUEST)
+
             user = UserModel.objects.create_user(**serializer.validated_data)
+
+            # model user organization membership
+            user_position = data.get('user_position', None)
+            try:
+                user_org, created = UserOrgModel.objects.get_or_create(user=user,
+                                                                       organization=organization)
+                user_org.position = user_position
+                if organization_created:
+                    user_org.is_admin = True
+                user_org.save()
+            except Exception as e:
+                return Response({
+                    'status': 'Bad request',
+                    'message': '{}'.format(e.message)
+                }, status=HTTP_400_BAD_REQUEST)
+
             token, _ = Token.objects.get_or_create(user=user)
             return Response({
                 'token': token.key,
@@ -58,11 +92,11 @@ class UserCreate(generics.CreateAPIView):
 class UserList(generics.ListAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = UserModel.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = UserReadSerializer
 
-class UserDetail(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = UserSerializer
-    permission_classes = (IsAuthenticated, IsOwner, )
+class UserDetail(generics.RetrieveAPIView):
+    serializer_class = UserReadSerializer
+    permission_classes = (IsAuthenticated, )
 
     def get_queryset(self):
         return UserModel.objects.all().filter(pk=self.kwargs.get('pk'))

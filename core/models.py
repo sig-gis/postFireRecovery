@@ -2,6 +2,7 @@
 
 from __future__ import unicode_literals
 
+from django.conf import settings
 from django.db import models
 
 class Email(models.Model):
@@ -36,4 +37,34 @@ class ContactUs(models.Model):
         db_table = '"users_contact_us"'
 
     def __str__(self):
-        return self.name + "-" +  self.email
+        return '{} - {}'.format(self.name, self.email)
+
+class Organization(models.Model):
+    name = models.CharField(max_length=254, blank=False)
+    url = models.URLField(blank=True, null=True)
+    year = models.PositiveSmallIntegerField(blank=True, null=True)
+    users = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, through='Membership')
+
+    created_on = models.DateTimeField(auto_now_add=True)
+    modified_on = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = '"org_organization"'
+
+    def __str__(self):
+        return self.name
+
+class Membership(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    position = models.CharField(max_length=254, blank=True, null=True)
+    is_admin = models.BooleanField(default=False)
+
+    created_on = models.DateTimeField(auto_now_add=True)
+    modified_on = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = '"org_organization_user"'
+
+    def __str__(self):
+        return '{} : {} at {}'.format(self.user, self.position, self.organization)
