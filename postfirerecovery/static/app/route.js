@@ -4,7 +4,7 @@
     angular.module('postfirerecovery')
     .config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
 
-        $urlRouterProvider.otherwise('/map');
+        $urlRouterProvider.otherwise('/home');
 
         $stateProvider.state('home', {
             url: '/home',
