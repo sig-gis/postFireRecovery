@@ -357,7 +357,7 @@ class Classification():
         image = self.get_landcover(primitives=primitives, year=year, download=True)
 
         stats = image.reduceRegion(reducer = ee.Reducer.frequencyHistogram(),
-                                   geometry = self.geometry,
+                                   geometry = self.parameter_type.geometry() if self.parameter_type else self.geometry,
                                    crs = 'EPSG:3310', #'EPSG:6418',
                                    scale = 30,
                                    maxPixels = 1E13
