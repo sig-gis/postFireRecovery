@@ -11,12 +11,17 @@ var settings = {
             'show': true
         },
         {
+            'name': 'How To Use',
+            'url': '#',
+            'show': true
+        },
+        {
             'name': 'Contact Us',
             'url': 'contact_us',
             'show': true
         }
     ],
-    applicationName: 'Post Fire Recovery',
+    applicationName: 'Post Fire Vegetation Monitoring System',
     partnersHeader: [
         {
             'alt': 'The National Aeronautics and Space Administration',

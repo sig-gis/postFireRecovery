@@ -5,7 +5,12 @@
     .config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
 
         $urlRouterProvider.otherwise('/map');
-    
+
+        $stateProvider.state('home', {
+            url: '/home',
+            templateUrl: 'static/app/templates/home.html'
+        });
+
         $stateProvider.state('map', {
             url: '/map',
             templateUrl: 'static/app/templates/map.html',

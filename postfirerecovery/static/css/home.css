@@ -1,0 +1,55 @@
+.home-title {
+    font-family:"Roboto Condensed","Arial Black","Gadget",sans-serif;
+    font-size: 2.5em;
+    line-height: 50px;
+    color:#333333
+}
+
+.summary {
+    font-family: "Roboto Condensed","Helvetica Neue","Helvetica","Arial",sans-serif;
+    font-size: 20px;
+    color: #333333;
+    line-height: 30px;
+    font-weight: 500;
+}
+
+.summary-text {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    color: #333333;
+    line-height: 23px;
+    font-weight: 300;
+}
+
+.launch-panel {
+    background: url(../images/striped-background.png);
+    box-shadow: #e3e3e3 0 0 1px 1px inset;
+    padding: 13px 20px;
+    color: #281b21;
+    margin-top: 3.5em;
+    margin-bottom: 3.5em;
+}
+
+.launch-panel h2 {
+    font-family: "Roboto Condensed", "Arial Black", "Gadget", sans-serif;
+    font-size: 23px;
+    color: #281b21;
+    line-height: 25px;
+    font-weight: 700;
+}
+
+.launch-panel-button {
+    float: right;
+    margin-top: 5px;
+    text-transform: uppercase;
+    font-family: "Roboto Condensed","Helvetica Neue","Helvetica","Arial",sans-serif;
+    font-weight: bold;
+    background-color: #65B8A6;
+    border-color: #65B8A6;
+    color: white;
+}
+
+.launch-panel-button:hover, .launch-panel-button:active, .launch-panel-button:focus{
+    background-color: #65B8A6;
+    border-color: #65B8A6;
+}
