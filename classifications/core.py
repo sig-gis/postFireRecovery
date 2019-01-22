@@ -15,15 +15,15 @@ class Classification():
 
     ee.Initialize(settings.EE_CREDENTIALS)
 
-    AOI = ee.FeatureCollection('users/biplov/postfirerecovery/sierra_plus_plumas')
+    AOI = ee.FeatureCollection('users/biplov/postfirerecovery/AOI/sierra_plus_plumas')
     GEOMETRY = AOI.geometry()
 
     # burn parameters
     BURN_PARAMETERS = {
-        'high': ee.FeatureCollection('users/biplov/postfirerecovery/high_vegetation_burn'),
-        'low': ee.FeatureCollection('users/biplov/postfirerecovery/low_vegetation_burn'),
-        'moderate': ee.FeatureCollection('users/biplov/postfirerecovery/moderate_vegetation_burn'),
-        'unchanged': ee.FeatureCollection('users/biplov/postfirerecovery/unchanged_vegetation_burn'),
+        'high': ee.FeatureCollection('users/biplov/postfirerecovery/FireSeverity/high_vegetation_burn'),
+        'low': ee.FeatureCollection('users/biplov/postfirerecovery/FireSeverity/low_vegetation_burn'),
+        'moderate': ee.FeatureCollection('users/biplov/postfirerecovery/FireSeverity/moderate_vegetation_burn'),
+        'unchanged': ee.FeatureCollection('users/biplov/postfirerecovery/FireSeverity/unchanged_vegetation_burn'),
     }
 
     LANDCOVERMAP = ee.ImageCollection('users/TEST/CAFire/RandomForest/RF_classification_v2')
