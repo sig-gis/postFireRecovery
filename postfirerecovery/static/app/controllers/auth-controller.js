@@ -13,6 +13,8 @@
         $scope.email = null;
         $scope.alertContent = '';
 
+        $scope.loginErrorHandles = {};
+
         /**
          * Alert
          */
@@ -86,7 +88,10 @@
                     $scope.showAlert('success', 'Registration successful! Redirecting...');
                     $timeout(function () { $window.location.href = '/map'; }, 2000);
                 }, function (error) {
-                    $scope.showAlert('danger', error.error);
+                    if ('username' in error.data) {
+                        $scope.loginErrorHandles.username = error.data.username.toString();
+                    }
+                    // $scope.showAlert('danger', 'some error has occured!');
                     return false;
                 });
             } else {

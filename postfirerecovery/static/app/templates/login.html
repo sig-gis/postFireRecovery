@@ -67,6 +67,10 @@
                                         <div class="help-block" ng-messages="registerForm.username.$error" ng-if="registerForm.username.$touched && registerForm.username.$invalid">
                                             <p ng-message="required">Enter a username.</p>
                                         </div>
+                                        <!-- Change this to ng-message -->
+                                        <div class="help-block" ng-if="loginErrorHandles.username">
+                                            <p class="color-red">[[ loginErrorHandles.username ]]</p>
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="firstname" class="float-left">First Name</label>

@@ -8,6 +8,7 @@
     });
 
     // All the dependencies come here
+    //angular.module('postfirerecovery', ['ui.router', 'ngMessages', 'ngSanitize', 'ngStorage'],
     angular.module('postfirerecovery', ['ui.router', 'ngSanitize', 'ngStorage'],
     function($interpolateProvider) {
         $interpolateProvider.startSymbol('[[');
