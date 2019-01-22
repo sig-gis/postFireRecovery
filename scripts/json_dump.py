@@ -5,7 +5,7 @@ import json
 import os
 import shapefile
 
-foldername = '../postfirerecovery/static/data/vegetation_burn_severity'
+foldername = '../postfirerecovery/static/data/fire_area_by_name'
 os.path.dirname(os.path.dirname(__file__))
 path = os.path.join(os.getcwd(), foldername)
 path = os.path.abspath(path)
