@@ -209,9 +209,11 @@
         // Area filter
         $scope.hucUnits = appSettings.hucUnits;
         $scope.fireParameters = appSettings.fireParameters;
+        $scope.listFireNames = appSettings.listFireNames;
         $scope.selectors = appSettings.selectors;
         $scope.hucName = null;
         $scope.parameterName = null;
+        $scope.fireName = null;
         /*
         * Select Options for Variables
         **/
@@ -222,6 +224,8 @@
                 $scope.selectorOptions = $scope.hucUnits;
             } else if (option.value === 'burnSeverity') {
                 $scope.selectorOptions = $scope.fireParameters;
+            } else if (option.value === 'fireName') {
+                $scope.selectorOptions = $scope.listFireNames;
             }
         };
 
@@ -230,12 +234,20 @@
         **/
         var loadHUC = function (name) {
             $scope.hucName = name;
+            $scope.fireName = null;
             $scope.parameterName = null;
         };
 
         var loadFireParameter = function (name) {
             $scope.hucName = null;
+            $scope.fireName = null;
             $scope.parameterName = name;
+        };
+
+        var loadFireName = function (name) {
+            $scope.hucName = null;
+            $scope.parameterName = null;
+            $scope.fireName = name;
         };
 
         $scope.loadSelectors = function (name) {
@@ -243,6 +255,8 @@
                 loadHUC(name);
             } else if ($scope.selectorOptions === $scope.fireParameters) {
                 loadFireParameter(name);
+            } else if ($scope.selectorOptions === $scope.listFireNames) {
+                loadFireName(name);
             }
         };
 
@@ -270,7 +284,8 @@
                 primitives: $scope.assemblageLayers,
                 year: $scope.tableYear,
                 hucName: $scope.hucName,
-                parameter: $scope.parameterName
+                parameter: $scope.parameterName,
+                fireName: $scope.fireName
             };
 
             LandCoverService.getStats(parameters)
@@ -302,7 +317,8 @@
                 primitives: $scope.assemblageLayers,
                 year: $scope.pieYear,
                 hucName: $scope.hucName,
-                parameter: $scope.parameterName
+                parameter: $scope.parameterName,
+                fireName: $scope.fireName
             };
 
             LandCoverService.getStats(parameters)
@@ -351,7 +367,8 @@
                 var parameters = {
                     primitives: $scope.assemblageLayers,
                     hucName: $scope.hucName,
-                    parameter: $scope.parameterName
+                    parameter: $scope.parameterName,
+                    fireName: $scope.fireName
                 };
     
                 LandCoverService.getColumnStatData(parameters, years)

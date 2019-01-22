@@ -59,6 +59,10 @@
                     map.data.loadGeoJson(
                         '/static/data/vegetation_burn_severity/' + name + '.geo.json'
                     );
+                } else if (type === 'fireName') {
+                    map.data.loadGeoJson(
+                        '/static/data/fire_area_by_name/' + name + '.geo.json'
+                    );
                 }
     
                 map.data.setStyle({

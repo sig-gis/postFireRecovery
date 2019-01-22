@@ -26,8 +26,10 @@
         $scope.selectors = appSettings.selectors;
         $scope.hucUnits = appSettings.hucUnits;
         $scope.fireParameters = appSettings.fireParameters;
+        $scope.listFireNames = appSettings.listFireNames;
         $scope.hucName = null;
         $scope.parameterName = null;
+        $scope.fireName = null;
         $scope.shownGeoJson = null;
         $scope.seasons = appSettings.seasons;
         $scope.bands = appSettings.bands;
@@ -127,6 +129,7 @@
                 shape: $scope.shape,
                 hucName: $scope.hucName,
                 parameter: $scope.parameterName,
+                fireName: $scope.fireName,
                 season: $scope.compositeParams.season.toLowerCase(),
                 //gamma: $scope.compositeParams.gamma
             };
@@ -266,6 +269,8 @@
                 $scope.selectorOptions = $scope.hucUnits;
             } else if (option.value === 'burnSeverity') {
                 $scope.selectorOptions = $scope.fireParameters;
+            } else if (option.value === 'fireName') {
+                $scope.selectorOptions = $scope.listFireNames;
             }
         };
 
@@ -278,6 +283,7 @@
             $scope.shape = {};
             $scope.hucName = name;
             $scope.parameterName = null;
+            $scope.fireName = null;
             MapService.loadGeoJson(map, name, 'huc');
         };
 
@@ -288,7 +294,18 @@
             $scope.shape = {};
             $scope.hucName = null;
             $scope.parameterName = name;
+            $scope.fireName = null;
             //MapService.loadGeoJson(map, name, 'fireParameter');
+        };
+
+        var loadFireName = function (name) {
+            MapService.clearDrawing($scope.overlays.polygon);
+            MapService.removeGeoJson(map);
+            $scope.shape = {};
+            $scope.hucName = null;
+            $scope.parameterName = null;
+            $scope.fireName = name;
+            MapService.loadGeoJson(map, name, 'fireName');
         };
 
         $scope.loadSelectors = function (name) {
@@ -296,6 +313,8 @@
                 loadHUC(name);
             } else if ($scope.selectorOptions === $scope.fireParameters) {
                 loadFireParameter(name);
+            } else if ($scope.selectorOptions === $scope.listFireNames) {
+                loadFireName(name);
             }
         };
 
@@ -303,6 +322,7 @@
         var clearSelectedArea = function () {
             $scope.hucName = null;
             $scope.parameterName = null;
+            $scope.fireName = null;
             $scope.$apply();
         };
 
@@ -317,7 +337,8 @@
                 year: year,
                 shape: $scope.shape,
                 hucName: $scope.hucName,
-                parameter: $scope.parameterName
+                parameter: $scope.parameterName,
+                fireName: $scope.fireName
             };
             LandCoverService.getLandCoverMap(parameters)
             .then(function (data) {
@@ -343,7 +364,8 @@
                 year: $scope.sliderYear,
                 shape: $scope.shape,
                 hucName: $scope.hucName,
-                parameter: $scope.parameterName
+                parameter: $scope.parameterName,
+                fireName: $scope.fireName
             };
             LandCoverService.getStats(parameters)
             .then(function (data) {
@@ -371,7 +393,7 @@
                 compositeCheck = true;
 
             var hasPolygon = (['polygon', 'circle', 'rectangle'].indexOf($scope.shape.type) > -1);
-            if (!hasPolygon && !$scope.hucName && !$scope.parameterName) {
+            if (!hasPolygon && !$scope.hucName && !$scope.parameterName && !$scope.fireName) {
                 $scope.showAlert('danger', 'Please draw a polygon or select HUC or severity index before proceding to download!');
                 polygonCheck = false;
             }
@@ -645,6 +667,7 @@
                     shape: $scope.shape,
                     hucName: $scope.hucName,
                     parameter: $scope.parameterName,
+                    fireName: $scope.fireName,
                     type: type,
                     // Land cover params
                     primitives: $scope.assemblageLayers,
@@ -676,42 +699,6 @@
                     $scope.showAlert('danger', error.error);
                     console.log(error);
                 });
-            }
-        };
-
-        // Google Download
-        $scope.showLandcoverGDriveFileName = false;
-
-        $scope.showGDriveFileName = function (type) {
-            if (typeof(type) === 'undefined') type = 'landcover';
-            if (verifyBeforeDownload(type)) {
-                $scope['show' + CommonService.capitalizeString(type) + 'GDriveFileName'] = true;
-            }
-        };
-
-        $scope.hideGDriveFileName = function (type) {
-            $scope['show' + CommonService.capitalizeString(type) + 'GDriveFileName'] = false;
-        };
-
-        $scope.saveToDrive = function (options) {
-            var type = options.type || 'landcover';
-            var v1 = options.v1;
-            if (verifyBeforeDownload(type)) {
-                // Check if filename is provided, if not use the default one
-                var fileName = $sanitize($('#' + type + 'GDriveFileName').val() || '');
-                $scope.showAlert('info', 'Please wait while I prepare the download link for you. This might take a while!');
-                
-                var parameters = {
-                    primitives: $scope.assemblageLayers,
-                    year: $scope.sliderYear,
-                    shape: $scope.shape,
-                    hucName: $scope.hucName,
-                    parameter: $scope.parameterName,
-                    v1: v1,
-                    type: type,
-                    index: $scope.primitiveIndex,
-                    fileName: fileName
-                };
             }
         };
 

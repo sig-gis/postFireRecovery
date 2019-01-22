@@ -50,6 +50,10 @@ var settings = {
     ],
     selectors: [
         {
+            'value': 'fireName',
+            'name': 'Fire Name'
+        },
+        {
             'value': 'hucUnit',
             'name': 'Hydrological Unit'
         },
@@ -59,6 +63,8 @@ var settings = {
         }
     ],
     fireParameters: ['High', 'Low', 'Moderate', 'Unchanged'],
+    // this list is generated from python script at /scripts/list-firenames.py
+    listFireNames: ['Antelope_Cmplx_2007', 'Assist_Pnf_1987', 'Bar_2010', 'Bassetts_2006', 'Bear_2008', 'Belden_2008', 'Boulder_Cmplx_2006', 'Bucks_1999', 'Buttes_1990', 'Capnf00000282_1988', 'Catoi00000031_1984', 'Celina_2008', 'Chips_2012', 'Clark_1987', 'Cold_2008', 'Cooks_1996', 'Cottonwood_1994', 'Cottonwood_2004', 'Crystal_1994', 'Cub_2008', 'Devilsgap_1999', 'Eagle_1989', 'Elephant_2009', 'Eureka_2017', 'Grease_2006', 'Greengulch_1984', 'Greenhorn_1990', 'Harding_2005', 'Hartman_2008', 'Horton2_1999', 'Indian_1987', 'Layman_1989', 'Little_2008', 'Lookout_1999', 'Maddalena_1996', 'Milford_Grade_2009', 'Minerva5_2017', 'Moonlight_2007', 'Palmer_1987', 'Peak_2012', 'Pidgen_1999', 'Pit_2008', 'Rack_1989', 'Rich_2008', 'Ridge_Heights_2013', 'Rock_Creek_2001', 'Scotch_2008', 'Silver_2009', 'Stag_1999', 'Storrie_2000', 'Stream_2001', 'Tobin_2016', 'Treasure_2001', 'Usfs_Assist3_1988', 'Walker_1990'],
     // this list is generated from python script at /scripts/list-huc.py
     hucUnits: ['Baxter Creek-Frontal Honey Lake', 'Butt Creek', 'City of Reno-Truckee River', 'Deer Creek', 'Downie River', 'East Branch North Fork Feather River', 'Greenhorn Creek', 'Hamilton Branch', 'Headwaters North Fork Feather River', 'Last Chance Creek', 'Lemmon Valley', 'Lights Creek', 'Little Last Chance Creek', 'Little Truckee River', 'Lower Indian Creek', 'Lower Long Valley Creek-Frontal Honey Lake', 'Lower Middle Fork Feather River', 'Lower North Fork Feather River', 'Lower North Yuba River', 'Lower Susan River-Frontal Honey Lake', 'Middle Middle Fork Feather River', 'Middle North Fork Feather River', 'Middle North Yuba River', 'Middle Yuba River', 'Mill Creek', 'Red Clover Creek', 'Sierra Valley', 'Smithneck Creek', 'South Fork Feather River', 'Spanish Creek', 'Upper Butte Creek', 'Upper Indian Creek', 'Upper Long Valley Creek', 'Upper Middle Fork Feather River', 'Upper North Fork Feather River', 'Upper North Yuba River', 'Upper Susan River', 'West Branch Feather River', 'Wolf Creek', 'Yellow Creek'],
     landCoverClasses: [

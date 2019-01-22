@@ -79,7 +79,7 @@ class Classification():
         INDEX_CLASS[int(_class['value'])] = _class['name']
 
     # -------------------------------------------------------------------------
-    def __init__(self, huc_name, parameter, shape, geom, radius, center):
+    def __init__(self, huc_name, parameter, fire_name, shape, geom, radius, center):
 
         self.geom = geom
         self.radius = radius
@@ -109,6 +109,8 @@ class Classification():
         elif parameter:
             self.parameter_type = Classification.BURN_PARAMETERS[parameter.lower()]
             self.geometry = self.parameter_type.geometry().bounds()
+        elif fire_name:
+            self.geometry = ee.FeatureCollection('users/biplov/postfirerecovery/FireName/{}'.format(fire_name))
         else:
             self.geometry = Classification.GEOMETRY
 

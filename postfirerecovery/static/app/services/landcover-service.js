@@ -14,6 +14,7 @@
             var shape = options.shape;
             var hucName = options.hucName;
             var parameter = options.parameter;
+            var fireName = options.fireName;
 
             var req = {
                 method: 'POST',
@@ -31,6 +32,8 @@
                 req.data.hucName = hucName;
             } else if (parameter) {
               req.data.parameter = parameter;  
+            } else if (fireName) {
+                req.data.fireName = fireName;
             } else if (shape) {
                 var shapeType = shape.type;
                 if (shapeType === 'rectangle' || shapeType === 'polygon') {
@@ -61,6 +64,7 @@
             var shape = options.shape;
             var hucName = options.hucName;
             var parameter = options.parameter;
+            var fireName = options.fireName;
 
             var req = {
                 method: 'POST',
@@ -78,6 +82,8 @@
                 req.data.hucName = hucName;
             } else if (parameter) {
               req.data.parameter = parameter;  
+            } else if (fireName) {
+                req.data.fireName = fireName;
             } else if (shape) {
                 var shapeType = shape.type;
                 if (shapeType === 'rectangle' || shapeType === 'polygon') {
@@ -117,6 +123,7 @@
             var shape = options.shape;
             var hucName = options.hucName;
             var parameter = options.parameter;
+            var fireName = options.fireName;
 
             var req = {
                 method: 'POST',
@@ -141,6 +148,8 @@
                 req.data.hucName = hucName;
             } else if (parameter) {
               req.data.parameter = parameter;  
+            } else if (fireName) {
+                req.data.fireName = fireName;
             } else if (shape) {
                 var shapeType = shape.type;
                 if (shapeType === 'rectangle' || shapeType === 'polygon') {
@@ -171,6 +180,7 @@
             var shape = options.shape;
             var hucName = options.hucName;
             var parameter = options.parameter;
+            var fireName = options.fireName;
             var type = options.type;
             // Land cover params
             var primitives = options.primitives;
@@ -209,6 +219,8 @@
                 req.data.hucName = hucName;
             } else if (parameter) {
               req.data.parameter = parameter;  
+            } else if (fireName) {
+                req.data.fireName = fireName;
             } else if (shape) {
                 var shapeType = shape.type;
                 if (shapeType === 'rectangle' || shapeType === 'polygon') {
