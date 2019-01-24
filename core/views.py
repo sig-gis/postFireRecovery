@@ -44,33 +44,34 @@ class ContactUs(generics.CreateAPIView):
             return Response({'error': 'Make sure all fields are entered and valid.'},
                             status=HTTP_400_BAD_REQUEST)
 
-        email_data = {
-            'subject': subject,
-            'body': body,
-            'from_address': from_address,
-            'to_address': to_address,
-            'reply_to': reply_to
-        }
-
-        try:
-            email = Email.objects.create(**email_data)
-        except Exception as e:
-            return Response({
-                'status': 'Bad request',
-                'message': '{}'.format(e.message)
-            }, status=HTTP_400_BAD_REQUEST)
-
-        try:
-            contact_us = ContactUsModel.objects.create(email=email, name=name)
-        except Exception as e:
-            return Response({
-                'status': 'Bad request',
-                'message': '{}'.format(e.message)
-            }, status=HTTP_400_BAD_REQUEST)
-
-        email_message = EmailMessage(subject, body, from_address, [to_address],
+        email_message = EmailMessage(subject, body, from_address, to_address,
             headers = {'Reply-To': reply_to}
         )
         email_message.send()
+
+        for _to_address in to_address:
+            email_data = {
+                'subject': subject,
+                'body': body,
+                'from_address': from_address,
+                'to_address': _to_address,
+                'reply_to': reply_to
+            }
+    
+            try:
+                email = Email.objects.create(**email_data)
+            except Exception as e:
+                return Response({
+                    'status': 'Bad request',
+                    'message': '{}'.format(e.message)
+                }, status=HTTP_400_BAD_REQUEST)
+    
+            try:
+                contact_us = ContactUsModel.objects.create(email=email, name=name)
+            except Exception as e:
+                return Response({
+                    'status': 'Bad request',
+                    'message': '{}'.format(e.message)
+                }, status=HTTP_400_BAD_REQUEST)
 
         return Response('ok', status=HTTP_200_OK)
