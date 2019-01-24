@@ -205,7 +205,9 @@
         };
 
         $scope.showThankYou = false;
+        $scope.showThankYouLoader = false;
         $scope.contactUs = function (contact) {
+            $scope.showThankYouLoader = true;
             if (contact) {
                 if (!(contact.name && contact.email && contact.message)) {
                     $scope.showAlert('danger', 'all field are required!');
@@ -214,6 +216,7 @@
                     AuthService.userContactUs (contact)
                     .then(function (data) {
                         $scope.showThankYou = true;
+                        $scope.showThankYouLoader = false;
                     }, function (error) {
                         $scope.showAlert('danger', error.status + ' ' + error.data.detail);
                     });

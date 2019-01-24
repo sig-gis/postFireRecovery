@@ -10,7 +10,7 @@
         <div class="col-md-6 col-md-offset-3" style="margin-top: 40px;">
             <div class="login-form" id="register-form-div">
                 <div class="login-form-panel">
-                    <h1>Thank you for contact us! <br><br>We will get back to you soon!</h1>
+                    <h1>Thank you for contacting us! <br><br>We will get back to you soon!</h1>
                     <button type="submit" class="btn btn-primary" style="margin-top: 20px;" ui-sref="map">
                         Go to Home
                     </button>
@@ -19,9 +19,14 @@
         </div>
     </div>
 
-    <div class="row" ng-hide="showThankYou">
+    <div class="row" >
         <div class="col-md-6 col-md-offset-3" style="margin-top: 40px;">
-            <div class="login-form" id="register-form-div">
+            <!-- Loader Container -->
+            <div class="loader" ng-show="showThankYouLoader">
+                <i class="loading-img fas fa-spinner fa-spin fa-5x"></i>
+            </div>
+
+            <div class="login-form" id="register-form-div" ng-hide="showThankYou">
                 <div class="login-form-panel">
                     <h1>Contact Us</h1>
                 </div>
