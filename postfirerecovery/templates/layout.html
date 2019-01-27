@@ -7,6 +7,16 @@
 	<!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
 	<meta name="viewport" content="width=1024">
 
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id={{ GOOGLE_ANALYTICS_ID }}"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag () { dataLayer.push(arguments); }
+		gtag('js', new Date());
+		gtag('config', '{{ GOOGLE_ANALYTICS_ID }}');
+	</script>
+
 	<base href="/">
 
 	<title>Post Fire Recovery</title>
