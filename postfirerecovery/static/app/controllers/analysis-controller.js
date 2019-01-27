@@ -89,11 +89,6 @@
          * Controls
          */
 
-        // Zoom control
-		L.control.zoom({
-			position: 'bottomright'
-        }).addTo(map);
-
         // layer control
         var baseLayers = {
             "Satellite Imagery": Esri_WorldImagery,
@@ -171,7 +166,42 @@
 
         L.control.selectRightLayerControl({
 			position: 'topright' 
-		}).addTo(map);
+        }).addTo(map);
+
+        // Legend control
+		L.Control.LegendControl = L.Control.extend({
+			options: {
+				position: 'bottomright'
+			},
+			onAdd: function (map) {
+                var div = L.DomUtil.create('div', 'info-legend legend'),
+                labels = [];
+    
+                for (var i = 0; i < $scope.landCoverClasses.length; i++) {
+        
+                    labels.push(
+                        '<p><i style="background:' + $scope.landCoverClasses[i].color + '"></i> ' + $scope.landCoverClasses[i].name + '</p>'
+                    );
+                }
+        
+                //div.innerHTML = labels.join('<br>');
+                div.innerHTML = labels.join('<br>');
+                return div;
+            }
+        });
+    
+        L.control.legendControl = function(options) {
+			return new L.Control.LegendControl(options);
+        };
+
+        L.control.legendControl({
+			position: 'bottomright' 
+        }).addTo(map);
+
+        // Zoom control
+		L.control.zoom({
+			position: 'bottomright'
+        }).addTo(map);
 
         /* Updates the image based on the current control panel config. */
         var loadMap = function (type, data) {
