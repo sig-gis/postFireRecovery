@@ -21,6 +21,8 @@
         $scope.unchangedVegetation = '/static/data/vegetation_burn_severity/unchanged.geo.json';
 
         // areas and overlay params
+        // available overlays are
+        // 1. landcovermap 2. composite 3. user drawn polygon 4. predefined area
         $scope.overlays = {};
         $scope.shape = {};
         $scope.selectors = appSettings.selectors;
@@ -88,8 +90,205 @@
             $scope.showLoader = false;
         };
 
+        /*
+         * Layer Legend
+         */
+        $scope.landcoverOpacity = 1;
+        $scope.compositeOpacity = 1;
+        $scope.predefinedAreaOpacity = 1;
+
+        var initializeLayerSlider = function (className, overlayType) {
+            var layerSlider = $('.' + className).slider({
+                formatter: function (value) {
+                    return value;
+                },
+                //tooltip: 'always'
+            })
+            .on('slideStart', function (event) {
+                switch (overlayType) {
+                    case 'landcovermap':
+                        $scope.landcoverOpacity = $(this).data('slider').getValue();
+                        break;
+                    case 'composite':
+                        $scope.compositeOpacity = $(this).data('slider').getValue();
+                        break;
+                    case 'predefined':
+                        $scope.predefinedAreaOpacity = $(this).data('slider').getValue();
+                        break;
+                }
+            })
+            .on('slideStop', function (event) {
+                var value;
+                switch (overlayType) {
+                    case 'landcovermap':
+                        value = $(this).data('slider').getValue();
+                        if (value !== $scope.landcoverOpacity) {
+                            $scope.overlays.landcovermap.setOpacity(value);
+                        }
+                        break;
+                    case 'composite':
+                        value = $(this).data('slider').getValue();
+                        if (value !== $scope.compositeOpacity) {
+                            $scope.overlays.composite.setOpacity(value);
+                        }
+                        break;
+                    case 'preload':
+                        value = $(this).data('slider').getValue();
+                        if (value !== $scope.predefinedAreaOpacity) {
+                            map.data.setStyle({
+                                fillOpacity: value,
+                                fillColor: 'red',
+                                strokeWeight: 2,
+                                clickable: false
+                            });
+                        }
+                        break;
+                }
+            });
+        };
+
+        var createLayerContainer = function (overlayType) {
+
+            var overlayName = {
+                'landcovermap': 'Land Cover Map for ' + $scope.sliderYear,
+                'composite'   : 'Composite Map for ' + $scope.sliderYear,
+                'polygon'     : 'User Defined Area',
+                'preload'     : 'Pre-defined Area'
+            };
+
+            var toggleLayerSlider = function () {
+                if ($(this).hasClass('closed')) {
+                    $(this).removeClass('closed');
+                    $('#layer-opacity-slider-' + overlayType).removeClass('display-none-imp');
+                } else {
+                    $(this).addClass('closed');
+                    $('#layer-opacity-slider-' + overlayType).addClass('display-none-imp');
+                }
+            };
+
+            var toggleLayerOpacity = function () {
+                if ($(this).hasClass('fa-eye')) {
+                    $(this).removeClass('fa-eye').addClass('fa-eye-slash');
+                    $('#layer-opacity-slider-' + overlayType).addClass('display-none-imp');
+                    switch (overlayType) {
+                        case 'landcovermap':
+                            $scope.overlays.landcovermap.setOpacity(0);
+                            break;
+                        case 'composite':
+                            $scope.overlays.composite.setOpacity(0);
+                            break;
+                        case 'polygon':
+                            $scope.overlays.polygon.setVisible(false);
+                            break;
+                        case 'preload':
+                            map.data.forEach(function (feature) {
+                                map.data.setStyle({
+                                    visible: false
+                                });
+                            });
+                            break;
+                    }
+                } else {
+                    $(this).removeClass('fa-eye-slash').addClass('fa-eye');
+                    $('#layer-opacity-slider-' + overlayType).removeClass('display-none-imp');
+                    switch (overlayType) {
+                        case 'landcovermap':
+                            $scope.overlays.landcovermap.setOpacity(1);
+                            break;
+                        case 'composite':
+                            $scope.overlays.composite.setOpacity(1);
+                            break;
+                        case 'polygon':
+                            $scope.overlays.polygon.setVisible(true);
+                            break;
+                        case 'preload':
+                            map.data.forEach(function (feature) {
+                                map.data.setStyle({
+                                    fillOpacity: $scope.predefinedAreaOpacity,
+                                    visible: true,
+                                    fillColor: 'red',
+                                    strokeWeight: 2,
+                                    clickable: false
+                                });
+                            });
+                            break;
+                    }
+                }
+            };
+
+            var _container = document.createElement('div');
+            _container.setAttribute('class', 'leaflet-bar leaflet-html-legend');
+            _container.setAttribute('id', 'layer-control-' + overlayType);
+
+            var legendBlock = document.createElement('div');
+            legendBlock.setAttribute('class', 'legend-block layer-control');
+
+            var layerHeading = document.createElement('h4');
+            layerHeading.setAttribute('class', 'inline-block-display');
+            var legendCaret = document.createElement('div');
+            legendCaret.setAttribute('class', 'legend-caret');
+            var spanInHeading = document.createElement('span');
+            spanInHeading.appendChild(document.createTextNode(overlayName[overlayType]));
+            layerHeading.appendChild(legendCaret);
+            layerHeading.appendChild(spanInHeading);
+
+            var toggleLayer = document.createElement('i');
+            toggleLayer.setAttribute('class', 'far fa-eye float-right');
+            toggleLayer.style.cursor = 'pointer';
+            toggleLayer.addEventListener('click', toggleLayerOpacity);
+
+            var opacitySliderContainer = document.createElement('span');
+            opacitySliderContainer.setAttribute('class', 'opacity-slider');
+            opacitySliderContainer.setAttribute('id', 'layer-opacity-slider-' + overlayType);
+            var sliderLabel = document.createElement('span');
+            sliderLabel.setAttribute('class', 'slider-label');
+            sliderLabel.appendChild(document.createTextNode('Transparency:'));
+            var opacitySlider = document.createElement('input');
+            opacitySlider.setAttribute('id', 'layer-opacity-slider');
+            opacitySlider.setAttribute('class', 'layer-opacity-slider-' + overlayType);
+            opacitySlider.setAttribute('data-slider-id', 'layer-opacity-slider');
+            opacitySlider.setAttribute('type', 'text');
+            opacitySlider.setAttribute('data-slider-min', '0');
+            opacitySlider.setAttribute('data-slider-max', '1');
+            opacitySlider.setAttribute('data-slider-step', '0.1');
+            opacitySliderContainer.appendChild(sliderLabel);
+            opacitySliderContainer.appendChild(opacitySlider);
+
+            layerHeading.addEventListener('click', toggleLayerSlider);
+
+            legendBlock.appendChild(layerHeading);
+            legendBlock.appendChild(toggleLayer);
+            legendBlock.appendChild(opacitySliderContainer);
+            _container.appendChild(legendBlock);
+
+            $('#layer-tab').append(_container);
+
+            if (overlayType === 'polygon') {
+                legendBlock.removeChild(opacitySliderContainer);
+                layerHeading.removeChild(legendCaret);
+            }
+
+            return _container;
+        };
+
+        var addLayer = function (overlayType) {
+            if ($('#layer-tab #layer-control-' + overlayType).length > 0) {
+                $('#layer-tab #layer-control-' + overlayType).remove();
+            }
+            var response = createLayerContainer(overlayType);
+            if (overlayType !== 'polygon') {
+                initializeLayerSlider('layer-opacity-slider-' + overlayType, overlayType);
+            }
+        };
+
+        var removeLayer = function (overlayType) {
+            if ($('#layer-tab #layer-control-' + overlayType).length > 0) {
+                $('#layer-tab #layer-control-' + overlayType).remove();
+            }
+        };
+
         /**
-         * Start with UI
+         * UI
          */
 
         // Band selector
@@ -160,6 +359,7 @@
                 $timeout(function () {
                     $scope.showAlert('info', 'Showing composite for ' + $scope.sliderYear);
                 }, 2000);
+                addLayer('composite');
             }, function (error) {
                 $scope.showLoader = true;
                 $scope.showAlert('danger', error.error);
@@ -213,52 +413,6 @@
         // get tooltip activated
         $('.js-tooltip').tooltip();
 
-        /**
-         * Slider
-         */
-        // Landcover opacity slider
-        $scope.landcoverOpacity = 1;
-        $scope.showLandcoverOpacitySlider = true;
-        /* slider init */
-        $timeout(function () {
-            var landcoverSlider = $('#landcover-opacity-slider').slider({
-                formatter: function (value) {
-                    return value;
-                },
-                tooltip: 'always'
-            })
-            .on('slideStart', function (event) {
-                $scope.landcoverOpacity = $(this).data('slider').getValue();
-            })
-            .on('slideStop', function (event) {
-                var value = $(this).data('slider').getValue();
-                if (value !== $scope.landcoverOpacity) {
-                    $scope.overlays.landcovermap.setOpacity(value);
-                }
-            });
-        }, 1500);
-
-        // Composite opacity slider
-        $scope.compositeOpacity = 1;
-        /* slider init */
-        $timeout(function () {
-            var compositeSlider = $('#composite-opacity-slider').slider({
-                formatter: function (value) {
-                    return value;
-                },
-                tooltip: 'always'
-            })
-            .on('slideStart', function (event) {
-                $scope.compositeOpacity = $(this).data('slider').getValue();
-            })
-            .on('slideStop', function (event) {
-                var value = $(this).data('slider').getValue();
-                if (value !== $scope.compositeOpacity) {
-                    $scope.overlays.composite.setOpacity(value);
-                }
-            });
-        }, 2500);
-
         /*
         * Select Options for Variables
         **/
@@ -309,6 +463,8 @@
         };
 
         $scope.loadSelectors = function (name) {
+            removeLayer('polygon');
+            addLayer('preload');
             if ($scope.selectorOptions === $scope.hucUnits) {
                 loadHUC(name);
             } else if ($scope.selectorOptions === $scope.fireParameters) {
@@ -344,45 +500,12 @@
             .then(function (data) {
                 var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, type);
                 loadMap(type, mapType);
+                addLayer(type);
                 $timeout(function () {
                     $scope.showAlert('info', 'The map data shows the landcover data for ' + $scope.sliderYear);
                 }, 3500);
             }, function (error) {
                 $scope.showAlert('danger', error.error);
-                console.log(error);
-            });
-        };
-
-        /**
-         *  Graphs and Charts
-         */
-        // Get stats for the graph
-        $scope.getStats = function () {
-            $('#report-tab').html('<h4>Please wait while I generate chart for you...</h4>');
-            var parameters = {
-                primitives: $scope.assemblageLayers,
-                year: $scope.sliderYear,
-                shape: $scope.shape,
-                hucName: $scope.hucName,
-                parameter: $scope.parameterName,
-                fireName: $scope.fireName
-            };
-            LandCoverService.getStats(parameters)
-            .then(function (data) {
-                var graphData = [];
-                for (var key in data) {
-                    graphData.push({ name: key, y: (data[key] * 2.471), color: $scope.landCoverClassesColor[key] });
-                }
-                var options = {
-                    data: graphData,
-                    div: 'report-tab',
-                    title: 'Landcover types for ' + $scope.sliderYear,
-                    showDataLabels: false,
-                    pointFormat: '{series.name}: <b>{point.percentage:.2f}%</b>',
-                    seriesName: 'Area (Acre)'
-                };
-                CommonService.buildPieChart(options);
-            }, function (error) {
                 console.log(error);
             });
         };
@@ -399,7 +522,7 @@
             }
 
             if (type === 'composite') {
-                if (!$scope.mapHasCompositeLayer) {
+                if (!$scope.overlays.composite) {
                     $scope.showAlert('danger', 'No composite layer displayed!');
                     compositeCheck = false;
                 }
@@ -458,6 +581,8 @@
 
             var overlay = event.overlay;
             $scope.overlays.polygon = overlay;
+            removeLayer('preload');
+            addLayer('polygon');
             $scope.shape = {};
 
             var drawingType = event.type;
@@ -616,8 +741,7 @@
             });
             MapService.clearLayer(map, 'landcovermap');
             $scope.initMap($scope.sliderYear, 'landcovermap');
-            $scope.getStats();
-            MapService.removeGeoJson(map);
+            //MapService.removeGeoJson(map);
         };
 
         // Time Slider

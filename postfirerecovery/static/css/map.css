@@ -44,23 +44,27 @@
     font-size: 15px;
 }
 
-#landcover-opacity-slider .slider-selection, #composite-opacity-slider .slider-selection {
+#landcover-opacity-slider .slider-selection, #composite-opacity-slider .slider-selection, #layer-opacity-slider .slider-selection {
     background: rgb(198, 40, 40);
 }
 
-#landcover-opacity-slider .slider-handle, #composite-opacity-slider .slider-handle {
+#landcover-opacity-slider .slider-handle, #composite-opacity-slider .slider-handle, #layer-opacity-slider .slider-handle {
     background: rgb(198, 40, 40);
     width: 15px;
     height: 15px;
 }
 
-#landcover-opacity-slider .slider-track, #composite-opacity-slider .slider-track {
+#landcover-opacity-slider .slider-track, #composite-opacity-slider .slider-track, #layer-opacity-slider .slider-track {
     height: 5px;
     border-radius: 0;
 }
 
-#landcover-opacity-slider .slider-track-high, #composite-opacity-slider .slider-track-high {
+#landcover-opacity-slider .slider-track-high, #composite-opacity-slider .slider-track-high, #layer-opacity-slider .slider-track-high {
     background: #BABABA;
+}
+
+#layer-opacity-slider.slider.slider-horizontal {
+    max-width: 140px;
 }
 
 .container-primitive {

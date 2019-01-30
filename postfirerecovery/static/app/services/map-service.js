@@ -77,6 +77,7 @@
             map.data.addGeoJson(geojson);
 
             map.data.setStyle({
+                fillOpacity: 1,
                 fillColor: 'red',
                 strokeWeight: 2,
                 clickable: false
