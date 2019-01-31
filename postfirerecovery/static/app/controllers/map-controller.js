@@ -15,10 +15,10 @@
 
         // Download link
         $scope.typologyCSV = '/static/data/typology_value.csv';
-        $scope.highVegetationBurn = '/static/data/vegetation_burn_severity/high.geo.json';
-        $scope.lowVegetationBurn = '/static/data/vegetation_burn_severity/low.geo.json';
-        $scope.moderateVegetationBurn = '/static/data/vegetation_burn_severity/moderate.geo.json';
-        $scope.unchangedVegetation = '/static/data/vegetation_burn_severity/unchanged.geo.json';
+        $scope.highVegetationBurn = '/static/data/vegetation_burn_severity/high.severity.zip';
+        $scope.lowVegetationBurn = '/static/data/vegetation_burn_severity/low.severity.zip';
+        $scope.moderateVegetationBurn = '/static/data/vegetation_burn_severity/moderate.severity.zip';
+        $scope.unchangedVegetation = '/static/data/vegetation_burn_severity/unchanged.zip';
 
         // areas and overlay params
         // available overlays are
