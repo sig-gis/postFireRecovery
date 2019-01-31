@@ -13,6 +13,14 @@
         // Global Variables
         var map = MapService.init();
 
+        // Init
+        // get tooltip activated
+        $('.js-tooltip').tooltip();
+        // selectpicker
+        $timeout(function () {
+            $('.selectpicker').selectpicker();
+        });
+
         // Download link
         $scope.typologyCSV = '/static/data/typology_value.csv';
         $scope.highVegetationBurn = '/static/data/vegetation_burn_severity/high.severity.zip';
@@ -410,9 +418,6 @@
             $('.js-tooltip').tooltip();
         });
 
-        // get tooltip activated
-        $('.js-tooltip').tooltip();
-
         /*
         * Select Options for Variables
         **/
@@ -426,6 +431,9 @@
             } else if (option.value === 'fireName') {
                 $scope.selectorOptions = $scope.listFireNames;
             }
+            $timeout(function () {
+                $('.selectpicker').selectpicker('refresh');
+            });
         };
 
         /*
@@ -464,13 +472,17 @@
 
         $scope.loadSelectors = function (name) {
             removeLayer('polygon');
-            addLayer('preload');
             if ($scope.selectorOptions === $scope.hucUnits) {
                 loadHUC(name);
+                removeLayer('preload');
+                addLayer('preload');
             } else if ($scope.selectorOptions === $scope.fireParameters) {
                 loadFireParameter(name);
+                removeLayer('preload');
             } else if ($scope.selectorOptions === $scope.listFireNames) {
                 loadFireName(name);
+                removeLayer('preload');
+                addLayer('preload');
             }
         };
 
