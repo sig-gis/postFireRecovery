@@ -26,6 +26,8 @@ class Classification():
         'unchanged': ee.FeatureCollection('users/biplov/postfirerecovery/FireSeverity/unchanged_vegetation_burn'),
     }
 
+    FIRE_NAME_COLLECTION = ee.FeatureCollection('users/biplov/postfirerecovery/FireName/allArea')
+
     LANDCOVERMAP = ee.ImageCollection('users/TEST/CAFire/RandomForest/RF_classification_v2')
     COMPOSITE_FALL = ee.ImageCollection('users/TEST/CAFire/SeasonComposites/Fall_Full')
     COMPOSITE_SUMMER = ee.ImageCollection('users/TEST/CAFire/SeasonComposites/Summer_Full')
@@ -110,7 +112,8 @@ class Classification():
             self.parameter_type = Classification.BURN_PARAMETERS[parameter.lower()]
             self.geometry = self.parameter_type.geometry().bounds()
         elif fire_name:
-            self.geometry = ee.FeatureCollection('users/biplov/postfirerecovery/FireName/{}'.format(fire_name))
+            self.geometry = Classification.FIRE_NAME_COLLECTION.filterMetadata('name', 'equals', fire_name)
+            #self.geometry = ee.FeatureCollection('users/biplov/postfirerecovery/FireName/{}'.format(fire_name))
         else:
             self.geometry = Classification.GEOMETRY
 
