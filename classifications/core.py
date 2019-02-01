@@ -20,10 +20,11 @@ class Classification():
 
     # burn parameters
     BURN_PARAMETERS = {
-        'high': ee.FeatureCollection('users/biplov/postfirerecovery/FireSeverity/high_vegetation_burn'),
-        'low': ee.FeatureCollection('users/biplov/postfirerecovery/FireSeverity/low_vegetation_burn'),
-        'moderate': ee.FeatureCollection('users/biplov/postfirerecovery/FireSeverity/moderate_vegetation_burn'),
-        'unchanged': ee.FeatureCollection('users/biplov/postfirerecovery/FireSeverity/unchanged_vegetation_burn'),
+        'all': ee.FeatureCollection('users/biplov/postfirerecovery/FireSeverity/allSeverity'),
+        'high': ee.FeatureCollection('users/biplov/postfirerecovery/FireSeverity/high_severity'),
+        'low': ee.FeatureCollection('users/biplov/postfirerecovery/FireSeverity/low_severity'),
+        'moderate': ee.FeatureCollection('users/biplov/postfirerecovery/FireSeverity/moderate_severity'),
+        'unchanged': ee.FeatureCollection('users/biplov/postfirerecovery/FireSeverity/unchanged_vegetation'),
     }
 
     FIRE_NAME_COLLECTION = ee.FeatureCollection('users/biplov/postfirerecovery/FireName/allArea')

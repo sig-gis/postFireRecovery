@@ -97,9 +97,11 @@
                                 </div>
                                 <div class="form-group" ng-show="showSelectors">
                                     <label for="area-variable-filter">Select From</label>
+                                    <!--<select name="area-variable-filter" class="selectpicker show-tick dropdown" data-actions-box="true" multiple data-live-search="true" data-dropup-auto="false" data-width="100%"-->
                                     <select name="area-variable-filter" class="selectpicker show-tick dropdown" data-live-search="true" data-dropup-auto="false" data-width="100%"
                                             ng-options="option for option in selectorOptions"
                                             ng-model="name" ng-change="loadSelectors(name)">
+                                            <option value="" selected="selected">Choose</option>
                                     </select>
                                 </div>
                             </div>

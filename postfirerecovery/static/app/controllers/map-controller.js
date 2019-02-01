@@ -457,7 +457,7 @@
             $scope.hucName = null;
             $scope.parameterName = name;
             $scope.fireName = null;
-            //MapService.loadGeoJson(map, name, 'fireParameter');
+            MapService.loadGeoJson(map, name, 'fireParameter');
         };
 
         var loadFireName = function (name) {
@@ -479,6 +479,7 @@
             } else if ($scope.selectorOptions === $scope.fireParameters) {
                 loadFireParameter(name);
                 removeLayer('preload');
+                addLayer('preload');
             } else if ($scope.selectorOptions === $scope.listFireNames) {
                 loadFireName(name);
                 removeLayer('preload');
