@@ -28,11 +28,11 @@
                 }
             };
 
-            if (hucName) {
+            if (hucName && hucName.length > 0) {
                 req.data.hucName = hucName;
-            } else if (parameter) {
+            } else if (parameter && parameter.length > 0) {
               req.data.parameter = parameter;  
-            } else if (fireName) {
+            } else if (fireName && fireName.length > 0) {
                 req.data.fireName = fireName;
             } else if (shape) {
                 var shapeType = shape.type;
@@ -78,11 +78,11 @@
                 }
             };
 
-            if (hucName) {
+            if (hucName && hucName.length > 0) {
                 req.data.hucName = hucName;
-            } else if (parameter) {
+            } else if (parameter && parameter.length > 0) {
               req.data.parameter = parameter;  
-            } else if (fireName) {
+            } else if (fireName && fireName.length > 0) {
                 req.data.fireName = fireName;
             } else if (shape) {
                 var shapeType = shape.type;
@@ -144,11 +144,11 @@
                 }
             };
 
-            if (hucName) {
+            if (hucName && hucName.length > 0) {
                 req.data.hucName = hucName;
-            } else if (parameter) {
+            } else if (parameter && parameter.length > 0) {
               req.data.parameter = parameter;  
-            } else if (fireName) {
+            } else if (fireName && fireName.length > 0) {
                 req.data.fireName = fireName;
             } else if (shape) {
                 var shapeType = shape.type;
@@ -215,11 +215,11 @@
                 }
             };
 
-            if (hucName) {
+            if (hucName && hucName.length > 0) {
                 req.data.hucName = hucName;
-            } else if (parameter) {
+            } else if (parameter && parameter.length > 0) {
               req.data.parameter = parameter;  
-            } else if (fireName) {
+            } else if (fireName && fireName.length > 0) {
                 req.data.fireName = fireName;
             } else if (shape) {
                 var shapeType = shape.type;

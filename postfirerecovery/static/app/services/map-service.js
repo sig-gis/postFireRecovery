@@ -10,7 +10,7 @@
         service.init = function (lng, lat, zoom) {
 
             // Global Variables
-            var DEFAULT_ZOOM = zoom || 9.5,
+            var DEFAULT_ZOOM = zoom || 9,
                 MAX_ZOOM = 25,
                 DEFAULT_CENTER = {
                     lng: lng || -120.376589,
@@ -53,22 +53,23 @@
             if (name) {
                 if (type === 'huc') {
                     map.data.loadGeoJson(
-                        '/static/data/watersheds/' + name + '.geo.json'
+                        '/static/data/watersheds/geojson/' + name + '.geo.json'
                     );
                 } else if (type === 'fireParameter') {
                     map.data.loadGeoJson(
-                        '/static/data/vegetation_burn_severity/' + name + '.geo.json'
+                        '/static/data/vegetation_burn_severity/geojson/' + name + '.geo.json'
                     );
                 } else if (type === 'fireName') {
                     map.data.loadGeoJson(
-                        '/static/data/fire_area_by_name/' + name + '.geo.json'
+                        '/static/data/fire_area_by_name/geojson/' + name + '.geo.json'
                     );
                 }
     
                 map.data.setStyle({
-                    fillColor: 'red',
-                    strokeWeight: 2,
-                    clickable: false
+                    fillOpacity: 0,
+                    //strokeWeight: 2,
+                    clickable: false,
+                    strokeColor: 'red'
                 });
             }
         };
@@ -77,9 +78,10 @@
             map.data.addGeoJson(geojson);
 
             map.data.setStyle({
-                fillOpacity: 1,
-                fillColor: 'red',
-                strokeWeight: 2,
+                fillOpacity: 0,
+                //fillColor: 'red',
+                strokeColor: 'red',
+                //strokeWeight: 2,
                 clickable: false
             });
         };

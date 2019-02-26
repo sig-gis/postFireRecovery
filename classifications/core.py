@@ -20,14 +20,14 @@ class Classification():
 
     # burn parameters
     BURN_PARAMETERS = {
-        'all': ee.FeatureCollection('users/biplov/postfirerecovery/FireSeverity/allSeverity'),
-        'high': ee.FeatureCollection('users/biplov/postfirerecovery/FireSeverity/high_severity'),
-        'low': ee.FeatureCollection('users/biplov/postfirerecovery/FireSeverity/low_severity'),
-        'moderate': ee.FeatureCollection('users/biplov/postfirerecovery/FireSeverity/moderate_severity'),
-        'unchanged': ee.FeatureCollection('users/biplov/postfirerecovery/FireSeverity/unchanged_vegetation'),
+        'all': ee.FeatureCollection('users/biplov/postfirerecovery/FireSeverity/all'),
+        'high': ee.FeatureCollection('users/biplov/postfirerecovery/FireSeverity/high'),
+        'low': ee.FeatureCollection('users/biplov/postfirerecovery/FireSeverity/low'),
+        'moderate': ee.FeatureCollection('users/biplov/postfirerecovery/FireSeverity/moderate'),
+        'unchanged': ee.FeatureCollection('users/biplov/postfirerecovery/FireSeverity/unchanged'),
     }
-
     FIRE_NAME_COLLECTION = ee.FeatureCollection('users/biplov/postfirerecovery/FireName/allArea')
+    WATERSHEDS = ee.FeatureCollection('users/biplov/postfirerecovery/watershed/watershed')
 
     LANDCOVERMAP = ee.ImageCollection('users/TEST/CAFire/RandomForest/RF_classification_v2')
     COMPOSITE_FALL = ee.ImageCollection('users/TEST/CAFire/SeasonComposites/Fall_Full')
@@ -92,28 +92,24 @@ class Classification():
         if shape:
             self.geometry = self.get_geometry_from_shape(shape)
         elif huc_name:
-            if settings.DEBUG:
-                path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
-                                    'postfirerecovery/static/data/watersheds/',
-                                    '%s.%s' % (huc_name, 'geo.json'))
-            else:
-                path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
-                                    'static/data/watersheds/',
-                                    '%s.%s' % (huc_name, 'geo.json'))
-
-            with open(path) as f:
-                province_json = json.load(f)
-                type = province_json['type']
-                if type == 'FeatureCollection':
-                    feature = ee.FeatureCollection(province_json['features'])
-                else:
-                    feature = ee.Feature(province_json)
-                self.geometry = feature.geometry()
+            if isinstance(huc_name, (str, unicode)):
+                huc_name = [huc_name]
+            self.geometry = Classification.WATERSHEDS.filter(ee.Filter.inList('name', huc_name)).geometry()
         elif parameter:
-            self.parameter_type = Classification.BURN_PARAMETERS[parameter.lower()]
-            self.geometry = self.parameter_type.geometry().bounds()
+            self.parameter_type = True
+            #self.geometry = self.parameter_type.geometry().bounds()
+            if isinstance(parameter, (str, unicode)):
+                parameter = [parameter]
+            self.clipAOI = ee.FeatureCollection([])
+            for severity in parameter:
+                self.clipAOI = self.clipAOI.merge(Classification.BURN_PARAMETERS[severity.lower()])
+            # check the geom; maybe use the gdal to clip out area later
+            self.geometry = self.AOI.geometry()
         elif fire_name:
-            self.geometry = Classification.FIRE_NAME_COLLECTION.filterMetadata('name', 'equals', fire_name)
+            #self.geometry = Classification.FIRE_NAME_COLLECTION.filterMetadata('name', 'equals', fire_name)
+            if isinstance(fire_name, (str, unicode)):
+                fire_name = [fire_name]
+            self.geometry = Classification.FIRE_NAME_COLLECTION.filter(ee.Filter.inList('name', fire_name)).geometry()
             #self.geometry = ee.FeatureCollection('users/biplov/postfirerecovery/FireName/{}'.format(fire_name))
         else:
             self.geometry = Classification.GEOMETRY
@@ -162,7 +158,7 @@ class Classification():
         image = image.updateMask(masked_image)
 
         if self.parameter_type:
-            image = image.clipToCollection(self.parameter_type)
+            image = image.clipToCollection(self.clipAOI)
         else:
             image = image.clip(self.geometry)
 
@@ -227,7 +223,7 @@ class Classification():
                                                                         '%s-12-31' % year).mean())
 
         if self.parameter_type:
-            image = image.clipToCollection(self.parameter_type)
+            image = image.clipToCollection(self.geometry)
         else:
             image = image.clip(self.geometry)
 
@@ -281,13 +277,16 @@ class Classification():
                                        palette = palette)
 
         try:
+            if self.parameter_type:
+                image = image.clipToCollection(self.clipAOI)
+            else:
+                image = image.clip(self.geometry)
+
             download_parameters = {
                 'name': type,
-                'scale': 30
+                'scale': 30,
+                'region': self.geometry.bounds().getInfo()['coordinates']
             }
-
-            if self.parameter_type:
-                download_parameters['region'] = self.geometry.getInfo()['coordinates']
 
             url = image.getDownloadURL(download_parameters)
             return {'downloadUrl': url}
@@ -363,9 +362,9 @@ class Classification():
         image = self.get_landcover(primitives=primitives, year=year, download=True)
 
         stats = image.reduceRegion(reducer = ee.Reducer.frequencyHistogram(),
-                                   geometry = self.parameter_type.geometry() if self.parameter_type else self.geometry,
+                                   geometry = self.geometry,
                                    crs = 'EPSG:3310', #'EPSG:6418',
-                                   scale = 30,
+                                   scale = 100,
                                    maxPixels = 1E13
                                    )
 

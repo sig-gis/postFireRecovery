@@ -4,7 +4,7 @@
     angular.module('postfirerecovery')
     .controller('mapController', function (appSettings, $rootScope, $scope, $sanitize, $timeout, CommonService, LandCoverService, MapService) {
 
-        var DEFAULT_ZOOM = 9.5,
+        var DEFAULT_ZOOM = 9,
             DEFAULT_CENTER = {
                 lng: -120.376589,
                 lat: 39.9380701
@@ -23,10 +23,10 @@
 
         // Download link
         $scope.typologyCSV = '/static/data/typology_value.csv';
-        $scope.highVegetationBurn = '/static/data/vegetation_burn_severity/high.severity.zip';
-        $scope.lowVegetationBurn = '/static/data/vegetation_burn_severity/low.severity.zip';
-        $scope.moderateVegetationBurn = '/static/data/vegetation_burn_severity/moderate.severity.zip';
-        $scope.unchangedVegetation = '/static/data/vegetation_burn_severity/unchanged.zip';
+        $scope.highVegetationBurn = '/static/data/vegetation_burn_severity/shapefiles/high.severity.zip';
+        $scope.lowVegetationBurn = '/static/data/vegetation_burn_severity/shapefiles/low.severity.zip';
+        $scope.moderateVegetationBurn = '/static/data/vegetation_burn_severity/shapefiles/moderate.severity.zip';
+        $scope.unchangedVegetation = '/static/data/vegetation_burn_severity/shapefiles/unchanged.zip';
 
         // areas and overlay params
         // available overlays are
@@ -37,9 +37,9 @@
         $scope.hucUnits = appSettings.hucUnits;
         $scope.fireParameters = appSettings.fireParameters;
         $scope.listFireNames = appSettings.listFireNames;
-        $scope.hucName = null;
-        $scope.parameterName = null;
-        $scope.fireName = null;
+        $scope.hucName = [];
+        $scope.parameterName = [];
+        $scope.fireName = [];
         $scope.shownGeoJson = null;
         $scope.seasons = appSettings.seasons;
         $scope.bands = appSettings.bands;
@@ -120,9 +120,9 @@
                     case 'composite':
                         $scope.compositeOpacity = $(this).data('slider').getValue();
                         break;
-                    case 'predefined':
-                        $scope.predefinedAreaOpacity = $(this).data('slider').getValue();
-                        break;
+                    //case 'predefined':
+                    //    $scope.predefinedAreaOpacity = $(this).data('slider').getValue();
+                    //    break;
                 }
             })
             .on('slideStop', function (event) {
@@ -140,7 +140,7 @@
                             $scope.overlays.composite.setOpacity(value);
                         }
                         break;
-                    case 'preload':
+                    /*case 'preload':
                         value = $(this).data('slider').getValue();
                         if (value !== $scope.predefinedAreaOpacity) {
                             map.data.setStyle({
@@ -150,7 +150,7 @@
                                 clickable: false
                             });
                         }
-                        break;
+                        break;*/
                 }
             });
         };
@@ -212,11 +212,9 @@
                         case 'preload':
                             map.data.forEach(function (feature) {
                                 map.data.setStyle({
-                                    fillOpacity: $scope.predefinedAreaOpacity,
                                     visible: true,
-                                    fillColor: 'red',
-                                    strokeWeight: 2,
-                                    clickable: false
+                                    fillOpacity: 0,
+                                    strokeColor: 'red'
                                 });
                             });
                             break;
@@ -271,7 +269,7 @@
 
             $('#layer-tab').append(_container);
 
-            if (overlayType === 'polygon') {
+            if (overlayType === 'polygon' || overlayType === 'preload') {
                 legendBlock.removeChild(opacitySliderContainer);
                 layerHeading.removeChild(legendCaret);
             }
@@ -284,7 +282,7 @@
                 $('#layer-tab #layer-control-' + overlayType).remove();
             }
             var response = createLayerContainer(overlayType);
-            if (overlayType !== 'polygon') {
+            if (!((overlayType === 'polygon') || (overlayType === 'preload'))) {
                 initializeLayerSlider('layer-opacity-slider-' + overlayType, overlayType);
             }
         };
@@ -444,9 +442,11 @@
             MapService.removeGeoJson(map);
             $scope.shape = {};
             $scope.hucName = name;
-            $scope.parameterName = null;
-            $scope.fireName = null;
-            MapService.loadGeoJson(map, name, 'huc');
+            $scope.parameterName = [];
+            $scope.fireName = [];
+            for (var i=0; i<name.length; i++) {
+                MapService.loadGeoJson(map, name[i], 'huc');
+            }
         };
 
         var loadFireParameter = function (name) {
@@ -454,20 +454,24 @@
             MapService.clearDrawing($scope.overlays.polygon);
             MapService.removeGeoJson(map);
             $scope.shape = {};
-            $scope.hucName = null;
+            $scope.hucName = [];
             $scope.parameterName = name;
-            $scope.fireName = null;
-            MapService.loadGeoJson(map, name, 'fireParameter');
+            $scope.fireName = [];
+            //for (var i=0; i<name.length; i++) {
+            //   MapService.loadGeoJson(map, name[i], 'fireParameter');
+            //}
         };
 
         var loadFireName = function (name) {
             MapService.clearDrawing($scope.overlays.polygon);
             MapService.removeGeoJson(map);
             $scope.shape = {};
-            $scope.hucName = null;
-            $scope.parameterName = null;
+            $scope.hucName = [];
+            $scope.parameterName = [];
             $scope.fireName = name;
-            MapService.loadGeoJson(map, name, 'fireName');
+            for (var i=0; i<name.length; i++) {
+                MapService.loadGeoJson(map, name[i], 'fireName');
+            }
         };
 
         $scope.loadSelectors = function (name) {
@@ -489,9 +493,9 @@
 
         // Default the administrative area selection
         var clearSelectedArea = function () {
-            $scope.hucName = null;
-            $scope.parameterName = null;
-            $scope.fireName = null;
+            $scope.hucName = [];
+            $scope.parameterName = [];
+            $scope.fireName = [];
             $scope.$apply();
         };
 
@@ -513,7 +517,9 @@
             .then(function (data) {
                 var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, type);
                 loadMap(type, mapType);
-                addLayer(type);
+                if (!($scope.parameterName.length)) {
+                    addLayer(type);
+                }
                 $timeout(function () {
                     $scope.showAlert('info', 'The map data shows the landcover data for ' + $scope.sliderYear);
                 }, 3500);
@@ -529,7 +535,7 @@
                 compositeCheck = true;
 
             var hasPolygon = (['polygon', 'circle', 'rectangle'].indexOf($scope.shape.type) > -1);
-            if (!hasPolygon && !$scope.hucName && !$scope.parameterName && !$scope.fireName) {
+            if (!hasPolygon && !$scope.hucName.length && !$scope.parameterName.length && !$scope.fireName.length) {
                 $scope.showAlert('danger', 'Please draw a polygon or select HUC or severity index before proceding to download!');
                 polygonCheck = false;
             }
@@ -638,7 +644,7 @@
 
         // Geojson listener
         map.data.addListener('addfeature', function (event) {
-            if ('FIRE_YEAR' in event.feature.l) {
+            if ($scope.hucName.length > 1 || $scope.parameterName.length > 1 || $scope.fireName.length > 1) {
                 setDefaultView();
             } else {
                 $scope.shownGeoJson = event.feature;
@@ -827,7 +833,7 @@
                 .then(function (data) {
                     var message = 'Your Download Link is ready!';
                     if ($scope.parameterName) {
-                        message += '<br/>Please get the exact severity boundary from the Download Button';
+                        message += '<br/>You can clip using boundary from the Download dropdown';
                     }
                     $scope.showAlert('success', message);
                     $scope[type + 'DownloadURL'] = data.downloadUrl;

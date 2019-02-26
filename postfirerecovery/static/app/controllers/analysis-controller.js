@@ -211,6 +211,15 @@
             $scope.showMapLoader = false;
         };
 
+        // Area filter
+        $scope.hucUnits = appSettings.hucUnits;
+        $scope.fireParameters = appSettings.fireParameters;
+        $scope.listFireNames = appSettings.listFireNames;
+        $scope.selectors = appSettings.selectors;
+        $scope.hucName = [];
+        $scope.parameterName = [];
+        $scope.fireName = [];
+
         /**
          * Starts the Google Earth Engine application. The main entry point.
          */
@@ -236,14 +245,6 @@
             });
         };
 
-        // Area filter
-        $scope.hucUnits = appSettings.hucUnits;
-        $scope.fireParameters = appSettings.fireParameters;
-        $scope.listFireNames = appSettings.listFireNames;
-        $scope.selectors = appSettings.selectors;
-        $scope.hucName = null;
-        $scope.parameterName = null;
-        $scope.fireName = null;
         /*
         * Select Options for Variables
         **/
@@ -264,19 +265,19 @@
         **/
         var loadHUC = function (name) {
             $scope.hucName = name;
-            $scope.fireName = null;
-            $scope.parameterName = null;
+            $scope.fireName = [];
+            $scope.parameterName = [];
         };
 
         var loadFireParameter = function (name) {
-            $scope.hucName = null;
-            $scope.fireName = null;
+            $scope.hucName = [];
+            $scope.fireName = [];
             $scope.parameterName = name;
         };
 
         var loadFireName = function (name) {
-            $scope.hucName = null;
-            $scope.parameterName = null;
+            $scope.hucName = [];
+            $scope.parameterName = [];
             $scope.fireName = name;
         };
 
