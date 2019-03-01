@@ -3,22 +3,26 @@ var settings = {
         {
             'name': 'Map',
             'url': 'map',
-            'show': true
+            'show': true,
+            'sref': true
         },
         {
             'name': 'Analysis',
             'url': 'analysis',
-            'show': true
+            'show': true,
+            'sref': true
         },
         {
             'name': 'How To Use',
-            'url': '#',
-            'show': true
+            'url': 'https://goo.gl/sD9QLo',
+            'show': true,
+            'sref': false
         },
         {
             'name': 'Contact Us',
             'url': 'contact_us',
-            'show': true
+            'show': true,
+            'sref': true
         }
     ],
     applicationName: 'Post Fire Vegetation Monitoring System',
