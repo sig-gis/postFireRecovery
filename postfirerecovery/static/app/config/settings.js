@@ -13,6 +13,12 @@ var settings = {
             'sref': true
         },
         {
+            'name': 'Data',
+            'url': '/static/data/',
+            'show': true,
+            'sref': false
+        },
+        {
             'name': 'How To Use',
             'url': 'https://goo.gl/sD9QLo',
             'show': true,
