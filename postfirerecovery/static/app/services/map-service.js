@@ -49,7 +49,14 @@
          * GeoJson
          **/
 
-        service.loadGeoJson = function (map, name, type) {
+        service.loadGeoJson = function (options) {
+            var map        = options.map,
+                name       = options.name,
+                type       = options.type,
+                clickInfo  = options.clickInfo || false;
+
+            if (typeof(clickInfo) === 'undefined') clickInfo = false;
+
             if (name) {
                 if (type === 'huc') {
                     map.data.loadGeoJson(
@@ -64,11 +71,10 @@
                         '/static/data/fire_area_by_name/geojson/' + name + '.geo.json'
                     );
                 }
-    
                 map.data.setStyle({
                     fillOpacity: 0,
                     //strokeWeight: 2,
-                    clickable: false,
+                    clickable: clickInfo,
                     strokeColor: 'red'
                 });
             }

@@ -43,7 +43,7 @@
         $scope.hucName = [];
         $scope.parameterName = [];
         $scope.fireName = [];
-        $scope.shownGeoJson = null;
+        //$scope.shownGeoJson = null;
         $scope.seasons = appSettings.seasons;
         $scope.bands = appSettings.bands;
         $scope.bandSelector = appSettings.bandSelector;
@@ -70,6 +70,8 @@
         for (var j = 0; j < $scope.landCoverClasses.length; j++) {
             $scope.assemblageLayers.push(j.toString());
         }
+
+        $scope.infowindow = new google.maps.InfoWindow();
 
         var setDefaultView = function () {
             map.setZoom(DEFAULT_ZOOM);
@@ -432,7 +434,13 @@
             $scope.parameterName = [];
             $scope.fireName = [];
             for (var i=0; i<name.length; i++) {
-                MapService.loadGeoJson(map, name[i], 'huc');
+                var options = {
+                    map        : map,
+                    name       : name[i],
+                    type       : 'huc',
+                    clickInfo  : true
+                };
+                MapService.loadGeoJson(options);
             }
         };
 
@@ -457,7 +465,13 @@
             $scope.parameterName = [];
             $scope.fireName = name;
             for (var i=0; i<name.length; i++) {
-                MapService.loadGeoJson(map, name[i], 'fireName');
+                var options = {
+                    map        : map,
+                    name       : name[i],
+                    type       : 'fireName',
+                    clickInfo  : true
+                };
+                MapService.loadGeoJson(options);
             }
         };
 
@@ -631,7 +645,7 @@
             if ($scope.hucName.length > 1 || $scope.parameterName.length > 1 || $scope.fireName.length > 1) {
                 setDefaultView();
             } else {
-                $scope.shownGeoJson = event.feature;
+                //$scope.shownGeoJson = event.feature;
                 var bounds = new google.maps.LatLngBounds();
                 var _geometry = event.feature.getGeometry();
                 MapService.processPoints(_geometry, bounds.extend, bounds);
@@ -639,8 +653,22 @@
             }
         });
 
+        // Set click event for each feature.
+        map.data.addListener('click', function (event) {
+            var content = event.feature.getProperty('name');
+            $scope.infowindow.setContent("<div style='width:150px; text-align: center;'>" + content + "</div>");
+            //infowindow.setPosition(event.feature.getGeometry().get());
+            $scope.infowindow.setPosition({ lat: event.latLng.lat(), lng: event.latLng.lng() });
+            //$scope.infowindow.setOptions({ pixelOffset: new google.maps.Size(0, -30) });
+            $scope.infowindow.open(map);
+        });
+
         map.data.addListener('removefeature', function (event) {
-            $scope.shownGeoJson = null;
+            //$scope.shownGeoJson = null;
+        });
+
+        map.addListener('click', function() {
+            $scope.infowindow.close();
         });
 
         /**
