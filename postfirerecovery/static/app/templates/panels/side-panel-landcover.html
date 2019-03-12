@@ -15,6 +15,12 @@
                     <div class="hidden-xs">Composite</div>
                 </button>
             </div>
+            <div class="btn-group" role="group">
+                <button type="button" id="fire-dataset" class="btn btn-default js-tooltip" href="#fire-datasets-tab" data-toggle="tab" title="Fire related remote sensing datasets" data-placement="bottom">
+                    <span class="fa fa-fire fa-2x" aria-hidden="true"></span>
+                    <div class="hidden-xs">Other Datasets</div>
+                </button>
+            </div>
             <!--<div class="btn-group" role="group">
                 <button type="button" id="primitive" class="btn btn-default js-tooltip" href="#primitive-tab" data-toggle="tab" title="View Primitives" data-placement="bottom">
                     <span class="glyphicon glyphicon-leaf" aria-hidden="true"></span>
@@ -223,6 +229,26 @@
 
                 </div>
                 <!-- End of Composite Tab -->
+
+                <!-- Start of Datasets Tab -->
+                <div class="tab-pane fade in"  id="fire-datasets-tab">
+
+                    <!-- Start of Dataset Fieldset -->
+                    <fieldset class="row lcp-class-container">
+                        <div class="form-group">
+                            <label for="datasets" class="js-tooltip" title="">
+                                Choose Datasets
+                            </label>
+                            <select name="datasets" class="form-control"
+                                    ng-options="item.name for item in fireDatasets"
+                                    ng-model="fireItem"
+                                    ng-change="getFireDatasets(fireItem)">
+                            </select>
+                        </div>
+                        <a target="_blank" href="[[ datasetURL ]]" ng-show="datasetURL">Learn more about the dataset!<a>
+                    </fieldset>
+                </div>
+                <!-- End of Datasets Tab -->
 
             </div>
             <!-- End of Tab Content -->

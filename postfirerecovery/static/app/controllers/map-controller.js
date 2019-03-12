@@ -21,6 +21,9 @@
             $('.selectpicker').selectpicker();
         });
 
+        // Fire datasets
+        $scope.fireDatasets = appSettings.fireDatasets;
+
         // Download link
         $scope.typologyCSV = '/static/data/typology_value.csv';
         $scope.highVegetationBurn = '/static/data/vegetation_burn_severity/shapefiles/high.severity.zip';
@@ -101,11 +104,8 @@
         /*
          * Layer Legend
          */
-        $scope.landcoverOpacity = 1;
-        $scope.compositeOpacity = 1;
-        $scope.predefinedAreaOpacity = 1;
-
         var initializeLayerSlider = function (className, overlayType) {
+            $scope[overlayType + 'Opacity'] = 1;
             var layerSlider = $('.' + className).slider({
                 formatter: function (value) {
                     return value;
@@ -113,44 +113,12 @@
                 //tooltip: 'always'
             })
             .on('slideStart', function (event) {
-                switch (overlayType) {
-                    case 'landcovermap':
-                        $scope.landcoverOpacity = $(this).data('slider').getValue();
-                        break;
-                    case 'composite':
-                        $scope.compositeOpacity = $(this).data('slider').getValue();
-                        break;
-                    //case 'predefined':
-                    //    $scope.predefinedAreaOpacity = $(this).data('slider').getValue();
-                    //    break;
-                }
+                $scope[overlayType + 'Opacity'] = $(this).data('slider').getValue();
             })
             .on('slideStop', function (event) {
-                var value;
-                switch (overlayType) {
-                    case 'landcovermap':
-                        value = $(this).data('slider').getValue();
-                        if (value !== $scope.landcoverOpacity) {
-                            $scope.overlays.landcovermap.setOpacity(value);
-                        }
-                        break;
-                    case 'composite':
-                        value = $(this).data('slider').getValue();
-                        if (value !== $scope.compositeOpacity) {
-                            $scope.overlays.composite.setOpacity(value);
-                        }
-                        break;
-                    /*case 'preload':
-                        value = $(this).data('slider').getValue();
-                        if (value !== $scope.predefinedAreaOpacity) {
-                            map.data.setStyle({
-                                fillOpacity: value,
-                                fillColor: 'red',
-                                strokeWeight: 2,
-                                clickable: false
-                            });
-                        }
-                        break;*/
+                var value = $(this).data('slider').getValue();
+                if (value !== $scope[overlayType + 'Opacity']) {
+                    $scope.overlays[overlayType].setOpacity(value);
                 }
             });
         };
@@ -158,10 +126,13 @@
         var createLayerContainer = function (overlayType) {
 
             var overlayName = {
-                'landcovermap': 'Land Cover Map for ' + $scope.sliderYear,
-                'composite'   : 'Composite Map for ' + $scope.sliderYear,
-                'polygon'     : 'User Defined Area',
-                'preload'     : 'Pre-defined Area'
+                'landcovermap' : 'Land Cover Map for ' + $scope.sliderYear,
+                'composite'    : 'Composite Map for ' + $scope.sliderYear,
+                'polygon'      : 'User Defined Area',
+                'preload'      : 'Pre-defined Area',
+                'NASA_FIRMS'   : 'NASA FIRMS T21 for ' + $scope.sliderYear,
+                'TERRA_THERMAL': 'Terra Thermal MaxFRP for ' + $scope.sliderYear,
+                'AQUA_THERMAL' : 'Aqua Thermal MaxFRP for ' + $scope.sliderYear
             };
 
             var toggleLayerSlider = function () {
@@ -178,38 +149,24 @@
                 if ($(this).hasClass('fa-eye')) {
                     $(this).removeClass('fa-eye').addClass('fa-eye-slash');
                     $('#layer-opacity-slider-' + overlayType).addClass('display-none-imp');
-                    switch (overlayType) {
-                        case 'landcovermap':
-                            $scope.overlays.landcovermap.setOpacity(0);
-                            break;
-                        case 'composite':
-                            $scope.overlays.composite.setOpacity(0);
-                            break;
-                        case 'polygon':
-                            $scope.overlays.polygon.setVisible(false);
-                            break;
-                        case 'preload':
+                    if (['polygon', 'preload'].indexOf(overlayType) > -1) {
+                        if (overlayType === 'preload') {
                             map.data.forEach(function (feature) {
                                 map.data.setStyle({
                                     visible: false
                                 });
                             });
-                            break;
+                        } else {
+                            $scope.overlays[overlayType].setVisible(false);
+                        }
+                    } else {
+                        $scope.overlays[overlayType].setOpacity(0);
                     }
                 } else {
                     $(this).removeClass('fa-eye-slash').addClass('fa-eye');
                     $('#layer-opacity-slider-' + overlayType).removeClass('display-none-imp');
-                    switch (overlayType) {
-                        case 'landcovermap':
-                            $scope.overlays.landcovermap.setOpacity(1);
-                            break;
-                        case 'composite':
-                            $scope.overlays.composite.setOpacity(1);
-                            break;
-                        case 'polygon':
-                            $scope.overlays.polygon.setVisible(true);
-                            break;
-                        case 'preload':
+                    if (['polygon', 'preload'].indexOf(overlayType) > -1) {
+                        if (overlayType === 'preload') {
                             map.data.forEach(function (feature) {
                                 map.data.setStyle({
                                     visible: true,
@@ -217,7 +174,11 @@
                                     strokeColor: 'red'
                                 });
                             });
-                            break;
+                        } else {
+                            $scope.overlays[overlayType].setVisible(true);
+                        }
+                    } else {
+                        $scope.overlays[overlayType].setOpacity(1);
                     }
                 }
             };
@@ -269,7 +230,7 @@
 
             $('#layer-tab').append(_container);
 
-            if (overlayType === 'polygon' || overlayType === 'preload') {
+            if (['polygon', 'preload'].indexOf(overlayType) > -1) {
                 legendBlock.removeChild(opacitySliderContainer);
                 layerHeading.removeChild(legendCaret);
             }
@@ -282,7 +243,9 @@
                 $('#layer-tab #layer-control-' + overlayType).remove();
             }
             var response = createLayerContainer(overlayType);
-            if (!((overlayType === 'polygon') || (overlayType === 'preload'))) {
+            if (['polygon', 'preload'].indexOf(overlayType) > -1) {
+                console.log('no slider initialized');
+            } else {
                 initializeLayerSlider('layer-opacity-slider-' + overlayType, overlayType);
             }
         };
@@ -291,6 +254,30 @@
             if ($('#layer-tab #layer-control-' + overlayType).length > 0) {
                 $('#layer-tab #layer-control-' + overlayType).remove();
             }
+        };
+
+        // Datasets
+        $scope.getFireDatasets = function (item) {
+            $scope.datasetURL = item.url;
+            $scope.showLoader = true;
+            var parameters = {
+                name: item.datasetName,
+                year: $scope.sliderYear
+            };
+            LandCoverService.getDataset(parameters)
+            .then(function (data) {
+                // Clear before adding
+                MapService.clearLayer(map, item.datasetName);
+                var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, item.datasetName);
+                loadMap(item.datasetName, mapType);
+                addLayer(item.datasetName);
+                $timeout(function () {
+                    $scope.showAlert('info', 'The map data shows the ' + item.name + ' for ' + $scope.sliderYear);
+                }, 3500);
+            }, function (error) {
+                $scope.showAlert('danger', error.error);
+                console.log(error);
+            });
         };
 
         /**
@@ -478,15 +465,12 @@
             removeLayer('polygon');
             if ($scope.selectorOptions === $scope.hucUnits) {
                 loadHUC(name);
-                removeLayer('preload');
                 addLayer('preload');
             } else if ($scope.selectorOptions === $scope.fireParameters) {
                 loadFireParameter(name);
-                removeLayer('preload');
                 addLayer('preload');
             } else if ($scope.selectorOptions === $scope.listFireNames) {
                 loadFireName(name);
-                removeLayer('preload');
                 addLayer('preload');
             }
         };

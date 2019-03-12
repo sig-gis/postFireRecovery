@@ -126,6 +126,30 @@
                 overlay.setMap(null);
             }
         };
+
+        /*service.loadWMS = function (name, wmsURL, map) {
+			var eeMapOptions = {
+				getTileUrl: function (coord, zoom) {
+                    var proj = map.getProjection();
+                    var zfactor = Math.pow(2, zoom);
+                    // get Long Lat coordinates
+                    var top = proj.fromPointToLatLng(new google.maps.Point(coord.x * 256 / zfactor, coord.y * 256 / zfactor));
+                    var bot = proj.fromPointToLatLng(new google.maps.Point((coord.x + 1) * 256 / zfactor, (coord.y + 1) * 256 / zfactor));
+    
+                    //create the Bounding box string
+                    var bbox = (top.lng().toFixed(2)) + ',' +
+                               (bot.lat().toFixed(2)) + ',' +
+                               (bot.lng().toFixed(2)) + ',' +
+                               (top.lat().toFixed(2));
+					return wmsURL += '&BBOX=' + bbox;
+				},
+				tileSize: new google.maps.Size(256, 256),
+				name: name,
+                opacity: 1.0,
+                isPng: true
+			};
+			return new google.maps.ImageMapType(eeMapOptions);
+        };*/
     
         service.getMapType = function (mapId, mapToken, type) {
             var eeMapOptions = {

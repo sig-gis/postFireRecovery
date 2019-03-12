@@ -19,6 +19,7 @@ PUBLIC_METHODS = [
     'get-download-url',
     'download-to-drive',
     'get-stats',
+    'dataset'
 ]
 
 @csrf_exempt
@@ -41,6 +42,7 @@ def api(request):
         type = post('type', 'landcover')
         report_area = True if get('report-area') == 'true' else False
         primitives = post('primitives', range(0, len(Classification.CLASSES)))
+        dataset = post('name', '')
         if isinstance(primitives, (unicode, str)):
             try:
                 primitives = primitives.split(',')
@@ -80,6 +82,9 @@ def api(request):
                                       blue_band = blue_band,
                                       grayscale_band = grayscale_band,
                                       palette = palette)
+
+        elif action == 'dataset':
+            data = Classification.get_dataset(year=year, name=dataset)
 
         elif action == 'get-download-url':
             data = core.get_download_url(type = type,

@@ -72,6 +72,27 @@ var settings = {
             'name': 'Vegetation Burn Severity'
         }
     ],
+    fireDatasets: [
+        {
+            'name'       : 'NASA FIRMS T21',
+            'datasetName': 'NASA_FIRMS',
+            'url'        : 'https://developers.google.com/earth-engine/datasets/catalog/FIRMS'
+        },
+        {
+            'name'       : 'Terra Thermal MaxFRP',
+            'datasetName': 'TERRA_THERMAL',
+            'url'        : 'https://developers.google.com/earth-engine/datasets/catalog/MODIS_006_MOD14A1'
+        },
+        {
+            'name'       : 'Aqua Thermal MaxFRP',
+            'datasetName': 'AQUA_THERMAL',
+            'url'        : 'https://developers.google.com/earth-engine/datasets/catalog/MODIS_006_MYD14A1'
+        }
+        /*{
+            'name' : 'FIRMS MODIS Terra 7 Days',
+            'wms'  : 'https://firms.modaps.eosdis.nasa.gov/wms/?REQUEST=GetMap&layers=fires_terra_7&WIDTH=1024&HEIGHT=512&BBOX=-180,-90,180,90&MAP_KEY=fa826d02e3ba2a61a559efad46da25b0'
+        }*/
+    ],
     fireParameters: ['High', 'Low', 'Moderate', 'Unchanged'],
     // this list is generated from python script at /scripts/list-firenames.py
     listFireNames: ['Antelope_Cmplx_2007', 'Assist_Pnf_1987', 'Bar_2010', 'Bassetts_2006', 'Bear_2008', 'Belden_2008', 'Boulder_Cmplx_2006', 'Bucks_1999', 'Buttes_1990', 'Capnf00000282_1988', 'Catoi00000031_1984', 'Celina_2008', 'Chips_2012', 'Clark_1987', 'Cold_2008', 'Cooks_1996', 'Cottonwood_1994', 'Cottonwood_2004', 'Crystal_1994', 'Cub_2008', 'Devilsgap_1999', 'Eagle_1989', 'Elephant_2009', 'Eureka_2017', 'Grease_2006', 'Greengulch_1984', 'Greenhorn_1990', 'Harding_2005', 'Hartman_2008', 'Horton2_1999', 'Indian_1987', 'Layman_1989', 'Little_2008', 'Lookout_1999', 'Maddalena_1996', 'Milford_Grade_2009', 'Minerva5_2017', 'Moonlight_2007', 'Palmer_1987', 'Peak_2012', 'Pidgen_1999', 'Pit_2008', 'Rack_1989', 'Rich_2008', 'Ridge_Heights_2013', 'Rock_Creek_2001', 'Scotch_2008', 'Silver_2009', 'Stag_1999', 'Storrie_2000', 'Stream_2001', 'Tobin_2016', 'Treasure_2001', 'Usfs_Assist3_1988', 'Walker_1990'],

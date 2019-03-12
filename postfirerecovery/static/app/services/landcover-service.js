@@ -260,55 +260,32 @@
             return promise;
         };
 
-        service.saveToDrive = function (type, shape, areaSelectFrom, areaName, year, primitives, fileName, index, serviceType) {
+        service.getDataset = function (options) {
 
-            var url = '/api/landcover/';
-            if (serviceType === 'myanmar-fra') {
-                url = '/api/myanmar-fra/';
-            } else if (serviceType === 'myanmar-fra') {
-                url = '/api/myanmar-ipcc';
-            }
+            var name = options.name;
+            var year = options.year;
 
             var req = {
                 method: 'POST',
                 url: '/api/landcover/',
                 data: {
-                    year: year,
-                    type: type,
-                    primitives: primitives.toString(),
-                    fileName: fileName,
-                    index: index
+                    name: name,
+                    year: year
                 },
                 params: {
-                    action: 'download-to-drive'
+                    action: 'dataset'
                 }
             };
 
-            if (areaSelectFrom && areaName) {
-                req.data.areaSelectFrom = areaSelectFrom;
-                req.data.areaName = areaName;
-            } else {
-                var shapeType = shape.type;
-                if (shapeType === 'rectangle' || shapeType === 'polygon') {
-                    req.data.shape = shapeType;
-                    req.data.geom = shape.geom.toString();
-                } else if (shapeType === 'circle') {
-                    req.data.shape = shapeType;
-                    req.data.radius = shape.radius;
-                    req.data.center = shape.center.toString();
-                }
-            }
-
             var promise = $http(req)
-                .then(function (response) {
-                    return response.data;
-                })
-                .catch(function (e) {
-                    console.log('Error: ', e);
-                    throw e.data;
-                });
+            .then(function (response) {
+                return response.data;
+            })
+            .catch(function (e) {
+                console.log('Error: ', e);
+                throw e.data;
+            });
             return promise;
-
         };
 
     });

@@ -33,6 +33,11 @@ class Classification():
     COMPOSITE_FALL = ee.ImageCollection('users/TEST/CAFire/SeasonComposites/Fall_Full')
     COMPOSITE_SUMMER = ee.ImageCollection('users/TEST/CAFire/SeasonComposites/Summer_Full')
 
+    # other datasets
+    NASA_FIRMS = ee.ImageCollection('FIRMS')
+    TERRA_THERMAL = ee.ImageCollection('MODIS/006/MOD14A1')
+    AQUA_THERMAL = ee.ImageCollection('MODIS/006/MYD14A1')
+
     # Class and Index
     CLASSES = [
         {
@@ -134,6 +139,44 @@ class Classification():
                 return ee.Geometry.Polygon(coor_list)
 
         return Classification.GEOMETRY
+
+    # -------------------------------------------------------------------------
+    @staticmethod
+    def get_dataset(year, name):
+
+        if year:
+            year = str(year)
+
+        if name == 'NASA_FIRMS':
+            image = Classification.NASA_FIRMS.filterDate(year + '-01-01', year + '-12-31').select(['T21'])
+            map_id = image.getMapId({
+                'min'    : '300',
+                'max'    : '500',
+                'palette': 'green,orange,yellow,red'
+            })
+        elif name == 'TERRA_THERMAL':
+            image_collection = Classification.TERRA_THERMAL.filterDate(year + '-01-01', year + '-12-31')
+            map_id = image_collection.getMapId({
+                'min': '0.0',
+                'max': '6000.0',
+                'bands': ['MaxFRP', 'FireMask', 'FireMask']
+            })
+        elif name == 'AQUA_THERMAL':
+            image_collection = Classification.AQUA_THERMAL.filterDate(year + '-01-01', year + '-12-31')
+            map_id = image_collection.getMapId({
+                'min': '0.0',
+                'max': '6000.0',
+                'bands': ['MaxFRP', 'FireMask', 'FireMask']
+            })
+        else:
+            return {'error': 'The requested dataset is not available. The available options are' + 
+                             'NASA_FIRMS, TERRA_THERMAL, AQUA_THERMAL'
+            }
+
+        return {
+            'eeMapId': str(map_id['mapid']),
+            'eeMapToken': str(map_id['token'])
+        }
 
     # -------------------------------------------------------------------------
     def get_landcover(self, primitives=range(0, 8), year=2018, download=False):
