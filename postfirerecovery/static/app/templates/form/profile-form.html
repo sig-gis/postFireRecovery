@@ -1,0 +1,71 @@
+<form id="profile-form" role="form" name="profileForm" novalidate>
+    <div class="row form-group" style="margin-top: 20px;" ng-class="{ 'has-error': profileForm.username.$touched && profileForm.username.$invalid }">
+        <div class="col-sm-5">
+            <label for="username" style="margin-left: 40%;">User Name</label>
+        </div>
+        <div class="col-sm-5">
+            <input type="text" class="nav-profile-input form-control" id="profile-username" name="username" value="[[ userName ]]" ng-model="userName" placeholder="Username" required>
+            <div class="help-block" ng-messages="profileForm.username.$error" ng-if="profileForm.username.$touched && profileForm.username.$invalid">
+                <p ng-message="required">Enter a username.</p>
+            </div>
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-sm-5">
+            <label for="firstname" style="margin-left: 40%;">First Name</label>
+        </div>
+        <div class="col-sm-5">
+            <input type="text" class="form-control nav-profile-input" id="profile-firstname" name="firstname" value="[[ firstName ]]" ng-model="firstName" placeholder="First Name">
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-sm-5">
+            <label for="lastname" style="margin-left: 40%;">Last Name</label>
+        </div>
+        <div class="col-sm-5">
+            <input type="text" class="form-control nav-profile-input" id="profile-lastname" name="lastname" value="[[ lastName ]]" ng-model="lastName" placeholder="Last Name">
+        </div>
+    </div>
+    <div class="row form-group" ng-class="{ 'has-error': profileForm.email.$invalid && !profileForm.email.$pristine }">
+        <div class="col-sm-5">
+            <label for="email" style="margin-left: 40%;">Email Address</label>
+        </div>
+        <div class="col-sm-5">
+            <input type="email" class="form-control nav-profile-input" id="profile-email" name="email" value="[[ email ]]" ng-model="email" placeholder="Email Address">
+            <p ng-show="profileForm.email.$invalid && !profileForm.email.$pristine" class="help-block">Enter a valid email.</p>
+        </div>
+    </div>
+    <hr>
+    <div ng-repeat="_organization in organization">
+        <div class="row form-group" ng-class="{ 'has-error': profileForm.organization.$invalid && !profileForm.organization.$pristine }">
+            <div class="col-sm-5">
+                <label for="organization" style="margin-left: 40%;">Organization Name</label>
+            </div>
+            <div class="col-sm-5">
+                <input type="text" class="form-control nav-profile-input" id="profile-organization" name="organization" value="[[ _organization.name ]]" ng-model="_organization.name" placeholder="Organization Name" readonly>
+                <div class="help-block" ng-messages="profileForm.organization.$error" ng-if="profileForm.organization.$touched && profileForm.organization.$invalid">
+                    <p ng-message="required">Enter the organization name.</p>
+                </div>
+                <!--<div class="row" style="margin: 15px;">
+                    <button type="button" class="btn btn-primary col-sm-5 float-left">Primary</button>
+                    <button type="button" class="btn btn-danger col-sm-5 float-right">Danger</button>
+                </div>-->
+            </div>
+        </div>
+        <div class="row form-group" ng-class="{ 'has-error': profileForm.position.$invalid && !profileForm.position.$pristine }">
+            <div class="col-sm-5">
+                <label for="position" style="margin-left: 40%;">Role in Organization</label>
+            </div>
+            <div class="col-sm-5">
+                <input type="text" class="form-control nav-profile-input" id="profile-position" name="position" value="[[ _organization.position ]]" ng-model="_organization.position" placeholder="Position">
+                <p ng-show="profileForm.position.$invalid && !profileForm.position.$pristine" class="help-block">Enter your position in above organization.</p>
+            </div>
+        </div>
+    </div>
+    <div class="submit-profile-update">
+        <button type="submit" id="nav-update-profile" class="btn btn-primary" style="margin-top: 20px;" ng-click="updateProfile(profile)"
+                ng-disabled="profileForm.username.$invalid || profileForm.email.$invalid">
+            Update Profile
+        </button>
+    </div>
+</form>

@@ -11,6 +11,7 @@
         $scope.firstName = null;
         $scope.lastName = null;
         $scope.email = null;
+        $scope.organization = null;
         $scope.alertContent = '';
 
         $scope.loginErrorHandles = {};
@@ -131,6 +132,15 @@
             }
         };
 
+        $scope.showOrgTab = false
+        $('#profile-tabs .nav-tabs .nav-link').on('click', function() {
+            var thisTab = this;
+            /* Removing active effect with slideUp: */
+            $('.active').not(thisTab).removeClass('active');
+            /* After that, active the clicked tab: */
+            $(thisTab).addClass('active');
+        });
+
         $scope.getProfile = function () {
             var username = AuthService.getCurrentUser();
             var token = AuthService.getToken();
@@ -141,6 +151,12 @@
                     $scope.firstName = data.first_name;
                     $scope.lastName = data.last_name;
                     $scope.email = data.email;
+                    $scope.organization = data.organization;
+                    for (var index in $scope.organization) {
+                        if ($scope.organization[index].is_admin === true) {
+                            $scope.showOrgTab = true;
+                        }
+                    }
                 }, function (error) {
                     // unauthorized error
                     if (error.status === 401) {
@@ -166,12 +182,12 @@
 
             var username = AuthService.getCurrentUser();
             var token = AuthService.getToken();
-
             var user = {
                 username : $scope.userName,
                 firstName: $scope.firstName,
                 lastName : $scope.lastName,
-                email    : $scope.email
+                email    : $scope.email,
+                organization: $scope.organization
             };
 
             /*if (profile) {
@@ -195,13 +211,18 @@
                     $scope.profileForm.$setUntouched();
                     //$location.path('/map');
                     $scope.showAlert('success', 'Profile updated successfully! Redirecting...');
-                    $timeout(function () { $window.location.href = '/map'; }, 2000);
+                    //$timeout(function () { $window.location.href = '/map'; }, 2000);
                 }, function (error) {
                     $scope.showAlert('danger', error.status + ' ' + error.data.detail);
                 });
             } else {
                 $location.path('/login');
             }
+        };
+
+        // Organizaiton
+        $scope.updateOrganization = function (organization) {
+            console.log(organization);
         };
 
         $scope.showThankYou = false;

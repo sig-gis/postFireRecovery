@@ -55,7 +55,13 @@ class Organization(models.Model):
         return self.name
 
 class Membership(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        #related_name='membership' # default is 'membership_set'
+    )
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
     position = models.CharField(max_length=254, blank=True, null=True)
     is_admin = models.BooleanField(default=False)

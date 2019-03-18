@@ -105,7 +105,8 @@ class UserProfile(generics.RetrieveUpdateAPIView):
     permission_classes = (IsAuthenticated, IsOwner, )
 
     def get_queryset(self):
-        return UserModel.objects.filter(id=self.request.user.id)
+        #return UserModel.objects.filter(id=self.request.user.id)
+        return UserModel.objects.all().filter(pk=self.request.user.id)
 
     def get_object(self):
         queryset = self.get_queryset()
@@ -113,38 +114,44 @@ class UserProfile(generics.RetrieveUpdateAPIView):
         return obj
 
     def update(self, request):
-        self.object = self.get_object()
-        serializer = UserProfileUpdateSerializer(data=request.data)
+        data = request.data.get
+        username = data('username')
+        username = base_user.AbstractBaseUser.normalize_username(username)
 
-        if serializer.is_valid():
+        first_name = data('first_name', None)
+        last_name = data('last_name', None)
+        email = data('email', None)
+        if email:
+            email = base_user.BaseUserManager.normalize_email(email)
 
-            data = serializer.data.get
-            username = data('username')
-            username = base_user.AbstractBaseUser.normalize_username(username)
+        user = self.request.user
+        user.username = username
+        if first_name:
+            user.first_name = first_name
+        if last_name:
+            user.last_name = last_name
+        if email:
+            user.email = email
 
-            first_name = data('first_name', None)
-            last_name = data('last_name', None)
-            email = data('email', None)
-            if email:
-                email = base_user.BaseUserManager.normalize_email(email)
+        organization = data('organization', None)
+        if organization:
+            for _org in organization:
+                name = _org.get('name', None)
+                org = OrganizationModel.objects.get(name=name)
+                position = _org.get('position', None)
+                if name and org and position:
+                    UserOrgModel.objects.filter(user=user)\
+                                        .filter(organization=org)\
+                                        .update(position=position)
 
-            user = self.request.user
-            user.username = username
-            if first_name:
-                user.first_name = first_name
-            if last_name:
-                user.last_name = last_name
-            if email:
-                user.email = email
+        user.save()
 
-            user.save()
+        token, _ = Token.objects.get_or_create(user=user)
 
-            token, _ = Token.objects.get_or_create(user=user)
-
-            return Response({
-                'token': token.key,
-                'username': user.get_username(),
-            }, status=HTTP_200_OK)
+        return Response({
+            'token': token.key,
+            'username': user.get_username(),
+        }, status=HTTP_200_OK)
 
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 

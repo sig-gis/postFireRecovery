@@ -20,7 +20,7 @@ from core.serializers import ContactUsSerializer, OrganizationSerializer
 
 class OrganizationList(generics.ListAPIView):
     serializer_class = OrganizationSerializer
-    permission_classes = (IsAuthenticated, )
+    #permission_classes = (IsAuthenticated, )
     queryset = Organization.objects.all()
 
 class OrganizationCreateRead(generics.ListCreateAPIView):

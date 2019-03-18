@@ -1,0 +1,66 @@
+/* Tabs*/
+
+section .section-title {
+    text-align: center;
+    color: #444444;
+    margin-bottom: 50px;
+    text-transform: uppercase;
+}
+
+#profile-tabs {
+    color: #eee;
+    border-radius: 2px;
+    margin: 60px 0;
+    background-color: #dedfe6;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+#profile-tabs .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    color: #444444;
+    background-color: transparent;
+    border-color: transparent transparent #f3f3f3;
+    border-bottom: 4px solid !important;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#profile-tabs .nav-tabs .nav-link {
+    border: 1px solid transparent;
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+    color: #444444;
+    font-size: 20px;
+    text-align: center;
+}
+
+#profile-tabs .nav-tabs a {
+    text-decoration: none;
+}
+
+.submit-profile-update {
+    width: 100%;
+    clear: both;
+    float: none;
+    text-align: center;
+}
+
+#nav-update-profile {
+    background: #f0ad4e none repeat scroll 0 0;
+    border-color: #f0ad4e;
+    color: #ffffff;
+    width: 50%;
+    height: 50px;
+    line-height: normal;
+    padding: 10px 20px;
+    font-size: 14px;
+}
+
+.nav-profile-input {
+    min-width: 250px;
+    height: 55px;
+    line-height: normal;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+

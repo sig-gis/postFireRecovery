@@ -121,11 +121,12 @@
                     'Content-Type': 'application/json'
                 },
                 data: {
-                    username  : user.username,
+                    username    : user.username,
                     //password  : user.password,
-                    first_name: user.firstName,
-                    last_name : user.lastName,
-                    email     : user.email
+                    first_name  : user.firstName,
+                    last_name   : user.lastName,
+                    email       : user.email,
+                    organization: user.organization
                 }
             };
 

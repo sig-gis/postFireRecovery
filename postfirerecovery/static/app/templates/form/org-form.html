@@ -1,0 +1,37 @@
+<div ng-repeat="_organization in organization">
+    <form id="organization-form" role="form" name="organizationForm" novalidate>
+        <div class="row form-group" style="margin-top: 20px;" ng-class="{ 'has-error': organizationForm.name.$touched && organizationForm.name.$invalid }">
+            <div class="col-sm-5">
+                <label for="name" style="margin-left: 40%;">Name</label>
+            </div>
+            <div class="col-sm-5">
+                <input type="text" class="nav-profile-input form-control" id="org-name" name="org-name" value="[[ _organization.name ]]" ng-model="_organization.name" placeholder="Organization Name" required>
+                <div class="help-block" ng-messages="organizationForm.name.$error" ng-if="organizationForm.name.$touched && organizationForm.name.$invalid">
+                    <p ng-message="required">Enter a name of the organization.</p>
+                </div>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-sm-5">
+                <label for="url" style="margin-left: 40%;">URL</label>
+            </div>
+            <div class="col-sm-5">
+                <input type="text" class="form-control nav-profile-input" id="org-url" name="org-url" value="[[ _organization.url ]]" ng-model="_organization.url" ng-pattern="/^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/" placeholder="URL">
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-sm-5">
+                <label for="year" style="margin-left: 40%;">Year</label>
+            </div>
+            <div class="col-sm-5">
+                <input type="number" class="form-control nav-profile-input" id="org-year" name="org-year" value="[[ _organization.year ]]" ng-model="_organization.year" placeholder="Year of Establishment" min="1500" max="2030">
+            </div>
+        </div>
+        <div class="submit-profile-update">
+            <button type="submit" id="nav-update-profile" class="btn btn-primary" style="margin-top: 20px;" ng-click="updateOrganization(organization)"
+                    ng-disabled="organizationForm.name.$invalid || organizationForm.url.$invalid || organizationForm.year.$invalid">
+                Update Organization
+            </button>
+        </div>
+    </form>
+<div>
