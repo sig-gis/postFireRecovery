@@ -132,7 +132,7 @@
             }
         };
 
-        $scope.showOrgTab = false
+        $scope.showOrgTab = false;
         $('#profile-tabs .nav-tabs .nav-link').on('click', function() {
             var thisTab = this;
             /* Removing active effect with slideUp: */
