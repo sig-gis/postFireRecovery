@@ -28,6 +28,16 @@
 					<a ng-show="menu.show" class="navmenu" ui-sref="[[menu.url]]" ng-if="menu.sref">[[menu.name]]</a>
 					<a ng-show="menu.show" class="navmenu" target="_blank" href="[[menu.url]]" ng-if="!menu.sref">[[menu.name]]</a>
 				</li>
+				<li><div class="dropdown">
+					<button class="btn login-button dropdown-toggle" type="button" data-toggle="dropdown">
+						<i class="far fa-bookmark"></i> How to use
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" style="right: auto;">
+						<li><a href="https://goo.gl/sD9QLo" target="_blank">Manual</a></li>
+						<li><a href="https://www.youtube.com/watch?v=B7zFVs9QnTY" target="_blank">Video</a></li>
+					</ul>
+				</div></li>
 				<li ng-if="userName == null">
 					<a class="btn login-button" type="button" ui-sref="login">
 						<i class="far fa-user"></i> Login or Sign Up

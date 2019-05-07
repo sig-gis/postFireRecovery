@@ -18,12 +18,12 @@ var settings = {
             'show': true,
             'sref': false
         },
-        {
+        /*{
             'name': 'How To Use',
             'url': 'https://goo.gl/sD9QLo',
             'show': true,
             'sref': false
-        },
+        },*/
         {
             'name': 'Contact Us',
             'url': 'contact_us',
