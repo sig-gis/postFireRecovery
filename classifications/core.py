@@ -15,7 +15,8 @@ class Classification():
 
     ee.Initialize(settings.EE_CREDENTIALS)
 
-    AOI = ee.FeatureCollection('users/biplov/postfirerecovery/AOI/sierra_plus_plumas')
+    #AOI = ee.FeatureCollection('users/biplov/postfirerecovery/AOI/sierra_plus_plumas')
+    AOI = ee.FeatureCollection('users/biplov/postfirerecovery/AOI/aoi_with_tahoe')
     GEOMETRY = AOI.geometry()
 
     # burn parameters
@@ -149,7 +150,14 @@ class Classification():
             year = str(year)
 
         if name == 'NASA_FIRMS':
-            image = Classification.NASA_FIRMS.filterDate(year + '-01-01', year + '-12-31').select(['T21'])
+            image_collection = Classification.NASA_FIRMS.filterDate(year + '-01-01', year + '-12-31')
+            if image_collection.size().getInfo() > 0:
+                image = ee.Image(image_collection.mean()).select(['T21'])
+            else:
+                return {
+                    'error': 'No data available for year {}'.format(year)
+                }
+
             map_id = image.getMapId({
                 'min'    : '300',
                 'max'    : '500',
@@ -157,14 +165,28 @@ class Classification():
             })
         elif name == 'TERRA_THERMAL':
             image_collection = Classification.TERRA_THERMAL.filterDate(year + '-01-01', year + '-12-31')
-            map_id = image_collection.getMapId({
+            if image_collection.size().getInfo() > 0:
+                image = ee.Image(image_collection.mean())
+            else:
+                return {
+                    'error': 'No data available for year {}'.format(year)
+                }
+
+            map_id = image.getMapId({
                 'min': '0.0',
                 'max': '6000.0',
                 'bands': ['MaxFRP', 'FireMask', 'FireMask']
             })
         elif name == 'AQUA_THERMAL':
             image_collection = Classification.AQUA_THERMAL.filterDate(year + '-01-01', year + '-12-31')
-            map_id = image_collection.getMapId({
+            if image_collection.size().getInfo() > 0:
+                image = ee.Image(image_collection.mean())
+            else:
+                return {
+                    'error': 'No data available for year {}'.format(year)
+                }
+
+            map_id = image.getMapId({
                 'min': '0.0',
                 'max': '6000.0',
                 'bands': ['MaxFRP', 'FireMask', 'FireMask']

@@ -6,12 +6,12 @@
 
         var DEFAULT_ZOOM = 9,
             DEFAULT_CENTER = {
-                lng: -120.376589,
-                lat: 39.9380701
+                lng: -120.556906,
+                lat: 39.6074162
             };
 
         // Global Variables
-        var map = MapService.init();
+        var map = MapService.init(DEFAULT_CENTER, DEFAULT_ZOOM);
 
         // Init
         // get tooltip activated
@@ -277,6 +277,7 @@
                     $scope.showAlert('info', 'The map data shows the ' + item.name + ' for ' + $scope.sliderYear);
                 }, 3500);
             }, function (error) {
+                $scope.showLoader = false;
                 $scope.showAlert('danger', error.error);
                 console.log(error);
             });
@@ -356,7 +357,7 @@
                 }, 2000);
                 addLayer('composite');
             }, function (error) {
-                $scope.showLoader = true;
+                $scope.showLoader = false;
                 $scope.showAlert('danger', error.error);
                 console.log(error);
             });
@@ -522,6 +523,7 @@
                     $scope.showAlert('info', 'The map data shows the landcover data for ' + $scope.sliderYear);
                 }, 3500);
             }, function (error) {
+                $scope.showLoader = false;
                 $scope.showAlert('danger', error.error);
                 console.log(error);
             });

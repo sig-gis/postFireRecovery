@@ -7,15 +7,28 @@
 
         var service = this;
 
-        service.init = function (lng, lat, zoom) {
+        service.DEFAULT_ZOOM = 9;
+        service.DEFAULT_CENTER = {
+            lng: -120.376589, lat: 39.9380701
+        };
+
+        service.init = function (center, zoom) {
+
+            var DEFAULT_CENTER = service.DEFAULT_CENTER;
+            if (center && center.lat && center.lng) {
+                DEFAULT_CENTER = {
+                    lng: center.lng,
+                    lat: center.lat
+                };
+            }
+
+            var DEFAULT_ZOOM = service.DEFAULT_ZOOM;
+            if (zoom) {
+                DEFAULT_ZOOM = zoom;
+            }
 
             // Global Variables
-            var DEFAULT_ZOOM = zoom || 9,
-                MAX_ZOOM = 25,
-                DEFAULT_CENTER = {
-                    lng: lng || -120.376589,
-                    lat: lat || 39.9380701
-                },
+            var MAX_ZOOM = 25,
                 // Map options
                 mapOptions = {
                     center: DEFAULT_CENTER,
