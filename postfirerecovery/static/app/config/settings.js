@@ -14,7 +14,7 @@ var settings = {
         },
         {
             'name': 'Data',
-            'url': '/static/data/',
+            'url': '/data/',
             'show': true,
             'sref': false
         },
