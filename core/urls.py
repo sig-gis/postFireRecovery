@@ -10,5 +10,5 @@ from core import views
 urlpatterns = [
     url(r'^api/v1/contact-us/$', views.ContactUs.as_view(), name='contact-us'),
     url(r'^api/v1/organization/$', views.OrganizationList.as_view(), name='organization-list'),
-    #url(r'^api/v1/organization/(?P<pk>[0-9]+)/$', views.OrganizationCreateRead.as_view(), name='organization-create-read'),
+    url(r'^api/v1/organization/(?P<pk>[0-9]+)/$', views.OrganizationRetrieveUpdateDestroy.as_view(), name='organization-create-read'),
 ]

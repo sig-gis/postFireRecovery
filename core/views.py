@@ -17,19 +17,29 @@ from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND, HTTP
 
 from core.models import Email, Organization, ContactUs as ContactUsModel
 from core.serializers import ContactUsSerializer, OrganizationSerializer
+from core.permissions import IsOrganizationOwner
 
+# =============================================================================
 class OrganizationList(generics.ListAPIView):
     serializer_class = OrganizationSerializer
     #permission_classes = (IsAuthenticated, )
     queryset = Organization.objects.all()
 
-class OrganizationCreateRead(generics.ListCreateAPIView):
-    pass
+# =============================================================================
+class OrganizationRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = OrganizationSerializer
+    permission_classes = (IsOrganizationOwner, )
 
+    # -------------------------------------------------------------------------
+    def get_queryset(self):
+        return Organization.objects.all().filter(pk=self.kwargs.get('pk'))
+
+# =============================================================================
 class ContactUs(generics.CreateAPIView):
 
     serializer_class = ContactUsSerializer
 
+    # -------------------------------------------------------------------------
     def create(self, request):
         data = request.data
         # gather email table data

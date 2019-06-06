@@ -243,6 +243,7 @@
                     });
                 }
             } else {
+                $scope.showThankYouLoader = false;
                 $scope.showAlert('danger', 'please fill out the form!');
                 return false;
             }

@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.db import models
 
+# =============================================================================
 class Email(models.Model):
 
     sent_on = models.DateTimeField(auto_now_add=True)
@@ -25,6 +26,7 @@ class Email(models.Model):
     def __str__(self):              # __unicode__ on Python 2
         return "%s" % (self.from_address)
 
+# =============================================================================
 class ContactUs(models.Model):
 
     name = models.CharField(max_length=254, help_text='Name of the sender')
@@ -39,6 +41,7 @@ class ContactUs(models.Model):
     def __str__(self):
         return '{} - {}'.format(self.name, self.email)
 
+# =============================================================================
 class Organization(models.Model):
     name = models.CharField(max_length=254, blank=False)
     url = models.URLField(blank=True, null=True)
@@ -54,6 +57,7 @@ class Organization(models.Model):
     def __str__(self):
         return self.name
 
+# =============================================================================
 class Membership(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -74,3 +78,4 @@ class Membership(models.Model):
 
     def __str__(self):
         return '{} : {} at {}'.format(self.user, self.position, self.organization)
+# =============================================================================
