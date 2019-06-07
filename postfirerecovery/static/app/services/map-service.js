@@ -88,7 +88,7 @@
                     fillOpacity: 0,
                     //strokeWeight: 2,
                     clickable: clickInfo,
-                    strokeColor: 'red'
+                    strokeColor: 'yellow'
                 });
             }
         };
@@ -99,7 +99,7 @@
             map.data.setStyle({
                 fillOpacity: 0,
                 //fillColor: 'red',
-                strokeColor: 'red',
+                strokeColor: 'yellow',
                 //strokeWeight: 2,
                 clickable: false
             });

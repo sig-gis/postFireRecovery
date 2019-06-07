@@ -173,7 +173,7 @@
                                 map.data.setStyle({
                                     visible: true,
                                     fillOpacity: 0,
-                                    strokeColor: 'red'
+                                    strokeColor: 'yellow'
                                 });
                             });
                         } else {
