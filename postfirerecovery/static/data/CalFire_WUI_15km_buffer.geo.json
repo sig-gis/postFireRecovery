@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "CalFire_WUI_15km_buffer",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "Name": "Proposed Study Boundary PC292 Wildfire Risk CA", "FolderPath": "Proposed Boundary PC292_CalFire_WUI.kmz\/PC292_CalFire_WUI", "SymbolID": 0, "AltMode": 0, "Base": 0.0, "Clamped": -1, "Extruded": 0, "Snippet": null, "PopupInfo": null, "BUFF_DIST": 15.0, "ORIG_FID": 0, "ORIG_FID_1": 1, "Shape_Leng": 4.444840542, "Shape_Area": 1.2336027198799999 }, "geometry": { "type": "MultiPolygon", "coordinates": [ [ [ [ -121.47624, 38.5587 ], [ -121.47624, 39.63548 ], [ -120.33061, 39.63548 ], [ -120.33061, 38.5587 ], [ -121.47624, 38.5587 ] ] ] ] } }
+]
+}

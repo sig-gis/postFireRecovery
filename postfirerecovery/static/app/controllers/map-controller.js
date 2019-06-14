@@ -4,7 +4,7 @@
     angular.module('postfirerecovery')
     .controller('mapController', function (appSettings, $rootScope, $scope, $sanitize, $timeout, CommonService, LandCoverService, MapService) {
 
-        var DEFAULT_ZOOM = 9,
+        var DEFAULT_ZOOM = 8.75,
             DEFAULT_CENTER = {
                 lng: -120.556906,
                 lat: 39.6074162

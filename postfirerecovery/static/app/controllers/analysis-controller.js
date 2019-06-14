@@ -47,9 +47,15 @@
             attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
         });
 
+        var DEFAULT_ZOOM = 8,
+            DEFAULT_CENTER = {
+                lng: -120.556906,
+                lat: 39.6074162
+            };
+
         var map = L.map('change-detection-map', {
-            center: [39.9673123, -120.7231622],
-            zoom: 9,
+            center: [DEFAULT_CENTER.lat, DEFAULT_CENTER.lng],
+            zoom: DEFAULT_ZOOM,
             layers: [mapbox],
             zoomControl: false
         });

@@ -16,7 +16,7 @@ class Classification():
     ee.Initialize(settings.EE_CREDENTIALS)
 
     #AOI = ee.FeatureCollection('users/biplov/postfirerecovery/AOI/sierra_plus_plumas')
-    AOI = ee.FeatureCollection('users/biplov/postfirerecovery/AOI/aoi_with_tahoe')
+    AOI = ee.FeatureCollection('users/biplov/postfirerecovery/AOI/aoi')
     GEOMETRY = AOI.geometry()
 
     # burn parameters
