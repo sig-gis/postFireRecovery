@@ -45,7 +45,7 @@
                     </button>
                 </div>
             </div>
-        
+
             <div class="well tab-tool-content">
                 <div class="tab-content">
 
@@ -91,7 +91,7 @@
                                 <div class="form-group">
                                     <label for="area-index-filter">Filter By</label>
                                     <select name="area-index-filter" class="selectpicker show-tick dropdown" data-live-search="true" data-dropup-auto="false" data-width="100%"
-                                            ng-options="option.name for option in selectors" 
+                                            ng-options="option.name for option in selectors"
                                             ng-model="selector" ng-change="populateSelectors(selector)">
                                     </select>
                                 </div>
@@ -101,7 +101,7 @@
                                     <select name="area-variable-filter" class="selectpicker show-tick dropdown" data-actions-box="true" multiple data-live-search="true" data-dropup-auto="false" data-width="100%"
                                             ng-options="option for option in selectorOptions"
                                             ng-model="name" ng-change="loadSelectors(name)">
-                                            <option value="" selected="selected">Choose</option>
+                                            <!--<option value="" selected="selected">Choose</option>-->
                                     </select>
                                 </div>
                             </div>
@@ -111,7 +111,7 @@
 
                     <div class="tab-pane fade in" id="layer-tab"></div>
                 </div>
-            </div>            
+            </div>
         </div>
 
     </div>
