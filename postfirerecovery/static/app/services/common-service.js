@@ -25,6 +25,14 @@
             return (part / sum * 100).toFixed(2);
         };
 
+        service.isEmptyObject = function (obj) {
+            for(var prop in obj) {
+                if(obj.hasOwnProperty(prop))
+                    return false;
+            }
+            return true;
+        };
+
         service.AnalysisToolControl = function (controlDiv) {
             // Set CSS for the control border.
             var controlUI = document.createElement('div');

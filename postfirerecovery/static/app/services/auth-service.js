@@ -192,6 +192,31 @@
             return promise;
         };
 
+        service.updateOrganization = function (organization, token) {
+            var req = {
+                method: 'PUT',
+                url: 'api/v1/organization/' + organization.id + '/',
+                headers: {
+                    'Authorization': 'Token ' + token,
+                    'Content-Type': 'application/json'
+                },
+                data: {
+                    name  : organization.name,
+                    url   : organization.url,
+                    year  : organization.year
+                }
+            };
+            var promise = $http(req)
+            .then(function (response) {
+                return true;
+            })
+            .catch(function (e) {
+                console.log('Error: ', e);
+                throw e;
+            });
+            return promise;
+        };
+
     });
 
 })();

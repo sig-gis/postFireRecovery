@@ -2,7 +2,7 @@
 
     'use strict';
     angular.module('postfirerecovery')
-    .controller('authController', function (appSettings, $location, $scope, $state, $timeout, $window, AuthService) {
+    .controller('authController', function (appSettings, $location, $scope, $state, $timeout, $window, AuthService, CommonService) {
 
         $scope.menus = appSettings.menus;
         $scope.applicationName = appSettings.applicationName;
@@ -222,7 +222,16 @@
 
         // Organizaiton
         $scope.updateOrganization = function (organization) {
-            console.log(organization);
+            if (!(CommonService.isEmptyObject(organization))) {
+                AuthService.updateOrganization (organization, AuthService.getToken())
+                .then(function (data) {
+                    $scope.showAlert('success', 'Organization details updated successfully!');
+                }, function (error) {
+                    $scope.showAlert('danger', error.status + ' ' + error.data);
+                });
+            } else {
+                $scope.showAlert('danger', 'No organization data is available');
+            }
         };
 
         $scope.showThankYou = false;
