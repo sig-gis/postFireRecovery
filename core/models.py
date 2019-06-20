@@ -3,6 +3,7 @@
 from __future__ import unicode_literals
 
 from django.conf import settings
+from django.contrib import admin
 from django.db import models
 
 # =============================================================================
@@ -78,4 +79,16 @@ class Membership(models.Model):
 
     def __str__(self):
         return '{} : {} at {}'.format(self.user, self.position, self.organization)
+
+# =============================================================================
+
+class MembershipInline(admin.TabularInline):
+    model = Membership
+    extra = 1
+
+# =============================================================================
+
+class OrganizationAdmin(admin.ModelAdmin):
+    inlines = (MembershipInline,)
+
 # =============================================================================
