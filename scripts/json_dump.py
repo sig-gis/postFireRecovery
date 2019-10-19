@@ -3,9 +3,8 @@
 from jsmin import jsmin
 import json
 import os
-import shapefile
 
-foldername = '../postfirerecovery/static/data/fire_area_by_name'
+foldername = '../postfirerecovery/static/data/fire_area_by_name/geojson'
 os.path.dirname(os.path.dirname(__file__))
 path = os.path.join(os.getcwd(), foldername)
 path = os.path.abspath(path)
