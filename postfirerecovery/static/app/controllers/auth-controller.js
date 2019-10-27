@@ -8,10 +8,11 @@
         $scope.applicationName = appSettings.applicationName;
         $scope.partnersHeader = appSettings.partnersHeader;
         $scope.userName = AuthService.getCurrentUser();
-        $scope.firstName = null;
-        $scope.lastName = null;
-        $scope.email = null;
-        $scope.organization = null;
+        $scope.profile = {};
+        //$scope.firstName = null;
+        //$scope.lastName = null;
+        //$scope.email = null;
+        //$scope.organization = null;
         $scope.alertContent = '';
 
         $scope.loginErrorHandles = {};
@@ -127,7 +128,7 @@
                     $scope.showAlert('success', 'Password changed! Redirecting...');
                     $timeout(function () { $window.location.href = '/map'; }, 2000);
                 }, function (error) {
-                    $scope.showAlert('danger', error.status + ' ' + error.data.message);
+                    $scope.showAlert('danger', error.data.message);
                 });
             }
         };
@@ -148,15 +149,19 @@
             if ((username !== null) && (token !== null)) {
                 AuthService.getUserProfile (token)
                 .then(function (data) {
-                    $scope.firstName = data.first_name;
-                    $scope.lastName = data.last_name;
-                    $scope.email = data.email;
-                    $scope.organization = data.organization;
-                    for (var index in $scope.organization) {
-                        if ($scope.organization[index].is_admin === true) {
-                            $scope.showOrgTab = true;
-                        }
-                    }
+                    //$scope.firstName = data.first_name;
+                    //$scope.lastName = data.last_name;
+                    //$scope.email = data.email;
+                    //$scope.organization = data.organization;
+                    //for (var index in $scope.organization) {
+                    //    if ($scope.organization[index].is_admin === true) {
+                    //        $scope.showOrgTab = true;
+                    //    }
+                    //}
+                    $scope.profile.userName = data.username;
+                    $scope.profile.firstName = data.first_name;
+                    $scope.profile.lastName = data.last_name;
+                    $scope.profile.email = data.email;
                 }, function (error) {
                     // unauthorized error
                     if (error.status === 401) {
@@ -183,11 +188,11 @@
             var username = AuthService.getCurrentUser();
             var token = AuthService.getToken();
             var user = {
-                username : $scope.userName,
-                firstName: $scope.firstName,
-                lastName : $scope.lastName,
-                email    : $scope.email,
-                organization: $scope.organization
+                username : profile.userName,
+                firstName: profile.firstName,
+                lastName : profile.lastName,
+                email    : profile.email,
+                //organization: profile.organization
             };
 
             /*if (profile) {
@@ -213,7 +218,7 @@
                     $scope.showAlert('success', 'Profile updated successfully! Redirecting...');
                     $timeout(function () { $window.location.href = '/map'; }, 2000);
                 }, function (error) {
-                    $scope.showAlert('danger', error.status + ' ' + error.data.detail);
+                    $scope.showAlert('danger', error.data.message);
                 });
             } else {
                 $location.path('/login');

@@ -128,6 +128,11 @@ class UserProfile(generics.RetrieveUpdateAPIView):
         username = data('username')
         username = base_user.AbstractBaseUser.normalize_username(username)
 
+        if UserModel.objects.all().exclude(pk=self.request.user.id).filter(username=username):
+            return Response({
+                'message': 'A user already exists with that username!'
+            }, status=HTTP_400_BAD_REQUEST)
+
         first_name = data('first_name', None)
         last_name = data('last_name', None)
         email = data('email', None)
@@ -193,6 +198,12 @@ class UserChangePassword(generics.UpdateAPIView):
                     'message': 'Old password is wrong!'
                 }, status=HTTP_400_BAD_REQUEST)
 
+            if serializer.data.get('old_password') == serializer.data.get('new_password'):
+                return Response({
+                    'status': 'Bad request',
+                    'message': 'Old and new passwords are same!'
+                }, status=HTTP_400_BAD_REQUEST)
+
             # set_password also hashes the password that the user will get
             self.object.set_password(serializer.data.get('new_password'))
             self.object.save()
@@ -207,5 +218,11 @@ class UserChangePassword(generics.UpdateAPIView):
                 'username': user.get_username(),
             }, status=HTTP_200_OK)
 
-        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+        messages = []
+        for key in serializer.errors:
+            messages.append(serializer.errors[key][0])
+
+        return Response({
+            'message': ', '.join(messages)
+        }, status=HTTP_400_BAD_REQUEST)
 # =============================================================================
