@@ -21,11 +21,11 @@
         for (var j = 0; j < $scope.landCoverClasses.length; j++) {
             $scope.assemblageLayers.push(j.toString());
         }
-        $scope.yearRange = CommonService.range(1985, 2018);
+        $scope.yearRange = CommonService.range(1985, 2019);
         $scope.leftLayer = null;
         $scope.rightLayer = null;
         $scope.leftLayerYear = $scope.yearRange[0];
-        $scope.rightLayerYear = $scope.yearRange[$scope.yearRange.length - 1];
+        $scope.rightLayerYear = $scope.yearRange[$scope.yearRange.length - 2];
         $scope.sideBySideControlInitialized = false;
         $scope.showMapLoader = false;
 
@@ -299,7 +299,7 @@
 
         // Table statistics
         $scope.showtableLoader = false;
-        $scope.tableYear = $scope.yearRange[$scope.yearRange.length - 1];
+        $scope.tableYear = $scope.yearRange[$scope.yearRange.length - 2];
         $scope.tableData = [];
 
         var calculatePercentage = function () {
@@ -345,7 +345,7 @@
 
         // Pie Chart Statistics
         $scope.showPieLoader = false;
-        $scope.pieYear = $scope.yearRange[$scope.yearRange.length - 1];
+        $scope.pieYear = $scope.yearRange[$scope.yearRange.length - 2];
         $scope.pieData = [];
 
         $scope.getPieStats = function () {
@@ -392,7 +392,7 @@
         $scope.showColumnLoader = false;
         // hard-coded; dont want to be computationally expensive
         $scope.columnStartYear = 2015;
-        $scope.columnEndYear = $scope.yearRange[$scope.yearRange.length - 1];
+        $scope.columnEndYear = $scope.yearRange[$scope.yearRange.length - 2];
 
         $scope.loadColumnStats = function () {
             if ($scope.columnStartYear >= $scope.columnEndYear) {
