@@ -122,12 +122,12 @@
             if ((username !== null) && (token !== null)) {
                 AuthService.changePassword (form, token)
                 .then(function (data) {
-                    $scope.changePasswordForm.$setPristine();
-                    $scope.changePasswordForm.$setUntouched();
+                    //$scope.changePasswordForm.$setPristine();
+                    //$scope.changePasswordForm.$setUntouched();
                     $scope.showAlert('success', 'Password changed! Redirecting...');
                     $timeout(function () { $window.location.href = '/map'; }, 2000);
                 }, function (error) {
-                    $scope.showAlert('danger', error.status + ' ' + error.data.detail);
+                    $scope.showAlert('danger', error.status + ' ' + error.data.message);
                 });
             }
         };
@@ -207,11 +207,11 @@
             if ((username !== null) && (token !== null)) {
                 AuthService.updateUserProfile (user, AuthService.getToken())
                 .then(function (data) {
-                    $scope.profileForm.$setPristine();
-                    $scope.profileForm.$setUntouched();
+                    //$scope.profileForm.$setPristine();
+                    //$scope.profileForm.$setUntouched();
                     //$location.path('/map');
                     $scope.showAlert('success', 'Profile updated successfully! Redirecting...');
-                    //$timeout(function () { $window.location.href = '/map'; }, 2000);
+                    $timeout(function () { $window.location.href = '/map'; }, 2000);
                 }, function (error) {
                     $scope.showAlert('danger', error.status + ' ' + error.data.detail);
                 });
