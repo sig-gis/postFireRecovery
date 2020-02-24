@@ -1,4 +1,4 @@
-bleach==1.5.0
+bleach==3.1.1
 Django==1.11.17
 django-classy-tags==0.8.0
 django-cms==3.4.5
