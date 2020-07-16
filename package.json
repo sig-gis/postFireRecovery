@@ -13,7 +13,7 @@
 	},
 	"dependencies": {
 		"bower": "^1.8.4",
-		"lodash": "^4.17.11"
+		"lodash": "^4.17.19"
 	},
 	"devDependencies": {
 		"gulp": "^3.9.1",
