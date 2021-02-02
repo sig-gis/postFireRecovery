@@ -2,7 +2,7 @@
 
 from __future__ import unicode_literals
 
-from core import Classification
+from .core import Classification
 from django.conf import settings
 from django.http import JsonResponse
 from datetime import datetime
@@ -43,17 +43,7 @@ def api(request):
         report_area = True if get('report-area') == 'true' else False
         primitives = post('primitives', range(0, len(Classification.CLASSES)))
         dataset = post('name', '')
-        if isinstance(primitives, (unicode, str)):
-            try:
-                primitives = primitives.split(',')
-                primitives = [int(primitive) for primitive in primitives]
-            except Exception as e:
-                return JsonResponse({'error': e.message()})
-        elif isinstance(primitives, list):
-            # Do nothing
-            pass
-        else:
-            return JsonResponse({'error': 'We accept comma-separated string!'})
+ 
         # sanitize
         # using older version of bleach to keep intact with the django cms
         file_name = bleach.clean(post('fileName', ''))
@@ -70,7 +60,23 @@ def api(request):
         core = Classification(huc_name, parameter, fire_name, shape, geom, radius, center)
 
         if action == 'landcovermap':
+            if isinstance(primitives,  str):
+                try:
+                    print(primitives)
+                    print('from api, type primative:', primitives.__class__)
+                    primitives = primitives.split(',')
+                    primitives = [int(primitive) for primitive in primitives]
+                except Exception as e:
+                    
+                    return JsonResponse({'error': e.message()})
+            elif isinstance(primitives, list):
+                # Do nothing
+                pass
+            else:
+                return JsonResponse({'error': 'We accept comma-separated string!'})
+
             data = core.get_landcover(primitives=primitives, year=year)
+            print('api, get landcover: ',data)
 
         elif action == 'composite':
             data = core.get_composite(year = year,
@@ -101,6 +107,21 @@ def api(request):
                                          )
 
         elif action == 'get-stats':
+            if isinstance(primitives,  str):
+                try:
+                    print(primitives)
+                    print('from api, type primative:', primitives.__class__)
+                    primitives = primitives.split(',')
+                    primitives = [int(primitive) for primitive in primitives]
+                except Exception as e:
+                    
+                    return JsonResponse({'error': e.message()})
+            elif isinstance(primitives, list):
+                # Do nothing
+                pass
+            else:
+                return JsonResponse({'error': 'We accept comma-separated string!'})
+                        
             data = core.get_stats(year=year, primitives=primitives)
 
         elif action == 'download-to-drive':

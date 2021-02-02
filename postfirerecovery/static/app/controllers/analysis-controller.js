@@ -211,7 +211,9 @@
 
         /* Updates the image based on the current control panel config. */
         var loadMap = function (type, data) {
-            $scope[type + 'Layer'] = L.tileLayer('https://earthengine.googleapis.com/map/' + data.eeMapId + '/{z}/{x}/{y}?token=' + data.eeMapToken);
+            // var mapType = MapService.getMapType(type, data.eeMapURL);
+            // $scope[type + 'Layer'] = L.tileLayer('https://earthengine.googleapis.com/map/' + data.eeMapId + '/{z}/{x}/{y}?token=' + data.eeMapToken);
+            $scope[type + 'Layer'] = L.tileLayer(data.eeMapURL);
             $scope[type + 'Layer'].setZIndex(99);
             $scope[type + 'Layer'].addTo(map);
             $scope.showMapLoader = false;

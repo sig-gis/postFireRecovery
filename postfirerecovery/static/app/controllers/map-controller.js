@@ -273,7 +273,8 @@
             .then(function (data) {
                 // Clear before adding
                 MapService.clearLayer(map, item.datasetName);
-                var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, item.datasetName);
+                // var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, item.datasetName);
+                var mapType = MapService.getMapType(type, data.eeMapURL, item.datasetName);
                 loadMap(item.datasetName, mapType);
                 addLayer(item.datasetName);
                 $timeout(function () {
@@ -352,7 +353,8 @@
             LandCoverService.getCompositeMap(parameters)
             .then(function (data) {
                 var type = 'composite';
-                var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, type);
+                console.log(data);
+                var mapType = MapService.getMapType(type, data.eeMapURL);
                 loadMap(type, mapType);
                 $scope.mapHasCompositeLayer = true;
                 $timeout(function () {
@@ -517,7 +519,7 @@
             };
             LandCoverService.getLandCoverMap(parameters)
             .then(function (data) {
-                var mapType = MapService.getMapType(data.eeMapId, data.eeMapToken, type);
+                var mapType = MapService.getMapType(type, data.eeMapURL);
                 loadMap(type, mapType);
                 if (!($scope.parameterName.length)) {
                     addLayer(type);

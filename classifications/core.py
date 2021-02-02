@@ -31,7 +31,8 @@ class Classification():
     WATERSHEDS = ee.FeatureCollection('users/biplov/postfirerecovery/watershed/watershed')
 
     #LANDCOVERMAP = ee.ImageCollection('users/TEST/CAFire/RandomForest/RF_classification_v2')
-    LANDCOVERMAP = ee.ImageCollection('users/TEST/CAFire/RandomForest/RF_classification_v3_1')
+    #LANDCOVERMAP = ee.ImageCollection('users/TEST/CAFire/RandomForest/RF_classification_v3_1')
+    LANDCOVERMAP = ee.ImageCollection('users/TEST/CAFire/RandomForest/RF_classification_v4_1')
     COMPOSITE_FALL = ee.ImageCollection('users/TEST/CAFire/SeasonComposites/Fall_Full')
     COMPOSITE_SUMMER = ee.ImageCollection('users/TEST/CAFire/SeasonComposites/Summer_Full')
 
@@ -163,6 +164,7 @@ class Classification():
                 'max'    : '500',
                 'palette': 'green,orange,yellow,red'
             })
+            print(map_id,'nasa firms')
         elif name == 'TERRA_THERMAL':
             image_collection = Classification.TERRA_THERMAL.filterDate(year + '-01-01', year + '-12-31')
             if image_collection.size().getInfo() > 0:
@@ -195,11 +197,11 @@ class Classification():
             return {'error': 'The requested dataset is not available. The available options are' + 
                              'NASA_FIRMS, TERRA_THERMAL, AQUA_THERMAL'
             }
-
+        print('Other data sets: eeMapId', str(map_id['mapid']), 'eeMapURL', str(map_id['tile_fetcher'].url_format))
         return {
-            'eeMapId': str(map_id['mapid']),
-            'eeMapToken': str(map_id['token'])
-        }
+                'eeMapId': str(map_id['mapid']),
+                'eeMapURL': str(map_id['tile_fetcher'].url_format)
+                }
 
     # -------------------------------------------------------------------------
     def get_landcover(self, primitives=range(0, 8), year=2018, download=False):
@@ -236,11 +238,11 @@ class Classification():
             'max': str(len(Classification.CLASSES) - 1),
             'palette': palette
         })
-
+        print('core map id ',map_id)
         return {
-            'eeMapId': str(map_id['mapid']),
-            'eeMapToken': str(map_id['token'])
-        }
+                'eeMapId': str(map_id['mapid']),
+                'eeMapURL': str(map_id['tile_fetcher'].url_format)
+                }
 
     # -------------------------------------------------------------------------
     def get_composite(self,
@@ -306,11 +308,12 @@ class Classification():
             )
 
         map_id = image.getMapId(visualization_parameters)
+        print('map id from core: ',map_id)
 
         return {
-            'eeMapId': str(map_id['mapid']),
-            'eeMapToken': str(map_id['token'])
-        }
+                'eeMapId': str(map_id['mapid']),
+                'eeMapURL': str(map_id['tile_fetcher'].url_format)
+                }
         
 
     # -------------------------------------------------------------------------
