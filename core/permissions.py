@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 
 from rest_framework import permissions
 
+
 # =============================================================================
 class IsOrganizationOwner(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):

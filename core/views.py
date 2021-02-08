@@ -19,24 +19,26 @@ from core.models import Email, Organization, ContactUs as ContactUsModel
 from core.serializers import ContactUsSerializer, OrganizationSerializer
 from core.permissions import IsOrganizationOwner
 
+
 # =============================================================================
 class OrganizationList(generics.ListAPIView):
     serializer_class = OrganizationSerializer
-    #permission_classes = (IsAuthenticated, )
+    # permission_classes = (IsAuthenticated, )
     queryset = Organization.objects.all()
+
 
 # =============================================================================
 class OrganizationRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = OrganizationSerializer
-    permission_classes = (IsOrganizationOwner, )
+    permission_classes = (IsOrganizationOwner,)
 
     # -------------------------------------------------------------------------
     def get_queryset(self):
         return Organization.objects.all().filter(pk=self.kwargs.get('pk'))
 
+
 # =============================================================================
 class ContactUs(generics.CreateAPIView):
-
     serializer_class = ContactUsSerializer
 
     # -------------------------------------------------------------------------
@@ -55,8 +57,8 @@ class ContactUs(generics.CreateAPIView):
                             status=HTTP_400_BAD_REQUEST)
 
         email_message = EmailMessage(subject, body, from_address, to_address,
-            headers = {'Reply-To': reply_to}
-        )
+                                     headers={'Reply-To': reply_to}
+                                     )
         email_message.send()
 
         for _to_address in to_address:
@@ -67,7 +69,7 @@ class ContactUs(generics.CreateAPIView):
                 'to_address': _to_address,
                 'reply_to': reply_to
             }
-    
+
             try:
                 email = Email.objects.create(**email_data)
             except Exception as e:
@@ -75,7 +77,7 @@ class ContactUs(generics.CreateAPIView):
                     'status': 'Bad request',
                     'message': '{}'.format(e.message)
                 }, status=HTTP_400_BAD_REQUEST)
-    
+
             try:
                 contact_us = ContactUsModel.objects.create(email=email, name=name)
             except Exception as e:

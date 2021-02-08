@@ -28,6 +28,10 @@ db.sqlite3
 postfirerecovery/.vscode/*
 .vscode/
 
+# PyCharm project files
+# ======================
+.idea/
+
 # Vendor files
 # ======================
 postfirerecovery/static/vendor/*

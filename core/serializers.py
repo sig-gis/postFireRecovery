@@ -8,11 +8,13 @@ from rest_framework import serializers
 
 from core.models import ContactUs, Email, Organization, Membership
 
+
 # =============================================================================
 class ContactUsSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContactUs
         fields = ('id', 'name', 'email_id')
+
 
 # =============================================================================
 class EmailSerializer(serializers.Serializer):
@@ -20,11 +22,13 @@ class EmailSerializer(serializers.Serializer):
         model = Email
         fields = ('id', 'subject', 'body', 'from_address', 'to_address', 'inbound')
 
+
 # =============================================================================
 class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organization
         fields = ('id', 'name', 'url', 'year')
+
 
 # =============================================================================
 class MembershipSerializer(serializers.HyperlinkedModelSerializer):
