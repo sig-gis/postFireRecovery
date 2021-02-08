@@ -1,6 +1,7 @@
-﻿{% load cms_tags menu_tags sekizai_tags staticfiles %}
+﻿{% load sekizai_tags staticfiles %}
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}" data-framework="angularjs">
+
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,7 +13,7 @@
 	<script async src="https://www.googletagmanager.com/gtag/js?id={{ GOOGLE_ANALYTICS_ID }}"></script>
 	<script>
 		window.dataLayer = window.dataLayer || [];
-		function gtag () { dataLayer.push(arguments); }
+		function gtag() { dataLayer.push(arguments); }
 		gtag('js', new Date());
 		gtag('config', '{{ GOOGLE_ANALYTICS_ID }}');
 	</script>
@@ -25,52 +26,58 @@
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
 	{% addtoblock "css" %}
-	    <style type="text/css">
-	        /** Hide when Angular is not yet loaded and initialized */
-	        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-	            display: none !important;
-	        }
-	    </style>
+	<style type="text/css">
+		/** Hide when Angular is not yet loaded and initialized */
+		[ng\:cloak],
+		[ng-cloak],
+		[data-ng-cloak],
+		[x-ng-cloak],
+		.ng-cloak,
+		.x-ng-cloak {
+			display: none !important;
+		}
+	</style>
 
-		<!-- Bootstrap Core CSS -->
-		<link href="{% static 'vendor/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
-		<!-- Normalize CSS -->
-		<link href="{% static 'vendor/normalize.css/normalize.css' %}" rel="stylesheet">
-		<!-- Bootstrap Plugins -->
-		<link href="{% static 'vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}" rel="stylesheet">
-		<link href="{% static 'vendor/seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css' %}" rel="stylesheet">
-		<link href="{% static 'vendor/ion.rangeSlider/css/ion.rangeSlider.css' %}" rel="stylesheet">
-		<link href="{% static 'vendor/bootstrap-select/dist/css/bootstrap-select.min.css' %}" rel="stylesheet">
-		<!-- Mapping -->
-		<link href="{% static 'vendor/leaflet/dist/leaflet.css' %}" rel="stylesheet">
+	<!-- Bootstrap Core CSS -->
+	<link href="{% static 'vendor/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+	<!-- Normalize CSS -->
+	<link href="{% static 'vendor/normalize.css/normalize.css' %}" rel="stylesheet">
+	<!-- Bootstrap Plugins -->
+	<link href="{% static 'vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}" rel="stylesheet">
+	<link href="{% static 'vendor/seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css' %}" rel="stylesheet">
+	<link href="{% static 'vendor/ion.rangeSlider/css/ion.rangeSlider.css' %}" rel="stylesheet">
+	<link href="{% static 'vendor/bootstrap-select/dist/css/bootstrap-select.min.css' %}" rel="stylesheet">
+	<!-- Mapping -->
+	<link href="{% static 'vendor/leaflet/dist/leaflet.css' %}" rel="stylesheet">
 
-		{% if debug %}
-		<link href="{% static 'css/common.css' %}" rel="stylesheet">
-		<link href="{% static 'css/main.css' %}" rel="stylesheet">
-		<link href="{% static 'css/layer.css' %}" rel="stylesheet">
-		<link href="{% static 'css/home.css' %}" rel="stylesheet">
-		<link href="{% static 'css/profile.css' %}" rel="stylesheet">
-		<link href="{% static 'css/login.css' %}" rel="stylesheet">
-		<link href="{% static 'css/map.css' %}" rel="stylesheet">
-		<link href="{% static 'css/analysis.css' %}" rel="stylesheet">
-		<link href="{% static 'css/navigation.css' %}" rel="stylesheet">
-		<link href="{% static 'css/sidebar.css' %}" rel="stylesheet">
+	{% if debug %}
+	<link href="{% static 'css/common.css' %}" rel="stylesheet">
+	<link href="{% static 'css/main.css' %}" rel="stylesheet">
+	<link href="{% static 'css/layer.css' %}" rel="stylesheet">
+	<link href="{% static 'css/home.css' %}" rel="stylesheet">
+	<link href="{% static 'css/profile.css' %}" rel="stylesheet">
+	<link href="{% static 'css/login.css' %}" rel="stylesheet">
+	<link href="{% static 'css/map.css' %}" rel="stylesheet">
+	<link href="{% static 'css/analysis.css' %}" rel="stylesheet">
+	<link href="{% static 'css/navigation.css' %}" rel="stylesheet">
+	<link href="{% static 'css/sidebar.css' %}" rel="stylesheet">
 
-		{% else %}
-		<link href="{% static 'dist/application.min.css' %}" rel="stylesheet">
-		{% endif %}
+	{% else %}
+	<link href="{% static 'dist/application.min.css' %}" rel="stylesheet">
+	{% endif %}
 
-		<!-- Fonts -->
-		<link href="{% static 'vendor/components-font-awesome/css/fontawesome-all.min.css' %}" rel="stylesheet">
+	<!-- Fonts -->
+	<link href="{% static 'vendor/components-font-awesome/css/fontawesome-all.min.css' %}" rel="stylesheet">
 	{% endaddtoblock %}
 
 	{% render_block "css" %}
 
 </head>
+
 <body>
 
 	{% block navigation_container%}
-    	{% include "navigation.html" %}
+	{% include "navigation.html" %}
 	{% endblock navigation_container %}
 
 	<div ng-cloak ui-view></div>
@@ -81,73 +88,74 @@
 
 	{% addtoblock "js" %}
 
-		<!-- Load JS Lib -->
-		<!-- jQuery -->
-		<script src="{% static 'vendor/jquery/dist/jquery.min.js' %}"></script>
-		<script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
-		<!-- Bootstrap Core JavaScript -->
-		<script src="{% static 'vendor/bootstrap/dist/js/bootstrap.min.js' %}"></script>
-		<!-- Bootstrap Plugins -->
-		<script src="{% static 'vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
-	    <!-- Slider -->
-	    <script src="{% static 'vendor/seiyria-bootstrap-slider/dist/bootstrap-slider.min.js' %}"></script>
-	    <!-- Ion Range Slider -->
-	    <script src="{% static 'vendor/ion.rangeSlider/js/ion.rangeSlider.min.js' %}"></script>
-		<!-- Select -->
-		<script src="{% static 'vendor/bootstrap-select/dist/js/bootstrap-select.min.js' %}"></script>
+	<!-- Load JS Lib -->
+	<!-- jQuery -->
+	<script src="{% static 'vendor/jquery/dist/jquery.min.js' %}"></script>
+	<script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
+	<!-- Bootstrap Core JavaScript -->
+	<script src="{% static 'vendor/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+	<!-- Bootstrap Plugins -->
+	<script src="{% static 'vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
+	<!-- Slider -->
+	<script src="{% static 'vendor/seiyria-bootstrap-slider/dist/bootstrap-slider.min.js' %}"></script>
+	<!-- Ion Range Slider -->
+	<script src="{% static 'vendor/ion.rangeSlider/js/ion.rangeSlider.min.js' %}"></script>
+	<!-- Select -->
+	<script src="{% static 'vendor/bootstrap-select/dist/js/bootstrap-select.min.js' %}"></script>
 
-		<!-- Mapping Library -->
-	    <!-- Google Maps API -->
-		<script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&v=3.exp&libraries=drawing,geometry"></script>
-		<!-- Leaflet -->
-		<script src="{% static 'vendor/leaflet/dist/leaflet.js' %}"></script>
-		<script src="{% static 'vendor/leaflet-side-by-side/leaflet-side-by-side.js' %}"></script>
+	<!-- Mapping Library -->
+	<!-- Google Maps API -->
+	<script
+		src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&v=3.exp&libraries=drawing,geometry"></script>
+	<!-- Leaflet -->
+	<script src="{% static 'vendor/leaflet/dist/leaflet.js' %}"></script>
+	<script src="{% static 'vendor/leaflet-side-by-side/leaflet-side-by-side.js' %}"></script>
 
-		<!--  Load Angular  -->
-		<script src="{% static 'vendor/angular/angular.min.js' %}"></script>
+	<!--  Load Angular  -->
+	<script src="{% static 'vendor/angular/angular.min.js' %}"></script>
 
-		<!-- Angular Plugins -->
-		<script src="{% static 'vendor/angular-messages/angular-messages.min.js' %}"></script>
-		<script src="{% static 'vendor/angular-ui-router/release/angular-ui-router.min.js' %}"></script>
-		<script src="{% static 'vendor/angular-sanitize/angular-sanitize.min.js' %}"></script>
-		<script src="{% static 'vendor/ngstorage/ngStorage.min.js' %}"></script>
+	<!-- Angular Plugins -->
+	<script src="{% static 'vendor/angular-messages/angular-messages.min.js' %}"></script>
+	<script src="{% static 'vendor/angular-ui-router/release/angular-ui-router.min.js' %}"></script>
+	<script src="{% static 'vendor/angular-sanitize/angular-sanitize.min.js' %}"></script>
+	<script src="{% static 'vendor/ngstorage/ngStorage.min.js' %}"></script>
 
-		<!-- Spatial Libraries -->
-		<script src="{% static 'vendor/togeojson/togeojson.js' %}"></script>
+	<!-- Spatial Libraries -->
+	<script src="{% static 'vendor/togeojson/togeojson.js' %}"></script>
 
-		<!-- Graphs -->
-		<script src="{% static 'vendor/highcharts/highcharts.js' %}"></script>
-		<script src="{% static 'vendor/highcharts/modules/exporting.js' %}"></script>
-		<script src="{% static 'vendor/highcharts/modules/export-data.js' %}"></script>
+	<!-- Graphs -->
+	<script src="{% static 'vendor/highcharts/highcharts.js' %}"></script>
+	<script src="{% static 'vendor/highcharts/modules/exporting.js' %}"></script>
+	<script src="{% static 'vendor/highcharts/modules/export-data.js' %}"></script>
 
-		{% if debug %}
-		<!-- Bootstrap Application -->
-		<script src="{% static 'app/init.js' %}"></script>
+	{% if debug %}
+	<!-- Bootstrap Application -->
+	<script src="{% static 'app/init.js' %}"></script>
 
-		<!-- Routing -->
-		<script src="{% static 'app/route.js' %}"></script>
+	<!-- Routing -->
+	<script src="{% static 'app/route.js' %}"></script>
 
-		<!-- Load Settings -->
-		<script src="{% static 'app/config/settings.js' %}"></script>
+	<!-- Load Settings -->
+	<script src="{% static 'app/config/settings.js' %}"></script>
 
-		<!-- Services -->
-		<script src="{% static 'app/services/auth-service.js' %}"></script>
-		<script src="{% static 'app/services/common-service.js' %}"></script>
-		<script src="{% static 'app/services/map-service.js' %}"></script>
-		<script src="{% static 'app/services/landcover-service.js' %}"></script>
+	<!-- Services -->
+	<script src="{% static 'app/services/auth-service.js' %}"></script>
+	<script src="{% static 'app/services/common-service.js' %}"></script>
+	<script src="{% static 'app/services/map-service.js' %}"></script>
+	<script src="{% static 'app/services/landcover-service.js' %}"></script>
 
-		<!-- Directives -->
-		<script src="{% static 'app/directives/text-matches.js' %}"></script>
-		<script src="{% static 'app/directives/tooltip.js' %}"></script>
+	<!-- Directives -->
+	<script src="{% static 'app/directives/text-matches.js' %}"></script>
+	<script src="{% static 'app/directives/tooltip.js' %}"></script>
 
-		<!-- Controllers -->
-		<script src="{% static 'app/controllers/auth-controller.js' %}"></script>
-		<script src="{% static 'app/controllers/map-controller.js' %}"></script>
-		<script src="{% static 'app/controllers/analysis-controller.js' %}"></script>
+	<!-- Controllers -->
+	<script src="{% static 'app/controllers/auth-controller.js' %}"></script>
+	<script src="{% static 'app/controllers/map-controller.js' %}"></script>
+	<script src="{% static 'app/controllers/analysis-controller.js' %}"></script>
 
-		{% else %}
-		<script src="{% static 'dist/application.min.js' %}"></script>
-		{% endif %}
+	{% else %}
+	<script src="{% static 'dist/application.min.js' %}"></script>
+	{% endif %}
 
 	{% endaddtoblock %}
 
@@ -155,4 +163,5 @@
 	{% render_block "js" %}
 
 </body>
+
 </html>

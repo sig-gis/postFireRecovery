@@ -3,7 +3,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 #from .views import login
 
-from cms.sitemaps import CMSSitemap
+# from cms.sitemaps import CMSSitemap
 from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.i18n import i18n_patterns
@@ -21,8 +21,8 @@ from classifications import api as classifications_api
 admin.autodiscover()
 
 urlpatterns = [
-    url(r'^sitemap\.xml$', sitemap,
-        {'sitemaps': {'cmspages': CMSSitemap}}),
+    # url(r'^sitemap\.xml$', sitemap,
+    #     {'sitemaps': {'cmspages': CMSSitemap}}),
     url(r'^admin/', include(admin.site.urls)),  # NOQA
 ]
 
