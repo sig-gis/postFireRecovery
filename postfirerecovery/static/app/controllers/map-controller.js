@@ -55,13 +55,11 @@
             $scope.showLoader = false;
 
             // Slider params
-            $scope.yearRange = CommonService.range(1985, 2019);
-            // 2019
-            //$scope.sliderYear = $scope.yearRange[$scope.yearRange.length - 1];
-            // 2018
-            $scope.sliderYear = $scope.yearRange[$scope.yearRange.length - 2];
+            $scope.yearRange = CommonService.range(1985, 2020);
+            var landCoverYear = $scope.yearRange.length - 1;
+            $scope.sliderYear = $scope.yearRange[landCoverYear];
             $scope.sliderStartYear = $scope.yearRange[0];
-            $scope.sliderEndYear = $scope.yearRange[$scope.yearRange.length - 1];
+            $scope.sliderEndYear = $scope.yearRange[landCoverYear];
 
             // classes and assemblage params
             $scope.landCoverClasses = appSettings.landCoverClasses;
@@ -788,10 +786,8 @@
                     grid: true,
                     min: $scope.sliderStartYear,
                     max: $scope.sliderEndYear,
-                    // 2019
-                    //from: $scope.sliderEndYear,
-                    // 2018
-                    from: $scope.sliderEndYear - 1,
+                    // 2020
+                    from: $scope.sliderEndYear,
                     force_edges: true,
                     grid_num: $scope.sliderEndYear - $scope.sliderStartYear,
                     prettify_enabled: false,
