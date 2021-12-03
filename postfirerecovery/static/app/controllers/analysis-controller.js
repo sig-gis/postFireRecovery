@@ -21,7 +21,7 @@
             for (var j = 0; j < $scope.landCoverClasses.length; j++) {
                 $scope.assemblageLayers.push(j.toString());
             }
-            $scope.yearRange = CommonService.range(1985, 2020);
+            $scope.yearRange = CommonService.range(1985, 2021);
             $scope.leftLayer = null;
             $scope.rightLayer = null;
             $scope.leftLayerYear = 2016;
