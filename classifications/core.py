@@ -5,6 +5,8 @@ from __future__ import unicode_literals
 import ee
 from django.conf import settings
 
+import ast
+
 
 # -----------------------------------------------------------------------------
 class Classification:
@@ -210,6 +212,8 @@ class Classification:
         masked_image = image.eq(ee.Number(100))
 
         # mask image
+        if isinstance(primitives, str):
+            primitives = list(ast.literal_eval(primitives))
         for index in primitives:
             _mask = image.eq(ee.Number(int(index)))
             masked_image = masked_image.add(_mask)
