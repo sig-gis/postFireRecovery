@@ -14,7 +14,7 @@ class Classification:
         Google Earth Engine API
     """
 
-    ee.Initialize()#settings.EE_CREDENTIALS)
+    ee.Initialize(settings.EE_CREDENTIALS)
 
     # AOI = ee.FeatureCollection('users/biplov/postfirerecovery/AOI/sierra_plus_plumas')
     # AOI = ee.FeatureCollection('users/biplov/postfirerecovery/AOI/aoi')
