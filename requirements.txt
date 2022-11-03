@@ -25,7 +25,7 @@ django-treebeard==4.1.2
 # djangocms-style==2.0.2
 # djangocms-text-ckeditor==3.5.0
 # djangocms-video==2.0.3
-djangorestframework==3.8.2
+djangorestframework==3.11.2
 # drive==0.2.2
 earthengine-api==0.1.246
 easy-thumbnails==2.4.2
