@@ -3,13 +3,22 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, Group, Permission
 
 from core.models import Membership
 
 # =============================================================================
+#class User(AbstractUser):
+#    pass
+
 class User(AbstractUser):
-    pass
+    groups = models.ManyToManyField(
+        Group, related_name='user_groups', blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.',
+        verbose_name='groups', )
+    user_permissions = models.ManyToManyField(
+        Permission, related_name='user_permissions', blank=True,
+        help_text='Specific permissions for this user.',
+        verbose_name='user permissions', )
 
 # =============================================================================
 def is_org_admin(self, user, org_id):

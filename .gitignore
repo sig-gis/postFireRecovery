@@ -13,6 +13,8 @@ static/*
 !static/README.md
 postfirerecovery/settings.py
 db.sqlite3
+.env
+*.tar
 
 # Eclipse project files
 # ======================
@@ -43,3 +45,8 @@ postfirerecovery/static/dist/*
 # ======================
 .npmignore
 node_modules/
+package-lock.json
+
+# other
+# ======================
+.DS_Store
