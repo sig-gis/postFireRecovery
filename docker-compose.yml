@@ -27,7 +27,7 @@ services:
   nginx:
     image: nginx:1.19
     ports:
-      - "80:80"
+      - "8080:80"
     volumes:
       # - ./nginx:/etc/nginx/conf.d/default.conf
       - ./nginx/postfirerecovery.conf:/etc/nginx/conf.d/default.conf

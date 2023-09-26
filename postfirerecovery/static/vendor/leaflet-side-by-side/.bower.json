@@ -1,0 +1,12 @@
+{
+  "name": "leaflet-side-by-side",
+  "homepage": "https://github.com/digidem/leaflet-side-by-side",
+  "_release": "6ea4567fe8",
+  "_resolution": {
+    "type": "commit",
+    "commit": "6ea4567fe8d1b3e6ea3b0e9ca05d311f5be125a3"
+  },
+  "_source": "https://github.com/digidem/leaflet-side-by-side.git",
+  "_target": "6ea4567fe8d1b3e6ea3b0e9ca05d311f5be125a3",
+  "_originalSource": "https://github.com/digidem/leaflet-side-by-side.git"
+}

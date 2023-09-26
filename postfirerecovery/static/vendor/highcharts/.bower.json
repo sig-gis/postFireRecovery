@@ -1,0 +1,17 @@
+{
+  "name": "highcharts",
+  "version": "7.0.1",
+  "main": "highcharts.js",
+  "license": "https://www.highcharts.com/license",
+  "types": "highcharts.d.ts",
+  "homepage": "https://github.com/highcharts/highcharts-dist",
+  "_release": "7.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v7.0.1",
+    "commit": "8c98ae8e5d029f7ca9af07c168916c5e89816e58"
+  },
+  "_source": "https://github.com/highcharts/highcharts-dist.git",
+  "_target": "^7.0.1",
+  "_originalSource": "highcharts"
+}

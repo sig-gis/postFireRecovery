@@ -7,7 +7,6 @@ var _ = require('lodash'),
 	assets = require('./assets'),
 	gulp = require('gulp'),
 	gulpLoadPlugins = require('gulp-load-plugins'),
-	runSequence = require('run-sequence'),
 	plugins = gulpLoadPlugins({
 		rename: {
 			'gulp-angular-templatecache': 'templateCache'
@@ -15,19 +14,14 @@ var _ = require('lodash'),
 	});
 
 // CSS linting task
-gulp.task('csslint', function (done) {
+function csslint() {
 	return gulp.src(assets.client.css)
 		.pipe(plugins.csslint('.csslintrc'))
-		.pipe(plugins.csslint.reporter())
-		.pipe(plugins.csslint.reporter(function (file) {
-			if (!file.csslint.errorCount) {
-				done();
-			}
-		}));
-});
+		.pipe(plugins.csslint.reporter());
+}
 
 // JS linting task
-gulp.task('jshint', function () {
+function jshint() {
 	var _assets = _.union(
 		assets.server.gulpConfig,
 		assets.client.js
@@ -39,39 +33,47 @@ gulp.task('jshint', function () {
 		}))
 		.pipe(plugins.jshint.reporter('default'))
 		.pipe(plugins.jshint.reporter('fail'));
-});
+}
 
 // JS minifying task
-gulp.task('uglify', function () {
+function uglify() {
 	var _assets = _.union(
 		assets.client.js,
 		assets.client.templates
 	);
 
-	return gulp.src(_assets)
+	return gulp.src(_assets, { allowEmpty: true })
 		.pipe(plugins.ngAnnotate())
 		.pipe(plugins.uglify())
 		.pipe(plugins.concat('application.min.js'))
 		.pipe(gulp.dest('./postfirerecovery/static/dist/'));
-});
+}
 
 // CSS minifying task
-gulp.task('cssmin', function () {
+function cssmin() {
 	return gulp.src(assets.client.css)
 		.pipe(plugins.cssmin())
 		.pipe(plugins.concat('application.min.css'))
 		.pipe(gulp.dest('./postfirerecovery/static/dist/'));
-});
+}
 
 // Lint CSS and JavaScript files.
-gulp.task('lint', function (done) {
-	//runSequence('csslint', 'jshint', done);
-	runSequence('csslint', 'jshint', function() {
-        done();
-    });
-});
+const lint = gulp.series(csslint, jshint);
+
+function watch() {
+	gulp.watch(assets.client.js, gulp.series(uglify));
+	gulp.watch(assets.client.css, gulp.series(cssmin));
+}
 
 // Lint project files and minify them into two production files.
-gulp.task('build', function (done) {
-	runSequence('lint', ['uglify', 'cssmin'], done);
-});
+const build = gulp.series(lint, gulp.parallel(uglify, cssmin));
+
+// Export the tasks
+exports.csslint = csslint;
+exports.jshint = jshint;
+exports.uglify = uglify;
+exports.cssmin = cssmin;
+exports.lint = lint;
+exports.watch = watch;
+exports.build = build;
+exports.default = build;  // set the default task in case you run just `gulp`

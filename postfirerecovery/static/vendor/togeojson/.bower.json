@@ -1,0 +1,14 @@
+{
+  "name": "togeojson",
+  "homepage": "https://github.com/mapbox/togeojson",
+  "version": "0.16.0",
+  "_release": "0.16.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.16.0",
+    "commit": "c8a84b9dc3d5d8c11813182580897b23e3a47211"
+  },
+  "_source": "https://github.com/mapbox/togeojson.git",
+  "_target": "^0.16.0",
+  "_originalSource": "https://github.com/mapbox/togeojson.git"
+}

@@ -20,7 +20,13 @@ This repository contains the codebase for the PostFireRecovery Project, a Django
     cd postfirerecovery
     ```
 
-2. **Environment Variables**
+2. **Settings file, Environment Variables and credentials**
+
+    Rename `settings_example.py` to `settings.py` and update the variables as needed.
+
+    ```
+    cp postfirerecovery/settings_example.py postfirerecovery/settings.py
+    ```
 
     Rename `.env.sample` to `.env` and update the variables as needed.
 
@@ -28,7 +34,17 @@ This repository contains the codebase for the PostFireRecovery Project, a Django
     cp .env.sample .env
     ```
 
-3. **Build and Run Containers**
+3. **Service account credentials**
+
+    Make a folder named credentials and paste your `privatekey.json` service account credentials file.
+
+    ```
+    mkdir credentials
+
+    echo <<content-of-your-privatekey-file>> > credentials/privatekey.json
+    ```
+
+4. **Build and Run Containers**
 
     ```
     docker-compose -f docker-compose-dev.yml up --build
@@ -49,6 +65,12 @@ This repository contains the codebase for the PostFireRecovery Project, a Django
     ```
 
     This will start the production server and you can access it at `http://localhost`.
+
+3. **Migrations**
+
+    ```
+    docker-compose run web python manage.py migrate
+    ```
 
 ## Architecture
 
@@ -76,3 +98,21 @@ For common issues and their resolutions, see the `TROUBLESHOOTING.md` file.
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+### Taking the docker down and building it again
+
+```
+ docker-compose down
+ docker volume prune
+ docker builder prune
+ docker network prune
+ docker container prune
+ docker image prune -a
+ docker system prune -a
+ sudo apt-get clean
+ sudo apt-get autoremove
+
+ docker-compose build --no-cache
+ docker-compose run web python manage.py migrate
+ docker-compose up -d
+```

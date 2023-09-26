@@ -12,6 +12,7 @@ static/*
 # Exception to the rule
 !static/README.md
 postfirerecovery/settings.py
+postfirerecovery/settings.copy.py
 db.sqlite3
 .env
 *.tar
@@ -36,7 +37,8 @@ postfirerecovery/.vscode/*
 
 # Vendor files
 # ======================
-postfirerecovery/static/vendor/*
+# uncommenting vendor since the libraries are pretty old at this point
+# postfirerecovery/static/vendor/*
 postfirerecovery/static/dist/*
 # Exception to the rule
 !postfirerecovery/static/dist/README.md

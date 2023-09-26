@@ -55,7 +55,8 @@ DATABASES = {
         'NAME': '<name-of-db>',
         'USER': '<user-name>',
         'PASSWORD': '<password>',
-        'HOST': '127.0.0.1',
+        #'HOST': '127.0.0.1',
+        'HOST': 'db', # name of service from docker
         'PORT': '5432',
     }
 }
