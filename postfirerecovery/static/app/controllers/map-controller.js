@@ -55,7 +55,7 @@
             $scope.showLoader = false;
 
             // Slider params
-            $scope.yearRange = CommonService.range(1985, 2021);
+            $scope.yearRange = CommonService.range(1985, 2023);
             var landCoverYear = $scope.yearRange.length - 1;
             $scope.sliderYear = $scope.yearRange[landCoverYear];
             $scope.sliderStartYear = $scope.yearRange[0];

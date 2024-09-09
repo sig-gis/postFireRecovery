@@ -18,7 +18,7 @@ class Classification:
 
     # AOI = ee.FeatureCollection('users/biplov/postfirerecovery/AOI/sierra_plus_plumas')
     # AOI = ee.FeatureCollection('users/biplov/postfirerecovery/AOI/aoi')
-    AOI = ee.FeatureCollection('users/TEST/CAFire/StudyAreas/AOI_20211207')
+    AOI = ee.FeatureCollection('projects/sig-ee/PostFireVeg/StudyAreas/AOI_20211207')
     GEOMETRY = AOI.geometry()
 
     # burn parameters
@@ -34,9 +34,9 @@ class Classification:
 
     # LANDCOVERMAP = ee.ImageCollection('users/TEST/CAFire/RandomForest/RF_classification_v2')
     # LANDCOVERMAP = ee.ImageCollection('users/TEST/CAFire/RandomForest/RF_classification_v3_1')
-    LANDCOVERMAP = ee.ImageCollection('users/TEST/CAFire/RandomForest/RF_classification_v4_1')
-    COMPOSITE_FALL = ee.ImageCollection('users/TEST/CAFire/SeasonComposites/Fall_Full')
-    COMPOSITE_SUMMER = ee.ImageCollection('users/TEST/CAFire/SeasonComposites/Summer_Full')
+    LANDCOVERMAP = ee.ImageCollection('projects/sig-ee/PostFireVeg/RandomForest/RF_classification_v4_1')
+    COMPOSITE_FALL = ee.ImageCollection('projects/sig-ee/PostFireVeg/SeasonComposites/Fall_Full')
+    COMPOSITE_SUMMER = ee.ImageCollection('projects/sig-ee/PostFireVeg/SeasonComposites/Summer_Full')
 
     # other datasets
     NASA_FIRMS = ee.ImageCollection('FIRMS')
