@@ -4,6 +4,8 @@
 
 This repository contains the codebase for the PostFireRecovery Project, a Django-based web application. It leverages Docker to manage the services like Nginx, Gunicorn, and PostgreSQL.
 
+** As of 2024-09-08 the production website does not use Docker. See below for maintenance tips and tricks. **
+
 ## Pre-requisites
 
 - Docker and Docker Compose installed
@@ -116,3 +118,56 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
  docker-compose run web python manage.py migrate
  docker-compose up -d
 ```
+
+## Non Docker Maintenance
+
+### Preface - Change is Hard
+Minor changes are somewhat tricky without using docker. An example of a minor change is updating the slider years to include the next year!To incorperate this change currently you need to modify a number of files outside of the "real code" you're already changing. Here's how you can do it, in layman terms.
+
+### Preface
+This is Django web app, using gunicorn as a application server, with nginx as the web server. [See here for some background]("https://realpython.com/django-nginx-gunicorn/#incorporating-nginx).
+
+### Making Changes
+Once you've tested out your changes locally and it looks good, here is the secret sauce of how to get it to show up.
+
+1. log into the server and clone the repo.
+
+2. Copy the `settings.py` file from either bbhandari or jdilger to the root folder of the repo. 
+    * `cp /home/jdilger/postFireRecovery/postfirerecovery/settings.py /home/{USERNAME}/postFireRecovery/postfirerecovery/settings.py`
+
+3. Copy the `credentials` folder from either bbhandari or jdilger to the root folder of the repo. 
+    * `cp -R /home/jdilger/postFireRecovery/credentials /home/{USERNAME}/postFireRecovery`
+    
+4. activate the conda environment `/home/bbhandari/miniconda3/envs/postfirerecovery`.  
+    * you can do this by adding `. /home/bbhandari/miniconda3/etc/profile.d/conda.sh` to your `~/.bashrc` file. Make sure to refresh the file doing `source ~/.bashrc`.
+
+5. from the root dir (postFireRecovery), follow the build commands from the Dockerfile.
+* ```
+    sudo npm install -g gulp-cli
+    sudo npm install
+    sudo gulp build
+    sudo `which python` manage.py collectstatic --noinput --verbosity 3
+    sudo chown -R {USERNAME}:www-data /static
+    ```
+6. Edit the gunicorn service file and update the path to your path. 
+    * `sudo vim /etc/systemd/system/gunicorn.service`
+7. Edit the nginx service file and update the path to your path.
+    * `sudo vim /etc/nginx/sites-available/postfirerecovery.com`
+
+8. Restart services:
+* ```
+    sudo systemctl daemon-reload
+    sudo service nginx restart
+    sudo service gunicorn restart
+    ```
+
+That's it. 
+
+### Debugging
+If something didn't go to plan here's some things to check.
+
+* Check that all copied files have the correct ownership. Static files in postFireRecovery/static should be owned by you and the www-data group. Credentials should be owned by you.
+* In settings.py set `DEBUG=True`. Restart gunicorn `sudo service gunicorn restart` and then watch the errors flow in. You can view them with `sudo service gunicorn status`.
+* You can also view the nginx error logs `sudo cat /var/log/nginx/error.log`
+
+
